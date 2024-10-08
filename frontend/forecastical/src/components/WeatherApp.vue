@@ -1,16 +1,11 @@
 <template>
   <div class="weather-app">
     <header>
-      <h1>Weather</h1>
+      <h1>Forecastical</h1>
+      <router-link to="/profile">Go to Profile</router-link>
     </header>
     <div class="content">
       <div class="left-column">
-        <div class="update-location">
-          <button @click="updateLocation">
-            <span class="icon">↻</span>
-            Update Location
-          </button>
-        </div>
         <div class="current-weather">
           <p>Current Location: {{ currentLocation }}</p>
           <p>{{ temperature }} degrees; {{ condition }}</p>
@@ -18,11 +13,35 @@
         </div>
         <div class="today-forecast">
           <h2>Today's Forecast</h2>
-          <!-- Add today's forecast details here -->
+          <div></div>
+          <!-- TODO: Add today's forecast details here and connect to NWS-->
         </div>
         <div class="weekly-forecast">
           <h2>Weekly Forecast</h2>
-          <!-- Add weekly forecast details here -->
+          <div class="forecast-grid">
+            <div
+              v-for="dayForecast in weeklyConditions"
+              :key="dayForecast.day"
+              class="day"
+            >
+              <h4>{{ dayForecast.day }}</h4>
+              <img
+                :src="getWeatherIcon(dayForecast.condition)"
+                alt="weather icon"
+                class="weather-icon"
+              />
+              <p>
+                {{ dayForecast.condition }}<br />
+                {{ dayForecast.temperature }}&deg;
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="update-location">
+          <button @click="updateLocation">
+            <span class="icon">↻</span>
+            Update Location
+          </button>
         </div>
       </div>
       <div class="right-column">
@@ -35,7 +54,7 @@
         </div>
         <div class="updated-user-forecast">
           <h2>Updated User Forecast</h2>
-          <!-- Add user forecast map or details here -->
+          <!-- TODO: Add user forecast map or details here once we get ML stuff going-->
         </div>
       </div>
     </div>
@@ -44,25 +63,69 @@
 
 <script>
 export default {
-  name: 'WeatherApp',
+  name: "WeatherApp",
   data() {
     return {
-      currentLocation: 'Cleveland, OH',
+      currentLocation: "Cleveland, OH",
       temperature: 42,
-      condition: 'cloudy',
-      air: '',
-      uvIndex: '',
-      humidity: '',
-      pressure: '',
-    }
+      condition: "Partly cloudy",
+      air: "23",
+      uvIndex: "9",
+      humidity: "78%",
+      pressure: "1,014 hPa",
+      weatherIcons: {
+        sunny: require("../assets/sunny.png"),
+        rainy: require("../assets/rainy.png"),
+        partly_cloudy: require("../assets/partly_cloudy.png"),
+      },
+      weeklyConditions: [
+        { day: "Sunday", condition: "sunny", temperature: "79" },
+        { day: "Monday", condition: "partly cloudy", temperature: "73" },
+        { day: "Tuesday", condition: "rainy", temperature: "60" },
+        { day: "Wednesday", condition: "partly cloudy", temperature: "67" },
+        { day: "Thursday", condition: "sunny", temperature: "75" },
+        { day: "Friday", condition: "partly cloudy", temperature: "73" },
+        { day: "Saturday", condition: "rainy", temperature: "71" },
+      ],
+    };
   },
   methods: {
     updateLocation() {
-      // Implement location update logic here
-      console.log('Updating location...');
-    }
-  }
-}
+      // TODO: Implement location update logic here
+      console.log("Updating location...");
+    },
+    getWeatherIcon(condition) {
+      // Map of the weather condition to the weather icon
+      const conditionMapping = {
+        "partly cloudy": "partly_cloudy",
+        cloudy: "cloudy",
+        sunny: "sunny",
+        rainy: "rainy",
+      };
+      const mappedCondition =
+        conditionMapping[condition.toLowerCase()] || "default";
+      return this.weatherIcons[mappedCondition];
+    },
+  },
+  computed: {
+    weatherIcon() {
+      // Map of the weather conditions to their corresponding icons
+      const conditionMapping = {
+        "Partly cloudy": "partly_cloudy",
+        cloudy: "partly_cloudy",
+        sunny: "Sunny",
+        rainy: "Rainy",
+      };
+
+      const mappedCondition =
+        conditionMapping[this.condition] || this.condition;
+      return (
+        this.weatherIcons[mappedCondition] ||
+        require("../assets/partly_cloudy.png")
+      );
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -75,7 +138,7 @@ export default {
 }
 
 header {
-  background-color: #2c3e50;
+  background-color: #50e2e7;
   padding: 10px;
   text-align: center;
   border-radius: 5px;
@@ -95,7 +158,12 @@ header {
   flex: 1;
 }
 
-.update-location, .current-weather, .today-forecast, .weekly-forecast, .supplementary-conditions, .updated-user-forecast {
+.update-location,
+.current-weather,
+.today-forecast,
+.weekly-forecast,
+.supplementary-conditions,
+.updated-user-forecast {
   background-color: #34495e;
   padding: 15px;
   margin-bottom: 20px;
@@ -117,5 +185,23 @@ header {
 
 h2 {
   margin-top: 0;
+}
+
+.weekly-forecast .forecast-grid {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap; /* wrap for small screen size */
+}
+
+.weekly-forecast .day {
+  flex: 1 1 calc(100% / 7);
+  max-width: 100px; 
+  text-align: center;
+}
+
+.weekly-forecast img {
+  width: 50px;
+  height: 50px;
 }
 </style>

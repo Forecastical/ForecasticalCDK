@@ -1,18 +1,14 @@
 <template>
   <div id="app">
-    <WeatherApp />
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import WeatherApp from './components/WeatherApp.vue'
 
 export default {
-  name: 'App',
-  components: {
-    WeatherApp
-  }
-}
+  name: "App",
+};
 </script>
 
 <style>
