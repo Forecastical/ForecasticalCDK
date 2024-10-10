@@ -1,27 +1,29 @@
 package main
 
 import (
-  "fmt"
-  "net/http"
-  "github.com/gin-gonic/gin"
-)
+	"log"
+	"net/http"
+	"os"
 
-// using gin (similar to express.js but for go)
-// https://github.com/gin-gonic/gin/blob/v1.10.0/docs/doc.md
+	"github.com/99designs/gqlgen/graphql/handler"
+	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/Forecastical/ForecasticalBackend/graph"
+)
+// https://medium.com/@krishnan.srm/graphql-with-golang-331de956d956
+
+const defaultPort = "8080"
 
 func main() {
-  router := gin.Default()
-  router.GET("/ping", func(c *gin.Context) {
-      c.String(http.StatusOK, "pong")
-  })
-  router.Run(":8080")
-  // TODO: Put this in .env
-}
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
+	}
 
-func handler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprint(w, "Hello, World!")
-}
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
 
-func testHandler(w http.ResponseWriter, r *http.Request) {
-  fmt.Fprint(w, "Testing")
+	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
+	http.Handle("/query", srv) //  GraphQL servers only have one api-endpoint.
+
+	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
