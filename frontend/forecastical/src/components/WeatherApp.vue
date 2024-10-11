@@ -107,6 +107,36 @@ export default {
       return this.weatherIcons[mappedCondition];
     },
   },
+
+  fetchWeatherData() {
+    const apiKey = process.env.VITE_API_KEY; // Ensure this is set in your environment
+    const location = "Cleveland"; // Location query
+
+    fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`API error: ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Log the data to the console to see if the response is working
+        console.log('API response:', data);
+
+        // Parse and use the data
+        this.currentLocation = data.location.name + ", " + data.location.region;
+        this.temperature = data.current.temp_f; // For Fahrenheit
+        this.condition = data.current.condition.text;
+        this.air = data.current.air_quality?.us_epa_index || "N/A";
+        this.uvIndex = data.current.uv;
+        this.humidity = data.current.humidity + "%";
+        this.pressure = data.current.pressure_mb + " hPa";
+      })
+      .catch(error => {
+        // Log the error if something goes wrong
+        console.error('Error fetching weather data:', error);
+      });
+    }, 
   computed: {
     weatherIcon() {
       // Map of the weather conditions to their corresponding icons
