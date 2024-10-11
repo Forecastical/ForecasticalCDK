@@ -44,12 +44,29 @@
           </button>
         </div>
       </div>
-      <!-- New button to fetch weather data -->
+      
+      
+      <!-- New button to fetch weather data 
       <div class="fetch-weather-data">
         <button @click="fetchWeatherData">
           Fetch Weather Data
         </button>
       </div>
+      -->
+
+      <!-- New button to fetch location data 
+      <div class="fetch-weather-data">
+        <button @click="getUserLocation">Get My Location</button>
+      </div>
+      -->
+
+      <!-- Updated button to fetch weather data -->
+      <div class="fetch-weather-data">
+        <button @click="fetchWeatherData">
+          Get My Location's Weather
+        </button>
+      </div>
+
       <div class="right-column">
         <div class="supplementary-conditions">
           <h2>Supplementary Conditions</h2>
@@ -112,15 +129,11 @@ export default {
         conditionMapping[condition.toLowerCase()] || "default";
       return this.weatherIcons[mappedCondition];
     },
-    fetchWeatherData() {
-      console.log("HELLO");
+
+    getUserLocation() {
       const apiKey = process.env.VUE_APP_API_KEY;
-      const location = "Cleveland";
 
-      console.log("API Key:", apiKey); // This will help us debug
-
-
-      fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}`)
+      fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`)
         .then(response => {
           if (!response.ok) {
             throw new Error(`API error: ${response.statusText}`);
@@ -128,23 +141,78 @@ export default {
           return response.json();
         })
         .then(data => {
-          // Log the data to the console to see if the response is working
-          console.log('API response:', data);
-
-          // Parse and use the data
-          this.currentLocation = data.location.name + ", " + data.location.region;
-          this.temperature = data.current.temp_f; // For Fahrenheit
-          this.condition = data.current.condition.text;
-          this.air = data.current.air_quality?.us_epa_index || "N/A";
-          this.uvIndex = data.current.uv;
-          this.humidity = data.current.humidity + "%";
-          this.pressure = data.current.pressure_mb + " hPa";
+          console.log('IP Lookup API response:', data);
+          
+          // You can store the location information in data properties if needed
+          this.userCity = data.city;
+          this.userRegion = data.region;
+          this.userCountry = data.country_name;
+          this.userLatitude = data.lat;
+          this.userLongitude = data.lon;
+          
+          // Print the data to the console
+          //console.log('User Location:', {
+          //  city: data.city,
+          //  region: data.region,
+          //  country: data.country_name,
+          //  latitude: data.lat,
+          //  longitude: data.lon
+          //});
         })
         .catch(error => {
-          // Log the error if something goes wrong
-          console.error('Error fetching weather data:', error);
-      });
-    }
+          console.error('Error fetching user location:', error);
+        });
+    },
+
+
+    fetchWeatherData() {
+      console.log("Fetching weather data...");
+      const apiKey = process.env.VUE_APP_API_KEY;
+
+      // First, get the user's location
+      fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`IP Lookup API error: ${response.statusText}`);
+          }
+          return response.json();
+        })
+        .then(locationData => {
+          console.log('IP Lookup API response:', locationData);
+          
+          // Store the location information
+          this.userCity = locationData.city;
+          this.userRegion = locationData.region;
+          this.userCountry = locationData.country_name;
+          this.userLatitude = locationData.lat;
+          this.userLongitude = locationData.lon;
+
+          // Now fetch the weather data using the obtained location
+          return fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${locationData.lat},${locationData.lon}`);
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`Weather API error: ${response.statusText}`);
+          }
+          return response.json();
+        })
+        .then(weatherData => {
+          console.log('Weather API response:', weatherData);
+
+          // Update the weather information
+          this.currentLocation = `${this.userCity}, ${this.userRegion}`;
+          this.temperature = weatherData.current.temp_f; // For Fahrenheit
+          this.condition = weatherData.current.condition.text;
+          this.air = weatherData.current.air_quality?.us_epa_index || "N/A";
+          this.uvIndex = weatherData.current.uv;
+          this.humidity = weatherData.current.humidity + "%";
+          this.pressure = weatherData.current.pressure_mb + " hPa";
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    },
+
   },
   computed: {
     weatherIcon() {
