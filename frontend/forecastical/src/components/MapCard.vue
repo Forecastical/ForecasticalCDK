@@ -13,9 +13,11 @@
 
 <style scoped>
 .map-card {
+  position: absolute;
+  top: 85%;
+  right: 2%;
   width: 300px; 
   height: 300px; 
-  position: relative;
   border: 1px solid #ccc; 
   border-radius: 8px; 
   overflow: hidden; 
