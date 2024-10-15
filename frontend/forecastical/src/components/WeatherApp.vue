@@ -51,12 +51,22 @@
           <img src="/api/placeholder/300/200" alt="User forecast map placeholder" class="forecast-map" />
         </div>
       </div>
+      <div class="right-column">
+        <MapCard />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import MapCard from './MapCard.vue'; 
+
 export default {
+
+  components: {
+    MapCard,
+  },
+
   name: "WeatherApp",
   data() {
     return {
