@@ -2,82 +2,53 @@
   <div class="weather-app">
     <header>
       <h1>Forecastical</h1>
-      <router-link to="/profile">Go to Profile</router-link>
+      <router-link to="/profile" class="profile-link">Profile</router-link>
     </header>
     <div class="content">
       <div class="left-column">
         <div class="current-weather">
-          <p>Current Location: {{ currentLocation }}</p>
-          <p>{{ temperature }} degrees; {{ condition }}</p>
-          <span class="weather-icon">☁️</span>
-        </div>
-        <div class="today-forecast">
-          <h2>Today's Forecast</h2>
-          <div></div>
-          <!-- TODO: Add today's forecast details here and connect to NWS-->
+          <h2>Current Weather & Forecast</h2>
+          <p class="location">{{ currentLocation }}</p>
+          <div class="weather-info">
+            <img :src="currentWeatherIcon" alt="Weather icon" class="weather-icon" />
+            <div class="temperature-condition">
+              <p class="temperature">{{ temperature }}&deg;F</p>
+              <p class="condition">{{ condition }}</p>
+            </div>
+          </div>
+          <p class="forecast">Today's Forecast: {{ todayForecast }}</p>
         </div>
         <div class="weekly-forecast">
           <h2>Weekly Forecast</h2>
           <div class="forecast-grid">
-            <div
-              v-for="dayForecast in weeklyConditions"
-              :key="dayForecast.day"
-              class="day"
-            >
+            <div v-for="dayForecast in weeklyConditions" :key="dayForecast.day" class="day">
               <h4>{{ dayForecast.day }}</h4>
-              <img
-                :src="getWeatherIcon(dayForecast.condition)"
-                alt="weather icon"
-                class="weather-icon"
-              />
+              <img :src="dayForecast.icon" alt="weather icon" class="weather-icon" />
               <p>
                 {{ dayForecast.condition }}<br />
-                {{ dayForecast.temperature }}&deg;
+                {{ dayForecast.temperature }}&deg;F
               </p>
             </div>
           </div>
         </div>
         <div class="update-location">
-          <button @click="updateLocation">
+          <button @click="fetchWeatherData">
             <span class="icon">↻</span>
-            Update Location
+            Update Weather
           </button>
         </div>
       </div>
-      
-      
-      <!-- New button to fetch weather data 
-      <div class="fetch-weather-data">
-        <button @click="fetchWeatherData">
-          Fetch Weather Data
-        </button>
-      </div>
-      -->
-
-      <!-- New button to fetch location data 
-      <div class="fetch-weather-data">
-        <button @click="getUserLocation">Get My Location</button>
-      </div>
-      -->
-
-      <!-- Updated button to fetch weather data -->
-      <div class="fetch-weather-data">
-        <button @click="fetchWeatherData">
-          Get My Location's Weather
-        </button>
-      </div>
-
       <div class="right-column">
         <div class="supplementary-conditions">
           <h2>Supplementary Conditions</h2>
-          <p>Air: {{ air }}</p>
-          <p>UV Index: {{ uvIndex }}</p>
-          <p>Humidity: {{ humidity }}</p>
-          <p>Pressure: {{ pressure }}</p>
+          <p><strong>Air Quality:</strong> {{ air }}</p>
+          <p><strong>UV Index:</strong> {{ uvIndex }}</p>
+          <p><strong>Humidity:</strong> {{ humidity }}</p>
+          <p><strong>Pressure:</strong> {{ pressure }}</p>
         </div>
         <div class="updated-user-forecast">
           <h2>Updated User Forecast</h2>
-          <!-- TODO: Add user forecast map or details here once we get ML stuff going-->
+          <img src="/api/placeholder/300/200" alt="User forecast map placeholder" class="forecast-map" />
         </div>
       </div>
     </div>
@@ -89,149 +60,63 @@ export default {
   name: "WeatherApp",
   data() {
     return {
-      currentLocation: "Cleveland, OH",
-      temperature: 42,
-      condition: "Partly cloudy",
-      air: "23",
-      uvIndex: "9",
-      humidity: "78%",
-      pressure: "1,014 hPa",
-      weatherIcons: {
-        sunny: require("../assets/sunny.png"),
-        rainy: require("../assets/rainy.png"),
-        partly_cloudy: require("../assets/partly_cloudy.png"),
-      },
-      weeklyConditions: [
-        { day: "Sunday", condition: "sunny", temperature: "79" },
-        { day: "Monday", condition: "partly cloudy", temperature: "73" },
-        { day: "Tuesday", condition: "rainy", temperature: "60" },
-        { day: "Wednesday", condition: "partly cloudy", temperature: "67" },
-        { day: "Thursday", condition: "sunny", temperature: "75" },
-        { day: "Friday", condition: "partly cloudy", temperature: "73" },
-        { day: "Saturday", condition: "rainy", temperature: "71" },
-      ],
+      currentLocation: "",
+      temperature: "",
+      condition: "",
+      currentWeatherIcon: "",
+      air: "",
+      uvIndex: "",
+      humidity: "",
+      pressure: "",
+      todayForecast: "",
+      weeklyConditions: [],
     };
   },
   methods: {
-    updateLocation() {
-      // TODO: Implement location update logic here
-      console.log("Updating location...");
+    async fetchWeatherData() {
+      try {
+        const apiKey = process.env.VUE_APP_API_KEY;
+        
+        // Fetch location data
+        const locationResponse = await fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`);
+        const locationData = await locationResponse.json();
+        
+        // Fetch current weather data
+        const weatherResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${locationData.lat},${locationData.lon}&days=7&aqi=yes`);
+        const weatherData = await weatherResponse.json();
+        
+        // Update component data
+        this.currentLocation = `${weatherData.location.name}, ${weatherData.location.region}`;
+        this.temperature = Math.round(weatherData.current.temp_f);
+        this.condition = weatherData.current.condition.text;
+        this.currentWeatherIcon = `https:${weatherData.current.condition.icon}`;
+        this.air = this.getAirQualityDescription(weatherData.current.air_quality["us-epa-index"]);
+        this.uvIndex = weatherData.current.uv;
+        this.humidity = `${weatherData.current.humidity}%`;
+        this.pressure = `${weatherData.current.pressure_mb} hPa`;
+        
+        // Set today's forecast
+        this.todayForecast = weatherData.forecast.forecastday[0].day.condition.text;
+        
+        // Set weekly forecast
+        this.weeklyConditions = weatherData.forecast.forecastday.map(day => ({
+          day: new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' }),
+          condition: day.day.condition.text,
+          temperature: Math.round(day.day.avgtemp_f),
+          icon: `https:${day.day.condition.icon}`
+        }));
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+      }
     },
-    getWeatherIcon(condition) {
-      // Map of the weather condition to the weather icon
-      const conditionMapping = {
-        "partly cloudy": "partly_cloudy",
-        cloudy: "cloudy",
-        sunny: "sunny",
-        rainy: "rainy",
-      };
-      const mappedCondition =
-        conditionMapping[condition.toLowerCase()] || "default";
-      return this.weatherIcons[mappedCondition];
-    },
-
-    getUserLocation() {
-      const apiKey = process.env.VUE_APP_API_KEY;
-
-      fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`API error: ${response.statusText}`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log('IP Lookup API response:', data);
-          
-          // You can store the location information in data properties if needed
-          this.userCity = data.city;
-          this.userRegion = data.region;
-          this.userCountry = data.country_name;
-          this.userLatitude = data.lat;
-          this.userLongitude = data.lon;
-          
-          // Print the data to the console
-          //console.log('User Location:', {
-          //  city: data.city,
-          //  region: data.region,
-          //  country: data.country_name,
-          //  latitude: data.lat,
-          //  longitude: data.lon
-          //});
-        })
-        .catch(error => {
-          console.error('Error fetching user location:', error);
-        });
-    },
-
-
-    fetchWeatherData() {
-      console.log("Fetching weather data...");
-      const apiKey = process.env.VUE_APP_API_KEY;
-
-      // First, get the user's location
-      fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`IP Lookup API error: ${response.statusText}`);
-          }
-          return response.json();
-        })
-        .then(locationData => {
-          console.log('IP Lookup API response:', locationData);
-          
-          // Store the location information
-          this.userCity = locationData.city;
-          this.userRegion = locationData.region;
-          this.userCountry = locationData.country_name;
-          this.userLatitude = locationData.lat;
-          this.userLongitude = locationData.lon;
-
-          // Now fetch the weather data using the obtained location
-          return fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${locationData.lat},${locationData.lon}`);
-        })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`Weather API error: ${response.statusText}`);
-          }
-          return response.json();
-        })
-        .then(weatherData => {
-          console.log('Weather API response:', weatherData);
-
-          // Update the weather information
-          this.currentLocation = `${this.userCity}, ${this.userRegion}`;
-          this.temperature = weatherData.current.temp_f; // For Fahrenheit
-          this.condition = weatherData.current.condition.text;
-          this.air = weatherData.current.air_quality?.us_epa_index || "N/A";
-          this.uvIndex = weatherData.current.uv;
-          this.humidity = weatherData.current.humidity + "%";
-          this.pressure = weatherData.current.pressure_mb + " hPa";
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    },
-
+    getAirQualityDescription(index) {
+      const descriptions = ["Good", "Moderate", "Unhealthy for Sensitive Groups", "Unhealthy", "Very Unhealthy", "Hazardous"];
+      return descriptions[index - 1] || "Unknown";
+    }
   },
-  computed: {
-    weatherIcon() {
-      // Map of the weather conditions to their corresponding icons
-      const conditionMapping = {
-        "Partly cloudy": "partly_cloudy",
-        cloudy: "partly_cloudy",
-        sunny: "Sunny",
-        rainy: "Rainy",
-      };
-
-      const mappedCondition =
-        conditionMapping[this.condition] || this.condition;
-      return (
-        this.weatherIcons[mappedCondition] ||
-        require("../assets/partly_cloudy.png")
-      );
-    },
-  },
+  mounted() {
+    this.fetchWeatherData();
+  }
 };
 </script>
 
@@ -242,39 +127,102 @@ export default {
   background-color: #1e1e1e;
   padding: 20px;
   border-radius: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 header {
   background-color: #50e2e7;
-  padding: 10px;
+  padding: 20px;
   text-align: center;
   border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+header h1 {
+  color: #1e1e1e;
+  margin: 0;
+}
+
+.profile-link {
+  color: #1e1e1e;
+  text-decoration: none;
+  float: right;
 }
 
 .content {
   display: flex;
-  margin-top: 20px;
+  gap: 20px;
 }
 
 .left-column {
   flex: 3;
-  margin-right: 20px;
 }
 
 .right-column {
   flex: 1;
 }
 
-.update-location,
-.current-weather,
-.today-forecast,
-.weekly-forecast,
-.supplementary-conditions,
-.updated-user-forecast {
+.current-weather, .weekly-forecast, .supplementary-conditions, .updated-user-forecast {
   background-color: #34495e;
-  padding: 15px;
+  padding: 20px;
   margin-bottom: 20px;
   border-radius: 5px;
+}
+
+.current-weather {
+  text-align: center;
+}
+
+.current-weather .weather-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.current-weather .weather-icon {
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+}
+
+.current-weather .temperature-condition {
+  text-align: left;
+}
+
+.current-weather .temperature {
+  font-size: 2.5em;
+  margin: 0;
+}
+
+.current-weather .condition {
+  font-size: 1.2em;
+  color: #50e2e7;
+  margin: 0;
+}
+
+.current-weather .forecast {
+  margin-top: 15px;
+  font-size: 1.1em;
+}
+
+.forecast-grid {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.forecast-grid .day {
+  text-align: center;
+  flex: 1;
+  min-width: 100px;
+  margin-bottom: 10px;
+}
+
+.forecast-grid .weather-icon {
+  width: 50px;
+  height: 50px;
 }
 
 .update-location button {
@@ -284,31 +232,25 @@ header {
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
 }
 
-.weather-icon {
-  font-size: 2em;
+.update-location button:hover {
+  background-color: #2980b9;
+}
+
+.forecast-map {
+  width: 100%;
+  border-radius: 5px;
 }
 
 h2 {
+  color: #50e2e7;
   margin-top: 0;
 }
 
-.weekly-forecast .forecast-grid {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap; /* wrap for small screen size */
-}
-
-.weekly-forecast .day {
-  flex: 1 1 calc(100% / 7);
-  max-width: 100px; 
-  text-align: center;
-}
-
-.weekly-forecast img {
-  width: 50px;
-  height: 50px;
+strong {
+  color: #50e2e7;
 }
 </style>
