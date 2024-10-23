@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       map: null,
-      apiKey: '7a6af2ce40a562860a6d31c50aff2568',
+      apiKey: process.env.VUE_APP_OPEN_WEATHER_API_KEY,
       weatherLayers: {
         temperature: null,
         precipitation: null,
