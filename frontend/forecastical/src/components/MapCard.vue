@@ -1,26 +1,28 @@
 <template>
-    <div class="map-card">
-      <h3>Weather Map</h3>
-      <div id="map"></div>
-    </div>
+  <div class="map-card">
+    <h3>Weather Map</h3>
+    <div id="map"></div>
+    <button @click="getCurrentLocation" class="location-button">
+      Current Location
+    </button>
+  </div>
 </template>
-
 
 <script>
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
+import { fromLonLat } from 'ol/proj';
 
 export default {
   name: 'MapCard',
   data() {
     return {
-      map: null, // Declare a variable to hold the map instance
+      map: null,
     };
   },
   mounted() {
-    // Initialize the map and assign it to the data property
     this.map = new Map({
       target: 'map',
       layers: [
@@ -34,8 +36,34 @@ export default {
       }),
     });
   },
+  methods: {
+    getCurrentLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const coordinates = fromLonLat([longitude, latitude]);
+            
+            // Center map on location
+            this.map.getView().animate({
+              center: coordinates,
+              zoom: 13,
+              duration: 1000
+            });
+          },
+          () => {
+            console.log("Unable to retrieve your location");
+          }
+        );
+      } else {
+        console.log("Geolocation not supported");
+      }
+    }
+  },  
 };
 </script>
+
 
 <style scoped>
 .map-card {
@@ -52,4 +80,17 @@ export default {
   width: 100%;
   height: 100%;
 }
+
+.location-button{
+  position: absolute;
+  top: 85%;
+  right: 2%;
+  width: 100px;
+  height: 40px;
+  border: .5px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+}
+
 </style>
