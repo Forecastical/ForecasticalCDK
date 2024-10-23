@@ -1,9 +1,5 @@
 <template>
   <div class="weather-app">
-    <header>
-      <h1>Forecastical</h1>
-      <router-link to="/profile" class="profile-link">Profile</router-link>
-    </header>
     <div class="content">
       <div class="left-column">
         <div class="current-weather">
@@ -135,29 +131,10 @@ export default {
   font-family: Arial, sans-serif;
   color: white;
   background-color: #1e1e1e;
-  padding: 20px;
+  padding: 0 20px 20px 20px; /* Add this line */
   border-radius: 10px;
   max-width: 1200px;
   margin: 0 auto;
-}
-
-header {
-  background-color: #50e2e7;
-  padding: 20px;
-  text-align: center;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-header h1 {
-  color: #1e1e1e;
-  margin: 0;
-}
-
-.profile-link {
-  color: #1e1e1e;
-  text-decoration: none;
-  float: right;
 }
 
 .content {
