@@ -15,6 +15,10 @@
             <span class="icon">📷</span>
             Feed
         </router-link>
+        <router-link to="/recommendations" class="nav-link" :class="{ active: $route.path === '/recommendations' }">
+            <span class="icon">🎯</span>
+            Recommendations
+        </router-link>
         </div>
       </div>
     </nav>
