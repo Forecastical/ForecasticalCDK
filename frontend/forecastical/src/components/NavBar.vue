@@ -11,6 +11,10 @@
             <span class="icon">👤</span>
             Profile
           </router-link>
+          <router-link to="/feed" class="nav-link" :class="{ active: $route.path === '/feed' }">
+            <span class="icon">📷</span>
+            Feed
+        </router-link>
         </div>
       </div>
     </nav>
