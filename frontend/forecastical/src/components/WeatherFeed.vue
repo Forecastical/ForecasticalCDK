@@ -3,7 +3,7 @@
     <div class="content">
       <div class="feed-container">
         <div class="feed-header">
-          <h2>Weather Feed</h2>
+          <h2 class="title">Weather Feed</h2>
           <button @click="updateLocation" class="update-btn">
             <span class="icon">↻</span>
             Update Location
@@ -23,9 +23,7 @@
             <p class="caption">{{ currentImage.caption }}</p>
             <div class="metadata">
               <span class="username">{{ currentImage.username }}</span>
-              <span class="location-time">
-                {{ currentImage.location }} • {{ currentImage.time }}
-              </span>
+              <span class="location-time">{{ currentImage.location }} • {{ currentImage.time }}</span>
             </div>
           </div>
         </div>
@@ -90,7 +88,6 @@ export default {
       this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
     },
     updateLocation() {
-      // Placeholder for location update functionality
       console.log('Updating location...');
     }
   }
@@ -98,9 +95,20 @@ export default {
 </script>
 
 <style scoped>
-.feed-container {
-  max-width: 800px;
+.weather-app {
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px 20px 20px;
+}
+
+.title {
+  color: #50e2e7;
+  font-size: 1.8em;
+  margin: 0;
+}
+
+.feed-container {
+  width: 100%;
 }
 
 .feed-header {
@@ -111,27 +119,24 @@ export default {
 }
 
 .feed-card {
-  background-color: #34495e;
+  background-color: #2c3e50;
   border-radius: 10px;
   overflow: hidden;
   margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .image-container {
   position: relative;
   width: 100%;
-  padding-top: 75%; /* 4:3 Aspect Ratio */
-  background-color: #2c3e50;
+  height: 500px;
+  background-color: #34495e;
 }
 
 .feed-image {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 20px;
+  object-fit: cover;
 }
 
 .navigation-buttons {
@@ -146,7 +151,7 @@ export default {
 }
 
 .nav-btn {
-  background-color: rgba(80, 226, 231, 0.8);
+  background-color: #50e2e7;
   border: none;
   color: #1e1e1e;
   width: 40px;
@@ -157,45 +162,32 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  opacity: 0.9;
 }
 
 .nav-btn:hover {
-  background-color: rgba(80, 226, 231, 1);
+  opacity: 1;
+  transform: scale(1.1);
 }
 
 .caption-container {
   padding: 20px;
+  background-color: #34495e;
 }
 
 .caption {
-  font-size: 1.1em;
-  margin-bottom: 10px;
+  font-size: 1.2em;
+  margin: 0 0 15px 0;
+  color: white;
 }
 
 .metadata {
   display: flex;
   justify-content: space-between;
-  color: #bdc3c7;
-  font-size: 0.9em;
-}
-
-.update-btn {
-  background-color: #3498db;
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-  display: flex;
   align-items: center;
-  gap: 8px;
-  transition: background-color 0.3s;
-}
-
-.update-btn:hover {
-  background-color: #2980b9;
+  padding-top: 10px;
+  border-top: 1px solid #405468;
 }
 
 .username {
@@ -203,18 +195,51 @@ export default {
   font-weight: bold;
 }
 
+.location-time {
+  color: #bdc3c7;
+}
+
+.update-btn {
+  background-color: #50e2e7;
+  border: none;
+  color: #1e1e1e;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.update-btn:hover {
+  background-color: #3dd8dd;
+  transform: translateY(-1px);
+}
+
+.icon {
+  font-size: 1.2em;
+}
+
 @media (max-width: 768px) {
   .feed-container {
-    padding: 0 15px;
+    padding: 0;
   }
   
   .feed-header {
     flex-direction: column;
-    gap: 10px;
+    gap: 15px;
+    text-align: center;
   }
   
   .image-container {
-    padding-top: 100%; /* Square aspect ratio on mobile */
+    height: 300px;
+  }
+  
+  .nav-btn {
+    width: 36px;
+    height: 36px;
   }
 }
 </style>
