@@ -14,6 +14,11 @@
           </div>
           <p class="forecast">Today's Forecast: {{ todayForecast }}</p>
         </div>
+        <div class="weather-app">
+          <SearchBar @search="handleSearch"/>
+            <div class="content">
+            </div>
+        </div>
         <div class="weekly-forecast">
           <h2>Weekly Forecast</h2>
           <div class="forecast-grid">
@@ -55,12 +60,15 @@
 </template>
 
 <script>
+//import { search } from 'core-js/fn/symbol';
 import MapCard from './MapCard.vue'; 
+import SearchBar from './SearchBar.vue';
 
 export default {
 
   components: {
     MapCard,
+    SearchBar,
   },
 
   name: "WeatherApp",
@@ -76,6 +84,7 @@ export default {
       pressure: "",
       todayForecast: "",
       weeklyConditions: [],
+      searchQuery: "",
     };
   },
   methods: {
@@ -120,6 +129,7 @@ export default {
       return descriptions[index - 1] || "Unknown";
     }
   },
+
   mounted() {
     this.fetchWeatherData();
   }
