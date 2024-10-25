@@ -35,7 +35,7 @@ export default {
     };
   },
   mounted() {
-    // Create weather layers
+    // Setup the 3 weather layers: temp, precipitation, and cloud cover
     const temperatureLayer = new TileLayer({
       source: new XYZ({
         url: `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${this.apiKey}`,
@@ -57,21 +57,20 @@ export default {
       })
     });
 
-    // Store layers for later use
     this.weatherLayers = {
       temperature: temperatureLayer,
       precipitation: precipitationLayer,
       cloud: cloudLayer
     };
 
-    // Initialize map with base and weather layers
+    // Build map using the weather layers defined above
     this.map = new Map({
       target: 'map',
       layers: [
         new TileLayer({
           source: new OSM()
         }),
-        temperatureLayer,    // Add weather layers
+        temperatureLayer,
         precipitationLayer,
         cloudLayer
       ],
@@ -82,6 +81,8 @@ export default {
     });
   },
   methods: {
+
+    // geolocating method to get the location of user
     getCurrentLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -97,17 +98,18 @@ export default {
             });
           },
           () => {
-            console.log("Unable to retrieve your location");
+            console.log("Could not retrieve location");
           }
         );
       } else {
-        console.log("Geolocation not supported");
+        console.log("Geolocation is unsupported");
       }
     },
-    // Optional: Methods to toggle weather layers
-    toggleLayer(layerName) {
-      if (this.weatherLayers[layerName]) {
-        this.weatherLayers[layerName].setVisible(!this.weatherLayers[layerName].getVisible());
+    
+    // method giving the ability to toggle between the individual weather layers
+    toggleLayer(layer) {
+      if (this.weatherLayers[layer]) {
+        this.weatherLayers[layer].setVisible(!this.weatherLayers[layer].getVisible());
       }
     }
   }
