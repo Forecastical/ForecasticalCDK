@@ -3,14 +3,14 @@ from sklearn.preprocessing import LabelEncoder
 import pandas as pd
 
 example = np.array([
-    [0.1, 'dog'], 
-    [0.2, 'cat'],
-    [0.3, 'cat'],
-    [1.1, 'bird'],
-    [1.2, 'whale'],
-    [2.3, 'bird'], 
-    [2.5, 'bird'],   
-    [3.7, 'bird']  
+    [0.1, 'sunny'], 
+    [0.2, 'rainy'],
+    [0.3, 'sunny'],
+    [1.1, 'cloudy'],
+    [1.2, 'thunderstorm'],
+    [2.3, 'cloudy'], 
+    [2.5, 'cloudy'],   
+    [3.7, 'cloudy']  
 ], dtype=object)
 
 def update_forecast(time_threshold, prediction_matrix, alpha = 0.5):
