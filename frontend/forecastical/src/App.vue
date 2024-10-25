@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue'  // Note: using relative path
+import NavBar from './components/NavBar.vue'  // uses relative path
 
 export default {
   name: "App",

@@ -25,6 +25,7 @@ export default {
 };
 </script>
 
+
 <style scoped>
 
 input {
@@ -33,7 +34,5 @@ input {
     border-radius: 4px;
     width: 100%;
 }
-
-
 
 </style>

@@ -1,7 +1,9 @@
 <template>
+  
   <div class="weather-app">
     <div class="content">
       <div class="feed-container">
+
         <div class="feed-header">
           <h2 class="title">Weather Feed</h2>
           <button @click="updateLocation" class="update-btn">
@@ -27,9 +29,11 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
