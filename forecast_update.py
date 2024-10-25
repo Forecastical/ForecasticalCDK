@@ -13,9 +13,13 @@ example = np.array([
     [3.7, 'bird']  
 ], dtype=object)
 
-def update_forecast(time_threshold, prediction_matrix):
+def update_forecast(time_threshold, prediction_matrix, alpha = 0.5):
     encoder = LabelEncoder()
+    encoder.fit(prediction_matrix[:,1])
+    
     prediction_matrix[:,1] = encoder.fit_transform(prediction_matrix[:,1])
+    enc_classes = np.unique(prediction_matrix[:,1])
+    unenc_classes = encoder.classes_
     #print(prediction_matrix[:,1])
     #print(prediction_matrix)
 
@@ -27,9 +31,10 @@ def update_forecast(time_threshold, prediction_matrix):
     utilized_times= utilized_times.flatten()
 
     data_series = pd.Series(utilized_predictions)
-    ewma = data_series.ewm(alpha=0.5, adjust=False).mean().iloc[-1]
+    ewma = data_series.ewm(alpha=alpha, adjust=False).mean().iloc[-1]
+    closest_class = unenc_classes[np.argmin(np.abs(enc_classes))]
 
-    return ewma
+    return ewma,closest_class
 
 
     #print("Last average in sequence:", ewma_alpha)
