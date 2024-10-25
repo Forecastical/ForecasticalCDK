@@ -101,11 +101,16 @@ export default {
     async fetchWeatherData() {
       try {
         const apiKey = process.env.VUE_APP_API_KEY;
-        
+        const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}`;
+        const corsProxy = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
+        fetch(`${corsProxy}${apiUrl}`)
+          .then(response => response.json())
+          .then(data => console.log(data))
+          .catch(error => console.error('Error:', error));
+
         const locationResponse = await fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`);
         const locationData = await locationResponse.json();
         
-
         const weatherResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${locationData.lat},${locationData.lon}&days=7&aqi=yes`);
         const weatherData = await weatherResponse.json();
 
