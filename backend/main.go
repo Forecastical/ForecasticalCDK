@@ -63,5 +63,5 @@ func main() {
     // Example; router.GET("/albums", getAlbums)
     router.GET("/hour", getHourForecast)
 
-    router.Run("localhost:8080")
+    router.Run("0.0.0.0:8080")
 }
