@@ -1,7 +1,9 @@
 <template>
+
   <div class="weather-app">
     <div class="content">
       <div class="left-column">
+
         <div class="current-weather">
           <h2>Current Weather & Forecast</h2>
           <p class="location">{{ currentLocation }}</p>
@@ -14,11 +16,13 @@
           </div>
           <p class="forecast">Today's Forecast: {{ todayForecast }}</p>
         </div>
+
         <div class="weather-app">
           <SearchBar @search="handleSearch"/>
             <div class="content">
             </div>
         </div>
+
         <div class="weekly-forecast">
           <h2>Weekly Forecast</h2>
           <div class="forecast-grid">
@@ -32,6 +36,7 @@
             </div>
           </div>
         </div>
+
         <div class="update-location">
           <button @click="fetchWeatherData">
             <span class="icon">↻</span>
@@ -39,7 +44,9 @@
           </button>
         </div>
       </div>
+
       <div class="right-column">
+
         <div class="supplementary-conditions">
           <h2>Supplementary Conditions</h2>
           <p><strong>Air Quality:</strong> {{ air }}</p>
@@ -47,20 +54,23 @@
           <p><strong>Humidity:</strong> {{ humidity }}</p>
           <p><strong>Pressure:</strong> {{ pressure }}</p>
         </div>
+
         <div class="updated-user-forecast">
           <h2>Updated User Forecast</h2>
           <img src="/api/placeholder/300/200" alt="User forecast map placeholder" class="forecast-map" />
         </div>
       </div>
+
       <div class="innerdiv">
         <MapCard />
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
-//import { search } from 'core-js/fn/symbol';
+
 import MapCard from './MapCard.vue'; 
 import SearchBar from './SearchBar.vue';
 
@@ -91,16 +101,19 @@ export default {
     async fetchWeatherData() {
       try {
         const apiKey = process.env.VUE_APP_API_KEY;
-        
-        // Fetch location data
+        const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}`;
+        const corsProxy = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
+        fetch(`${corsProxy}${apiUrl}`)
+          .then(response => response.json())
+          .then(data => console.log(data))
+          .catch(error => console.error('Error:', error));
+
         const locationResponse = await fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`);
         const locationData = await locationResponse.json();
         
-        // Fetch current weather data
         const weatherResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${locationData.lat},${locationData.lon}&days=7&aqi=yes`);
         const weatherData = await weatherResponse.json();
-        
-        // Update component data
+
         this.currentLocation = `${weatherData.location.name}, ${weatherData.location.region}`;
         this.temperature = Math.round(weatherData.current.temp_f);
         this.condition = weatherData.current.condition.text;
@@ -110,10 +123,10 @@ export default {
         this.humidity = `${weatherData.current.humidity}%`;
         this.pressure = `${weatherData.current.pressure_mb} hPa`;
         
-        // Set today's forecast
+        // Day Forecast
         this.todayForecast = weatherData.forecast.forecastday[0].day.condition.text;
         
-        // Set weekly forecast
+        // Week forecast
         this.weeklyConditions = weatherData.forecast.forecastday.map(day => ({
           day: new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' }),
           condition: day.day.condition.text,
@@ -141,7 +154,7 @@ export default {
   font-family: Arial, sans-serif;
   color: white;
   background-color: #1e1e1e;
-  padding: 0 20px 20px 20px; /* Add this line */
+  padding: 0 20px 20px 20px;
   border-radius: 10px;
   max-width: 1200px;
   margin: 0 auto;

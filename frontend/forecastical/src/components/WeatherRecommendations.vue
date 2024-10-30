@@ -2,9 +2,9 @@
     <div class="weather-app">
       <div class="content">
         <div class="recommendations-container">
-          <h2 class="title">Weather Recommendations for {{ currentLocation }}</h2>
 
-            <!-- Add this new weather overview section -->
+          <h2 class="title">{{ currentLocation }} Weather Recommendations </h2>
+
             <div class="weather-overview" v-if="weatherData">
             <div class="current-conditions">
                 <div class="condition-item">
@@ -20,6 +20,7 @@
                 <span class="value">{{ weatherData.current.wind_mph }} mph</span>
                 </div>
             </div>
+
             <p class="recommendation-basis">
                 Recommendations based on {{ getRecommendationBasis() }}
             </p>
@@ -66,9 +67,11 @@
               </ul>
             </div>
           </div>
+
         </div>
       </div>
     </div>
+
   </template>
   
 <script>
@@ -193,17 +196,17 @@
         const temp = this.weatherData.current.temp_f;
         const windSpeed = this.weatherData.current.wind_mph;
         
-        // Check for rain/storm conditions first
+        // See which weather conditions that the current weather matches, and forward the reccomendations
+        // have for these weather conditions
+
         if (condition.includes('rain') || condition.includes('storm') || condition.includes('drizzle')) {
           return this.recommendations.rainy;
         }
         
-        // Check for high winds
         if (windSpeed > 20) {
           return this.recommendations.windy;
         }
         
-        // Temperature-based recommendations
         if (temp < 45) {
           return this.recommendations.cold;
         } else if (temp > 75) {
@@ -213,6 +216,7 @@
         }
       }
     },
+
     methods: {
     toggleClothing() {
         this.showClothing = !this.showClothing;
@@ -227,11 +231,9 @@
         try {
         const apiKey = process.env.VUE_APP_API_KEY;
         
-        // Fetch location data
         const locationResponse = await fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`);
         const locationData = await locationResponse.json();
         
-        // Fetch current weather data
         const weatherResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${locationData.lat},${locationData.lon}&days=7&aqi=yes`);
         const weatherData = await weatherResponse.json();
         
