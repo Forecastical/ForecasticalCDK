@@ -14,9 +14,10 @@ import (
     "github.com/gin-gonic/gin"
     //owm "github.com/briandowns/openweathermap"
 )
-// const
-const weatherAPIEndpoint = "http://api.weatherapi.com/v1"
-const geolocateAPIEndpoint = "https://ip-api.com/"
+// const 
+//const weatherAPIEndpoint = "http://api.weatherapi.com/v1"
+const weatherAPIEndpoint = "https://api.open-meteo.com/v1/"
+//const geolocateAPIEndpoint = "https://ip-api.com/"
 // data structs
 type region struct {
   Name  string  `json:"name"`
@@ -48,6 +49,14 @@ type dayForecast struct {
   Condition condition `json:"condition"`
   Summary   string `json:"summary"`
 }
+
+type currentForecast struct {
+  ID string `json:"id"`
+  Region region `json:"region"`
+  Timestamp time.Time `json:"timestamp"`
+  Temp float32 `json:"temp"`
+}
+
 
 type condition struct {
   AQI int `json:"aqi"`
@@ -96,7 +105,6 @@ var regionC = region {
   Ctry: "United States",
   State: "Ohio",
 }
-
 
 var hForecastA = hourForecast {
   ID: "1",
@@ -169,6 +177,17 @@ func main() {
     // Example; router.GET("/albums", getAlbums)
     //router.GET("/hour", getHourForecast)
     //router.GET("/day", getDayForecast)
-
-    router.Run("0.0.0.0:8080")
-}
+    // GET /ping
+    router.GET("/ping", func(c *gin.Context) {
+      c.JSON(200, gin.H{
+        "message": "pong",
+      })
+    })
+    // GET /
+    router.GET("/", func(c *gin.Context) {
+      c.JSON(200, gin.H{
+        "message": "Welcome to the Weather API",
+      })
+    })
+    router.Run("0.0.0.0:8000")
+  }

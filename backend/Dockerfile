@@ -11,7 +11,7 @@ COPY *.go ./
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /forecast-server
 
-EXPOSE 8080
+EXPOSE 8000
 # Runtime
 CMD ["/forecast-server"]
 
