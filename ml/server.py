@@ -1,10 +1,19 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
 from model_inference import cv_forecast_image
 import uuid
+import pickle
+import numpy as np
+import pandas as pd
+from pydantic import BaseModel 
+
 
 app = FastAPI()
-
 IMAGEDIR = "images/"
+
+class User(BaseModel):
+    gender: str
+    age: str
+    weather: str
 
 
 @app.post("/upload/", status_code=status.HTTP_201_CREATED)
@@ -18,6 +27,7 @@ async def create_upload_file(file: UploadFile = File(...)):
     file.filename = f"{uuid.uuid4()}.jpg"
     file_path = f"{IMAGEDIR}{file.filename}"
    
+    # writing contents to file
     try:
         contents = await file.read()
         with open(file_path, "wb") as f:
@@ -37,5 +47,6 @@ async def create_upload_file(file: UploadFile = File(...)):
             detail="image prediction failed"
         )
 
-    return {"prediction": prediction, "filename": file.filename}
+    return {"prediction": prediction, "filename": file.filename, "status_code": 200}
 
+# clothing reccomender api call
