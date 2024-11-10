@@ -23,5 +23,20 @@ services:
       - "./open-meteo/data:/app/data"
     command: ["sync", "ecmwf_ifs04", "temperature_2m"]
     restart: no
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9000:8080
+ 
 volumes:
+  pgdata:
   open-meteo-data:
