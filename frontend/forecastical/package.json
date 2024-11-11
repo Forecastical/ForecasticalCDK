@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "forecastical",
   "version": "0.1.0",
   "private": true,
@@ -9,7 +8,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@vue/cli": "^5.0.8",
     "core-js": "^3.8.3",
     "dotenv": "^16.4.5",
     "ol": "^10.2.1",
@@ -45,16 +43,4 @@
     "not dead",
     "not ie 11"
   ]
-=======
-  "name": "forecasticalcdk",
-  "version": "1.0.0",
-  "description": "Frontend, Backend, ML, -> Beta -> Prod",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
->>>>>>> origin/ml
 }
