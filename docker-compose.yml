@@ -1,0 +1,42 @@
+services:
+  backend:
+    build: ./backend/
+    ports:
+      - "8000:8000"
+  frontend:
+    build: ./frontend/
+    ports:
+      - "3000:3000"
+  open-meteo:
+    image: ghcr.io/open-meteo/open-meteo
+    volumes:
+      - "./open-meteo/data:/app/data"
+    ports:
+      - '8080:8080'
+    command: ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
+  sync-forecast:
+    image: ghcr.io/open-meteo/open-meteo
+    container_name: open-meteo-sync
+    depends_on:
+      - open-meteo
+    volumes:
+      - "./open-meteo/data:/app/data"
+    command: ["sync", "ecmwf_ifs04", "temperature_2m"]
+    restart: no
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 9000:8080
+ 
+volumes:
+  pgdata:
+  open-meteo-data:
