@@ -19,6 +19,10 @@
             <span class="icon">🎯</span>
             Recommendations
         </router-link>
+        <router-link to="/test" class="nav-link" :class="{ active: $route.path === '/test' }">
+          <span class="icon">🔧</span>
+          API Test
+        </router-link>
         </div>
       </div>
     </nav>

@@ -3,6 +3,7 @@ import WeatherApp from "@/components/WeatherApp.vue";
 import Profile from "@/components/Profile.vue";
 import WeatherFeed from "@/components/WeatherFeed.vue";
 import WeatherRecommendations from "@/components/WeatherRecommendations.vue";
+import WeatherApiTest from "@/components/WeatherApiTest.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/recommendations',
     name: 'WeatherRecommendations',
     component: WeatherRecommendations
+  },
+  {
+    path: '/test',
+    name: 'ApiTest',
+    component: WeatherApiTest
   }
 ];
 

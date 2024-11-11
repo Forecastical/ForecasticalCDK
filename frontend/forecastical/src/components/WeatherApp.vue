@@ -1,26 +1,22 @@
 <template>
-
   <div class="weather-app">
     <div class="content">
       <div class="left-column">
-
         <div class="current-weather">
           <h2>Current Weather & Forecast</h2>
           <p class="location">{{ currentLocation }}</p>
           <div class="weather-info">
-            <img :src="currentWeatherIcon" alt="Weather icon" class="weather-icon" />
+            <WeatherIcon :code="weatherCode" class="weather-icon" />
             <div class="temperature-condition">
-              <p class="temperature">{{ temperature }}&deg;F</p>
+              <p class="temperature">{{ temperature }}&deg;C</p>
               <p class="condition">{{ condition }}</p>
             </div>
           </div>
           <p class="forecast">Today's Forecast: {{ todayForecast }}</p>
         </div>
 
-        <div class="weather-app">
+        <div class="search-section">
           <SearchBar @search="handleSearch"/>
-            <div class="content">
-            </div>
         </div>
 
         <div class="weekly-forecast">
@@ -28,17 +24,21 @@
           <div class="forecast-grid">
             <div v-for="dayForecast in weeklyConditions" :key="dayForecast.day" class="day">
               <h4>{{ dayForecast.day }}</h4>
-              <img :src="dayForecast.icon" alt="weather icon" class="weather-icon" />
+              <WeatherIcon :code="dayForecast.weatherCode" class="weather-icon" />
               <p>
                 {{ dayForecast.condition }}<br />
-                {{ dayForecast.temperature }}&deg;F
+                {{ dayForecast.maxTemp }}&deg;C / {{ dayForecast.minTemp }}&deg;C
               </p>
             </div>
           </div>
         </div>
 
         <div class="update-location">
-          <button @click="fetchWeatherData">
+          <button @click="getLocation" class="location-btn">
+            <span class="icon">📍</span>
+            Get My Location
+          </button>
+          <button @click="fetchWeatherData" class="update-btn">
             <span class="icon">↻</span>
             Update Weather
           </button>
@@ -46,105 +46,178 @@
       </div>
 
       <div class="right-column">
-
         <div class="supplementary-conditions">
-          <h2>Supplementary Conditions</h2>
-          <p><strong>Air Quality:</strong> {{ air }}</p>
-          <p><strong>UV Index:</strong> {{ uvIndex }}</p>
+          <h2>Current Conditions</h2>
+          <p><strong>Feels Like:</strong> {{ feelsLike }}&deg;C</p>
           <p><strong>Humidity:</strong> {{ humidity }}</p>
+          <p><strong>Wind Speed:</strong> {{ windSpeed }}</p>
           <p><strong>Pressure:</strong> {{ pressure }}</p>
+          <p><strong>Precipitation:</strong> {{ precipitation }}%</p>
         </div>
 
-        <div class="updated-user-forecast">
-          <h2>Updated User Forecast</h2>
-          <img src="/api/placeholder/300/200" alt="User forecast map placeholder" class="forecast-map" />
+        <div class="sun-times" v-if="sunTimes">
+          <h2>Sun Times</h2>
+          <p><strong>Sunrise:</strong> {{ formatTime(sunTimes.sunrise) }}</p>
+          <p><strong>Sunset:</strong> {{ formatTime(sunTimes.sunset) }}</p>
         </div>
-      </div>
 
-      <div class="innerdiv">
-        <MapCard />
+        <div class="innerdiv">
+          <MapCard />
+        </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-
-import MapCard from './MapCard.vue'; 
+import MapCard from './MapCard.vue';
 import SearchBar from './SearchBar.vue';
+import WeatherIcon from './WeatherIcon.vue';
+import { weatherService, WEATHER_CODES } from '@/services/weatherApi';
+import { geocodingService } from '@/services/geocodingApi';
 
 export default {
-
+  name: "WeatherApp",
+  
   components: {
     MapCard,
     SearchBar,
+    WeatherIcon
   },
 
-  name: "WeatherApp",
   data() {
     return {
-      currentLocation: "",
-      temperature: "",
-      condition: "",
-      currentWeatherIcon: "",
-      air: "",
-      uvIndex: "",
-      humidity: "",
-      pressure: "",
-      todayForecast: "",
+      latitude: null,
+      longitude: null,
+      currentLocation: "Loading...",
+      temperature: "---",
+      weatherCode: 0,
+      condition: "---",
+      feelsLike: "---",
+      humidity: "---",
+      windSpeed: "---",
+      pressure: "---",
+      precipitation: "---",
+      todayForecast: "---",
       weeklyConditions: [],
-      searchQuery: "",
+      sunTimes: null,
+      loading: false,
+      error: null
     };
   },
+
   methods: {
     async fetchWeatherData() {
       try {
-        const apiKey = process.env.VUE_APP_API_KEY;
-        const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}`;
-        const corsProxy = `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`;
-        fetch(`${corsProxy}${apiUrl}`)
-          .then(response => response.json())
-          .then(data => console.log(data))
-          .catch(error => console.error('Error:', error));
+        this.loading = true;
+        this.error = null;
 
-        const locationResponse = await fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`);
-        const locationData = await locationResponse.json();
-        
-        const weatherResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${locationData.lat},${locationData.lon}&days=7&aqi=yes`);
-        const weatherData = await weatherResponse.json();
+        if (!this.latitude || !this.longitude) {
+          const position = await this.getUserLocation();
+          this.latitude = position.coords.latitude;
+          this.longitude = position.coords.longitude;
+        }
 
-        this.currentLocation = `${weatherData.location.name}, ${weatherData.location.region}`;
-        this.temperature = Math.round(weatherData.current.temp_f);
-        this.condition = weatherData.current.condition.text;
-        this.currentWeatherIcon = `https:${weatherData.current.condition.icon}`;
-        this.air = this.getAirQualityDescription(weatherData.current.air_quality["us-epa-index"]);
-        this.uvIndex = weatherData.current.uv;
-        this.humidity = `${weatherData.current.humidity}%`;
-        this.pressure = `${weatherData.current.pressure_mb} hPa`;
+        // Fetch all data in parallel
+        const [locationData, current, forecast] = await Promise.all([
+          geocodingService.reverseGeocode(this.latitude, this.longitude),
+          weatherService.getCurrentWeather({
+            latitude: this.latitude,
+            longitude: this.longitude
+          }),
+          weatherService.getForecast({
+            latitude: this.latitude,
+            longitude: this.longitude,
+            days: 7
+          })
+        ]);
+
+        // Update location
+        this.currentLocation = locationData.name && locationData.admin1 ? 
+          `${locationData.name}, ${locationData.admin1}` : 
+          `${this.latitude.toFixed(2)}°, ${this.longitude.toFixed(2)}°`;
+
+        // Update current weather
+        this.temperature = Math.round(current.current.temperature_2m);
+        this.weatherCode = current.current.weather_code;
+        this.condition = WEATHER_CODES[this.weatherCode];
+        this.feelsLike = Math.round(current.current.apparent_temperature);
+        this.humidity = `${current.current.relative_humidity_2m}%`;
+        this.windSpeed = `${current.current.wind_speed_10m} km/h`;
+        this.pressure = `${current.current.surface_pressure} hPa`;
+        this.precipitation = forecast.daily.precipitation_probability_max[0];
+
+        // Update forecast
+        this.todayForecast = WEATHER_CODES[forecast.daily.weather_code[0]];
         
-        // Day Forecast
-        this.todayForecast = weatherData.forecast.forecastday[0].day.condition.text;
-        
-        // Week forecast
-        this.weeklyConditions = weatherData.forecast.forecastday.map(day => ({
-          day: new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' }),
-          condition: day.day.condition.text,
-          temperature: Math.round(day.day.avgtemp_f),
-          icon: `https:${day.day.condition.icon}`
+        // Update weekly forecast
+        this.weeklyConditions = forecast.daily.time.map((time, index) => ({
+          day: new Date(time).toLocaleDateString('en-US', { weekday: 'short' }),
+          weatherCode: forecast.daily.weather_code[index],
+          condition: WEATHER_CODES[forecast.daily.weather_code[index]],
+          maxTemp: Math.round(forecast.daily.temperature_2m_max[index]),
+          minTemp: Math.round(forecast.daily.temperature_2m_min[index])
         }));
+
+        // Update sun times
+        this.sunTimes = {
+          sunrise: forecast.daily.sunrise[0],
+          sunset: forecast.daily.sunset[0]
+        };
+
       } catch (error) {
         console.error('Error fetching weather data:', error);
+        this.error = 'Failed to fetch weather data';
+      } finally {
+        this.loading = false;
       }
     },
-    getAirQualityDescription(index) {
-      const descriptions = ["Good", "Moderate", "Unhealthy for Sensitive Groups", "Unhealthy", "Very Unhealthy", "Hazardous"];
-      return descriptions[index - 1] || "Unknown";
+
+    async handleSearch(query) {
+      try {
+        const locations = await geocodingService.searchLocations(query);
+        if (locations.length > 0) {
+          const location = locations[0];
+          this.latitude = location.latitude;
+          this.longitude = location.longitude;
+          await this.fetchWeatherData();
+        }
+      } catch (error) {
+        console.error('Error searching location:', error);
+      }
+    },
+
+    async getLocation() {
+      try {
+        const position = await this.getUserLocation();
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        await this.fetchWeatherData();
+      } catch (error) {
+        console.error('Error getting location:', error);
+        alert('Could not get your location. Please use the search bar instead.');
+      }
+    },
+
+    getUserLocation() {
+      return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+          reject(new Error('Geolocation is not supported by your browser'));
+        }
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+    },
+
+    formatTime(isoString) {
+      return new Date(isoString).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit'
+      });
     }
   },
 
   mounted() {
-    this.fetchWeatherData();
+    this.getLocation();
   }
 };
 </script>
@@ -262,5 +335,38 @@ h2 {
 
 strong {
   color: #50e2e7;
+}
+
+.location-btn, .update-btn {
+  background-color: #3498db;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
+
+.location-btn:hover, .update-btn:hover {
+  background-color: #2980b9;
+}
+
+.search-section {
+  margin-bottom: 20px;
+}
+
+.sun-times {
+  background-color: #34495e;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.weather-icon {
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
 }
 </style>
