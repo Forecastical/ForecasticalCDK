@@ -1,4 +1,0 @@
-"""
-Sentiment Model for comments
-
-"""

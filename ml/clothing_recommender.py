@@ -28,7 +28,6 @@ data = {
 'gender':['male', 'female','male','male', 'male','female', 'male', 'female', 'female', 'male', 'female'],
 'age':['adult','young adult','young adult','adult', 'young adult','young adult', 'young adult', 'teen', 'adult', 'elderly', 'adult'],
 'weather': ['cold', 'cold', 'rainy', 'sunny', 'cold', 'sunny', 'rainy', 'cold', 'cold', 'sunny', 'sunny']
-
 }
 
 for key in data.keys(): print(key, len(data[key]))
