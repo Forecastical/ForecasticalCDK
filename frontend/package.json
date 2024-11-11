@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "forecastical",
   "version": "0.1.0",
   "private": true,
@@ -44,8 +43,7 @@
     "last 2 versions",
     "not dead",
     "not ie 11"
-  ]
-=======
+  ],
   "name": "forecasticalcdk",
   "version": "1.0.0",
   "description": "Frontend, Backend, ML, -> Beta -> Prod",
@@ -56,5 +54,4 @@
   "keywords": [],
   "author": "",
   "license": "ISC"
->>>>>>> origin/ml
 }
