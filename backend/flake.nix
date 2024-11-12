@@ -1,28 +1,35 @@
 {
+  description = "Python shell flake";
+
   inputs = {
-    #nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs";
-    systems.url = "github:nix-systems/default";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
+
+    mach-nix.url = "github:davhau/mach-nix";
   };
 
-  outputs =
-    { systems, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, mach-nix, flake-utils, ... }:
     let
-      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      pythonVersion = "python39";
     in
-    {
-      packages = eachSystem (pkgs: {
-        hello = pkgs.hello;
-      });
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        mach = mach-nix.lib.${system};
 
-      devShells = eachSystem (pkgs: {
-        default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            # Add development dependencies here
-            go_1_21
-            gotools
-            golangci-lint
-          ];
+        pythonEnv = mach.mkPython {
+          python = pythonVersion;
+          requirements = builtins.readFile ./requirements.txt;
         };
-      });
-    };
+      in
+      {
+        devShells.default = pkgs.mkShellNoCC {
+          packages = [ pythonEnv ];
+
+          shellHook = ''
+            export PYTHONPATH="${pythonEnv}/bin/python"
+          '';
+        };
+      }
+    );
 }

@@ -1,17 +1,8 @@
-# Based on go 1.21
-FROM golang:1.21
+FROM tiangolo/uvicorn-gunicorn-fastapi:latest
 
-WORKDIR /app
+COPY . .
 
-COPY go.mod go.sum ./
+RUN pip install -r requirements.txt
+#RUN pip install --no-cache-dir -r requirements.txt
 
-RUN go mod download
-
-COPY *.go ./
-
-RUN CGO_ENABLED=0 GOOS=linux go build -o /forecast-server
-
-EXPOSE 8000
-# Runtime
-CMD ["/forecast-server"]
-
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8000"]
