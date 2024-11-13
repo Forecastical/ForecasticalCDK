@@ -4,6 +4,7 @@ from lib.orm import Users, Comments, Posts, init_db
 from lib.model import UserAuth, UserCreate, UserUpdate, CreateComment, EditComment
 from peewee import IntegrityError
 import uuid
+import os
 
 # import pickle
 import numpy as np
@@ -13,7 +14,7 @@ from datetime import datetime
 
 
 app = FastAPI()
-IMAGEDIR = "images/"
+IMAGEDIR = "./data/"
 init_db()
 
 
@@ -177,14 +178,24 @@ async def delete_comment(comment_id: int, auth: UserAuth):
 
 
 @app.post("/upload_image", status_code=status.HTTP_201_CREATED)
-async def create_upload_file(file: UploadFile = File(...)):
+async def create_upload_file(auth: UserAuth, file: UploadFile = File(...)):
     if file.content_type != "image/jpeg":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="only jpg images"
         )
 
+    try:
+        user = Users.get(Users.username == auth.username)
+    except Users.DoesNotExist:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="can't find user"
+            )
+    
+    # create filepath and save images here locally 
     file.filename = f"{uuid.uuid4()}.jpg"
-    file_path = f"{IMAGEDIR}{file.filename}"
+    user_dir = f"{IMAGEDIR}/{user.id}"
+    os.path.join(user_dir, file.filename)
+    file_path = os.makedirs(user_dir, exist_ok=True)
 
     # writing contents to file
     try:
@@ -196,7 +207,7 @@ async def create_upload_file(file: UploadFile = File(...)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="File image upload failed",
         )
-
+        
     # predicting the weather based on image
     try:
         prediction = cv_forecast_image(file_path, PATH="./model/vision_model.pth")
