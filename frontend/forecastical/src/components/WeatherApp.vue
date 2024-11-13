@@ -173,6 +173,21 @@ export default {
       }
     },
 
+    async fetchCityName() {
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${this.latitude}&lon=${this.longitude}&format=json`
+        );
+        const data = await response.json();
+        // Update location name based on available fields
+        this.currentLocation = data.address.city || data.address.town || data.address.village || 'Unknown location';
+      } catch (error) {
+        console.error("Error fetching location:", error);
+        this.currentLocation = "Unknown location";
+      }
+    },
+
+
     async handleSearch(query) {
       try {
         const locations = await geocodingService.searchLocations(query);
@@ -181,6 +196,10 @@ export default {
           this.latitude = location.latitude;
           this.longitude = location.longitude;
           await this.fetchWeatherData();
+
+          // Fetch and update the city name
+          await this.fetchCityName();
+          console.log("Updated City Name:", this.currentLocation);
         }
       } catch (error) {
         console.error('Error searching location:', error);
@@ -217,7 +236,12 @@ export default {
   },
 
   mounted() {
-    this.getLocation();
+    this.getLocation().then(() => {
+    // Call fetchCityName after location has been set
+    this.fetchCityName().then(() => {
+      console.log("Current Location:", this.currentLocation);
+      });
+    });
   }
 };
 </script>
