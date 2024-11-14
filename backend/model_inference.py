@@ -66,4 +66,4 @@ def recommend_clothing():
 def adjust_forecast():
     pass
 
-cv_forecast_image(filename = 'DemoImageSenior.jpg', PATH ='./model/vision_model.pth')
+#cv_forecast_image(filename = 'DemoImageSenior.jpg', PATH ='./model/vision_model.pth')
