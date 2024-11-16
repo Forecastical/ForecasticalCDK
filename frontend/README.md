@@ -121,6 +121,24 @@ This guide will walk you through setting up the development environment for the 
 
 2. Open your web browser and navigate to `http://localhost:8080` (or the URL provided in the terminal output).
 
+## Other dev options to run the app
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+
 ## Troubleshooting
 
 - If you encounter permission errors on macOS or Linux, try using `sudo` before the commands.
