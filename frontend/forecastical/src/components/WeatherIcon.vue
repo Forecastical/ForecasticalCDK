@@ -59,7 +59,7 @@
     computed: {
       iconComponent() {
         switch (this.code) {
-          case 0: // Clear sky
+          case 0: // Clear
             return 'Sun';
           
           case 1: // Mainly clear

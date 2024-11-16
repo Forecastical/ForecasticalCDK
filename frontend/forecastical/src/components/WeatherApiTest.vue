@@ -2,7 +2,7 @@
     <div class="api-test-container">
       <h1>Enhanced Weather API Test Component</h1>
       
-      <!-- Location Search Test -->
+      <!-- Test searching for a location -->
       <div class="test-section">
         <h2>Location Search Test</h2>
         <div class="input-group">
@@ -30,7 +30,7 @@
         </div>
       </div>
   
-      <!-- Current Location Test -->
+      <!-- Testing getting the current location -->
       <div class="test-section">
         <h2>Current Location</h2>
         <div class="input-group">
@@ -52,7 +52,7 @@
         </div>
       </div>
   
-      <!-- Complete Weather Data Test -->
+      <!-- Test getting the complete weather data -->
       <div class="test-section">
         <h2>Complete Weather Data Test</h2>
         <button @click="fetchAllWeatherData" class="btn" :disabled="loading.all">
@@ -116,7 +116,7 @@
     data() {
     return {
 
-        latitude: 41.4995,  // Default to Cleveland
+        latitude: 41.4995,  // Default is Cleveland, OH
         longitude: -81.6954,
         searchQuery: '',
         showRawData: false,
@@ -201,7 +201,7 @@
       this.allWeatherData = null;
 
       try {
-        // Fetch weather data first
+        // Get weather data
         const [current, forecast] = await Promise.all([
           weatherService.getCurrentWeather({ 
             latitude: this.latitude, 
@@ -214,7 +214,7 @@
           })
         ]);
 
-        // Then get location data
+        // Get location data
         const location = await geocodingService.reverseGeocode(
           this.latitude, 
           this.longitude
@@ -225,7 +225,7 @@
         this.results.forecast = forecast;
         this.results.reverseGeocode = location;
 
-        // Process data into friendly format
+        // Process weather data
         this.allWeatherData = {
           location: location.name ? 
             `${location.name}${location.admin1 ? `, ${location.admin1}` : ''}` : 
