@@ -122,10 +122,3 @@ def load_model(filename, model)->None:
 
     model = pickle.load(open(filename, 'rb'))
     return model
-
-
-    
-
-
-
-

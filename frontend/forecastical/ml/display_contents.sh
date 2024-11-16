@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Function to capture output
 capture_output() {
     echo "Directory Structure:"
     tree -L 2

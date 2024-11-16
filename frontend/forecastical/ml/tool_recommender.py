@@ -93,12 +93,13 @@ if __name__ == '__main__':
    model = ClothingRecommender(model = RandomForestClassifier(), feedback = None)
    X = df.drop(columns=features)
    y = df['tool']
+
    model.preprocess(X = X, y = y)
    model.train()
    recommendations = model.predict(k = 2)
    print(model.get_converted_features(recommendations))
+   
    model.save_model()
    loaded_model = model.load_model(filename = './model/tool_model.pkl')
    model.model = loaded_model
    print(model.get_converted_features(model.predict(k = 3)))
-
