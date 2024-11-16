@@ -37,7 +37,7 @@ export class GeocodingService {
   }
 
   /**
-   * Get location name from coordinates (reverse geocoding)
+   * Get location name from coordinates
    * @param {number} latitude 
    * @param {number} longitude 
    * @returns {Promise<Object>} Location information

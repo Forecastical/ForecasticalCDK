@@ -105,10 +105,10 @@ export class WeatherService {
   }
 }
 
-// Create a singleton instance
+// Export singleton instance for the app
 export const weatherService = new WeatherService();
 
-// Weather codes mapping
+// Export weather codes mapping for the app
 export const WEATHER_CODES = {
   0: 'Clear sky',
   1: 'Mainly clear',
