@@ -3,8 +3,8 @@
   <div class="upload-container">
     <div 
       class="upload-area"
-      @dragover.prevent="handleDragOver"
-      @drop.prevent="handleDrop"
+      @dragover.prevent="drag"
+      @drop.prevent="drop"
       @click="triggerFileInput"
     >
       <input 
@@ -12,13 +12,13 @@
         ref="fileInput"
         class="hidden-input"
         accept="image/*"
-        @change="handleFileSelect"
+        @change="selectFile"
       />
       
       <div v-if="!preview" class="upload-placeholder">
         <span class="upload-icon">📸</span>
-        <p class="upload-text">Drag and drop an image or click to upload</p>
-        <p class="upload-subtext">Supported formats: JPG, PNG, WEBP</p>
+        <p class="upload-text">Upload by clicking or drag and drop</p>
+        <p class="upload-subtext">Supported formats: JPG, PNG</p>
       </div>
       
       <img v-else :src="preview" alt="Preview" class="image-preview" />
@@ -33,8 +33,8 @@
       />
       
       <div class="button-group">
-        <button @click="cancelUpload" class="cancel-btn">Cancel</button>
-        <button @click="submitUpload" class="submit-btn">Share Photo</button>
+        <button @click="cancel" class="cancel-btn">Cancel</button>
+        <button @click="cancel" class="submit-btn">Share Picture!</button>
       </div>
     </div>
   </div>
@@ -55,11 +55,11 @@ export default {
       this.$refs.fileInput.click();
     },
     
-    handleDragOver(e) {
+    drag(e) {
       e.target.classList.add('drag-over');
     },
     
-    handleDrop(e) {
+    drop(e) {
       e.target.classList.remove('drag-over');
       const file = e.dataTransfer.files[0];
       if (file && file.type.startsWith('image/')) {
@@ -67,7 +67,7 @@ export default {
       }
     },
     
-    handleFileSelect(e) {
+    selectFile(e) {
       const file = e.target.files[0];
       if (file) {
         this.processFile(file);
@@ -83,30 +83,29 @@ export default {
       reader.readAsDataURL(file);
     },
     
-    cancelUpload() {
+    cancel() {
       this.file = null;
       this.preview = null;
       this.caption = '';
       this.$refs.fileInput.value = '';
     },
     
-    submitUpload() {
+    cancel() {
       if (!this.file || !this.caption) return;
       
       // Create a new weather post object
       const newPost = {
         url: this.preview,
         caption: this.caption,
-        username: 'currentUser', // You'll want to get this from your auth system
-        location: 'Cleveland, OH', // You'll want to get this from geolocation
-        time: 'Just now'
+        username: 'Current User', // TODO: NEED TO CONNECT THIS TO PROFILE PAGE AFTER PROFILE PAGE IS CONNECTED TO DB
+        location: 'Cleveland, OH', // TODO: GRAB FROM GEOLOCATION FUNCTIONALITY OR REUSE FROM MAIN WEATHER PAGE
+        time: 'Just now' // TODO: GRAB THE CURRENT TIME
       };
       
-      // Emit the new post to parent component
+      
       this.$emit('image-uploaded', newPost);
       
-      // Reset the form
-      this.cancelUpload();
+      this.cancel();
     }
   }
 }
@@ -221,4 +220,5 @@ export default {
   background-color: #3dd8dd;
   transform: translateY(-1px);
 }
+
 </style>
