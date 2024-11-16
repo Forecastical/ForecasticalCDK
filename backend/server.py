@@ -14,16 +14,49 @@ IMAGEDIR = "images/"
 
 
 db = PostgresqlDatabase('postgres', host='postgres', port=5432, user='postgres', password='postgres')
-class User (Model):
-   name=TextField()
-   city=TextField(constraints=[SQL("DEFAULT 'Mumbai'")])
-   age=IntegerField()
-   class Meta:
-      database=db
-      db_table='User'
+class Users (Model):
+    username = TextField()
+    password = TextField()
+    user_fname = TextField()
+    user_lname = TextField()
+    user_age = IntegerField()
+    home_lat = DoubleField()
+    home_lon = DoubleField()
+    use_celsius = BooleanField()
+    user_alerts = BooleanField() # Not sure what this does.
+    class Meta:
+        database=db
+        db_table='Users'
+    #
+#
+
+class Comments (Model):
+    user_id = ForeignKeyField(Users)
+    comment = TextField()
+    time_stamp = DateTimeField()
+    lat = DoubleField()
+    lon = DoubleField()
+    class Meta:
+        database=db
+        db_table='Comments'
+
+class Posts (Model):
+    user_id = ForeignKeyField(Users)
+    #image = TextField() # Peewee does not support storing images in pgsql.
+    # We can grab the image file from ./data/<username>/<post_id>.png
+    caption = TextField()
+    time_stamp = DateTimeField()
+    lat = DoubleField()
+    lon = DoubleField()
+    class Meta:
+        database=db
+        db_table='Posts'
 
 db.connect()
-db.create_tables([User])
+db.create_tables([Users])
+db.create_tables([Posts])
+db.create_tables([Comments])
+
 print("Created table")
 
 @app.post("/upload/", status_code=status.HTTP_201_CREATED)
