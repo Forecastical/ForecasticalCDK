@@ -98,6 +98,24 @@
 
 2. Go to `http://localhost:8080` (or the URL provided in the terminal output) in your favorite web browser that supports vue.
 
+## Other dev options to run the app
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+
 ## Troubleshooting
 
 - Permission errors on macOS or Linux? -> try using `sudo` before the commands.
