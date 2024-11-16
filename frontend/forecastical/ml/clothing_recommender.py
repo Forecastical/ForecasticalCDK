@@ -52,11 +52,7 @@ class ClothingRecommender():
 
     def predict(self, k:int):
         predicted_probs = self.model.predict_proba(self.X_test)
-        #print(predicted_probs)
         predicted_recommendations = np.argsort(predicted_probs, axis=1)[:,-k:]
-        #print(predicted_recommendations)
-        #print(self.label_encoder.inverse_transform(predicted_recommendations[0]))
-        #print(self.model.classes_[predicted_recommendations[0]])
         return predicted_recommendations
     
     def get_converted_features(self, recommendations):
@@ -100,11 +96,3 @@ if __name__ == '__main__':
    loaded_model = model.load_model(filename = './model/clothing_model.pkl')
    model.model = loaded_model
    print(model.get_converted_features(model.predict(k = 3)))
-
-
-
-    
-
-
-
-

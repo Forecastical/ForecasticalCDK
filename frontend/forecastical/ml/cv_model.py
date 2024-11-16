@@ -103,7 +103,3 @@ def test(model, loader):
 
 def save(PATH='./model/vision_model.pth'):
     torch.save(model.state_dict(), PATH)
-
-
-
-

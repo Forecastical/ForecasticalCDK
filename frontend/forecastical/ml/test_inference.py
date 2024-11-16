@@ -1,4 +1,3 @@
-# test_inference.py
 from model_inference import cv_forecast_image
 import os
 

@@ -58,3 +58,4 @@ if __name__ == "__main__":
         print(f"Test prediction: {result}")
     else:
         print(f"Test image {test_image} not found")
+        
