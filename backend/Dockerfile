@@ -2,6 +2,9 @@ FROM pytorch/pytorch:latest
 
 COPY . .
 
+RUN apt-get update \
+    && apt-get -y install libpq-dev gcc \
+    && pip install psycopg2
 RUN pip install -r requirements.txt
 RUN pip install uvicorn python-multipart
 EXPOSE 8000

@@ -5,16 +5,26 @@ import pickle
 import numpy as np
 import pandas as pd
 from pydantic import BaseModel 
+from peewee import *
+
 
 
 app = FastAPI()
 IMAGEDIR = "images/"
 
-class User(BaseModel):
-    gender: str
-    age: str
-    weather: str
 
+db = PostgresqlDatabase('postgres', host='postgres', port=5432, user='postgres', password='postgres')
+class User (Model):
+   name=TextField()
+   city=TextField(constraints=[SQL("DEFAULT 'Mumbai'")])
+   age=IntegerField()
+   class Meta:
+      database=db
+      db_table='User'
+
+db.connect()
+db.create_tables([User])
+print("Created table")
 
 @app.post("/upload/", status_code=status.HTTP_201_CREATED)
 async def create_upload_file(file: UploadFile = File(...)):

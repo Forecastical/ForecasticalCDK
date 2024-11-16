@@ -4,6 +4,8 @@ services:
     build: ./backend/
     ports:
       - "8000:8000"
+    networks:
+      - postgres
   frontend:
     build: ./frontend/
     ports:
@@ -30,10 +32,11 @@ services:
     image: postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       PGDATA: /data/postgres
     volumes:
        - postgres:/data/postgres
+       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     networks:
