@@ -1,10 +1,11 @@
 import torch
-import torchvision
-import torchvision.transforms as transforms 
-import torchvision.models as models
+
+from torchvision.transforms import Compose, Resize, CenterCrop, ToTensor, Normalize
+from torchvision.models import ViT_B_16_Weights, vit_b_16
+
 from PIL import Image
+
 import os
-from torchvision.models import ViT_B_16_Weights
 
 def cv_forecast_image(filename, PATH='./model/vision_model.pth'):
     weather_classes = [
@@ -13,8 +14,8 @@ def cv_forecast_image(filename, PATH='./model/vision_model.pth'):
     ]
 
     # Initialize model with pretrained weights
-    model = models.vit_b_16(weights=ViT_B_16_Weights.DEFAULT)
-    model.heads.head = torch.nn.Linear(in_features=768, out_features=11)
+    model = vit_b_16(weights=ViT_B_16_Weights.DEFAULT)
+    model.heads.head = nn.Linear(in_features=768, out_features=11)
     
     # Only try to load custom weights if the file exists
     if os.path.exists(PATH):
@@ -26,11 +27,11 @@ def cv_forecast_image(filename, PATH='./model/vision_model.pth'):
     
     model.eval()
     
-    preprocess = transforms.Compose([
-        transforms.Resize(224),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+    preprocess = Compose([
+        Resize(224),
+        CenterCrop(224),
+        ToTensor(),
+        Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
     
     # Verify image file exists

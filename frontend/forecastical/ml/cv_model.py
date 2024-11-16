@@ -5,12 +5,10 @@ Computer Vision model to analyze scene and classify the weather
 
 
 import torch
-import torch.nn as nn
-from torchvision import transforms, datasets
-import torchvision.models as models
-from torch.utils.data import DataLoader, random_split
-import torch.optim as optim
-import os
+from torch.nn import CrossEntropyLoss, Linear
+from torchvision import transforms, datasets, models
+from torch.utils.data import DataLoader
+from torch.optim import Adam
 from sklearn.model_selection import train_test_split
 
 transform = transforms.Compose([
@@ -35,18 +33,16 @@ model = models.vit_b_16(pretrained=False)
 
 model.load_state_dict(torch.load('./model/vit_b_16_pretrained.pth'))
 
-#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 if torch.backends.mps.is_available():
     device = torch.device("mps")
 else:
     device = torch.device("cpu")
 print(device)
-criterion = nn.CrossEntropyLoss()
+criterion = CrossEntropyLoss()
 
 types_of_weather = 12
 
-model.heads.head = torch.nn.Linear(model.heads.head.in_features, types_of_weather)
+model.heads.head = Linear(model.heads.head.in_features, types_of_weather)
 model = model.to(device)
 for param in model.parameters():
     param.requires_grad = False
@@ -55,7 +51,7 @@ for param in model.heads.parameters():
     param.requires_grad = True
 
 
-optimizer = optim.Adam(model.heads.parameters(), lr=0.001)
+optimizer = Adam(model.heads.parameters(), lr=0.001)
 for epoch in range(5):
     correct = 0
 

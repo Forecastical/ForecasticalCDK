@@ -1,4 +1,3 @@
-#!/bin/bash
 
 capture_output() {
     echo "Directory Structure:"

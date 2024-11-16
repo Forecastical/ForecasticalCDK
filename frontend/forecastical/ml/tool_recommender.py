@@ -1,12 +1,12 @@
 import pandas as pd
 import numpy as np
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
 import pickle
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import OneHotEncoder
+
+from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
+
 import os
 
 
@@ -53,11 +53,7 @@ class ClothingRecommender():
 
     def predict(self, k:int):
         predicted_probs = self.model.predict_proba(self.X_test)
-        #print(predicted_probs)
         predicted_recommendations = np.argsort(predicted_probs, axis=1)[:,-k:]
-        #print(predicted_recommendations)
-        #print(self.label_encoder.inverse_transform(predicted_recommendations[0]))
-        #print(self.model.classes_[predicted_recommendations[0]])
         return predicted_recommendations
     
     def get_converted_features(self, recommendations):
