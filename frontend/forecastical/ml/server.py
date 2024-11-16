@@ -1,9 +1,7 @@
+import uuid
+
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
 from model_inference import cv_forecast_image
-import uuid
-import pickle
-import numpy as np
-import pandas as pd
 from pydantic import BaseModel 
 
 
