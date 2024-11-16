@@ -33,8 +33,8 @@
       />
       
       <div class="button-group">
-        <button @click="cancel" class="cancel-btn">Cancel</button>
-        <button @click="cancel" class="submit-btn">Share Picture!</button>
+        <button @click="cancelUpload" class="cancel-btn">Cancel</button>
+        <button @click="submitUpload" class="submit-btn">Share Picture!</button>
       </div>
     </div>
   </div>
@@ -83,17 +83,15 @@ export default {
       reader.readAsDataURL(file);
     },
     
-    cancel() {
+    cancelUpload() {
       this.file = null;
       this.preview = null;
       this.caption = '';
       this.$refs.fileInput.value = '';
     },
     
-    cancel() {
+    submitUpload() {
       if (!this.file || !this.caption) return;
-      
-      // Create a new weather post object
       const newPost = {
         url: this.preview,
         caption: this.caption,
@@ -105,7 +103,7 @@ export default {
       
       this.$emit('image-uploaded', newPost);
       
-      this.cancel();
+      this.cancelUpload();
     }
   }
 }
