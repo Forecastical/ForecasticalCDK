@@ -1,7 +1,5 @@
 # Forecastical Frontend Setup Guide
 
-This guide will walk you through setting up the development environment for the Forecastical frontend project. Follow the steps for your operating system to get started.
-
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
@@ -15,14 +13,14 @@ This guide will walk you through setting up the development environment for the 
 
 ## Prerequisites
 
-- Basic knowledge of command-line interfaces
-- Internet connection for downloading necessary tools and dependencies
+- Open your command line/terminal and know how to use it
+- Be prepared to install our various packages detailed below
 
 ## Installation Steps
 
 ### macOS
 
-1. Install Homebrew (if not already installed):
+1. Install Homebrew (if not preinstalled):
    ```
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
    ```
@@ -39,7 +37,7 @@ This guide will walk you through setting up the development environment for the 
 
 ### Linux
 
-1. Update your package manager:
+1. Update the package manager:
    - For Ubuntu/Debian:
      ```
      sudo apt update && sudo apt upgrade
@@ -66,9 +64,9 @@ This guide will walk you through setting up the development environment for the 
 
 ### Windows
 
-1. Download and install Node.js from the official website: https://nodejs.org/
+1. Download and install Node.js: https://nodejs.org/
 
-2. Open Command Prompt or PowerShell as administrator and install Vue CLI:
+2. Install Vue CLI using command prompt or terminal or powershell, etc:
    ```
    npm install -g @vue/cli
    ```
@@ -86,6 +84,11 @@ This guide will walk you through setting up the development environment for the 
    npm install
    ```
 
+   Install additonal auxiliary packages may also be necessary to run the app:
+   ```
+   npm install concurrently
+   ```
+
 ## Running the Development Server
 
 1. Start the development server:
@@ -93,16 +96,17 @@ This guide will walk you through setting up the development environment for the 
    npm run serve
    ```
 
-2. Open your web browser and navigate to `http://localhost:8080` (or the URL provided in the terminal output).
+2. Go to `http://localhost:8080` (or the URL provided in the terminal output) in your favorite web browser that supports vue.
 
 ## Troubleshooting
 
-- If you encounter permission errors on macOS or Linux, try using `sudo` before the commands.
-- For Windows users, ensure that you're running Command Prompt or PowerShell as an administrator.
-- If you face issues with npm, try clearing the npm cache:
+- Permission errors on macOS or Linux? -> try using `sudo` before the commands.
+- Permissions for windows? -> run Command Prompt or PowerShell or Terminal as an admin.
+- Missing an npm package? -> run `npm install `` followed by the missing package.
+- Other issues with npm? -> clear the npm cache:
   ```
   npm cache clean --force
   ```
   Then, delete the `node_modules` folder and `package-lock.json` file, and run `npm install` again.
 
-For any other issues, please check the project's issue tracker on GitHub or reach out to the development team.
+For any other issues, please check the project's issue tracker on GitHub or reach out to our dev team.
