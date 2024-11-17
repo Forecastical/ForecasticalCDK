@@ -14,7 +14,10 @@ IMAGEDIR = "images/"
 
 
 db = PostgresqlDatabase('postgres', host='postgres', port=5432, user='postgres', password='postgres')
+
+'''DB objects'''
 class Users (Model):
+    '''need user_id here to asso user with unique id'''
     username = TextField()
     password = TextField()
     user_fname = TextField()
@@ -59,6 +62,18 @@ db.create_tables([Comments])
 
 print("Created table")
 
+'''Pydantic models for Handling User Input'''
+class UserCreate(BaseModel):
+    username: str
+    password: str
+    user_fname: str
+    user_lname: str
+    user_age: int
+    home_lat: float
+    home_lon: float
+    use_celsius: bool
+    user_alerts: bool
+
 ## Users
 # Register user
 # Login as user ?? 
@@ -76,7 +91,36 @@ print("Created table")
 ## Recommendations
 # Get recommendations?
 
-@app.post("/upload/", status_code=status.HTTP_201_CREATED)
+'''DB API Calls'''
+
+# two API calls with Account class, 1 to create user and other to update user info
+
+# create user with POST request
+@app.post("/users/")
+async def create_user(request = UserCreate):
+    # create a user 
+    try:
+        new_user = Users(request.username, request.password, 
+                         request.user_fname, request.user_fname, request.user_age,
+                         request.home_lat, request.home_lon, request.use_celsius, 
+                         request.user_alerts)
+        
+        return {"new user created": new_user.username, "status_code": 201}
+    except IntegrityError as e:
+        raise HTTPException(
+            status_code=400, detail=f"Failed to create user"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"An unexpected error occurred"
+        )
+        
+
+
+
+
+'''AI/ML API Calls'''
+@app.post("/upload_image/", status_code=status.HTTP_201_CREATED)
 async def create_upload_file(file: UploadFile = File(...)):
     if file.content_type != "image/jpeg":
         raise HTTPException(
@@ -107,6 +151,6 @@ async def create_upload_file(file: UploadFile = File(...)):
             detail="image prediction failed"
         )
 
-    return {"prediction": prediction, "filename": file.filename, "status_code": 200}
+    return {"prediction": prediction, "filename": file.filename, "status_code": 201}
 
 # clothing reccomender api call
