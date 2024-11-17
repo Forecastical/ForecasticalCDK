@@ -59,6 +59,23 @@ db.create_tables([Comments])
 
 print("Created table")
 
+## Users
+# Register user
+# Login as user ?? 
+
+## Posts
+# Create post
+# Edit Post
+# Delete post
+
+## Comments
+# Create Comment
+# Edit comment
+# Delete Comment
+
+## Recommendations
+# Get recommendations?
+
 @app.post("/upload/", status_code=status.HTTP_201_CREATED)
 async def create_upload_file(file: UploadFile = File(...)):
     if file.content_type != "image/jpeg":
