@@ -4,6 +4,7 @@ import Profile from "@/components/Profile.vue";
 import WeatherFeed from "@/components/WeatherFeed.vue";
 import WeatherRecommendations from "@/components/WeatherRecommendations.vue";
 import WeatherApiTest from "@/components/WeatherApiTest.vue";
+import InteractiveHub from "@/components/InteractiveHub.vue";
 
 const routes = [
   {
@@ -11,26 +12,31 @@ const routes = [
     name: "Home",
     component: WeatherApp,
   },
-  { 
-    path: "/profile", 
-    name: "Profile", 
-    component: Profile 
+  {
+    path: "/profile",
+    name: "Profile",
+    component: Profile,
   },
   {
-    path: '/feed',
-    name: 'WeatherFeed',
-    component: WeatherFeed
+    path: "/feed",
+    name: "WeatherFeed",
+    component: WeatherFeed,
   },
   {
-    path: '/recommendations',
-    name: 'WeatherRecommendations',
-    component: WeatherRecommendations
+    path: "/recommendations",
+    name: "WeatherRecommendations",
+    component: WeatherRecommendations,
   },
   {
-    path: '/test',
-    name: 'ApiTest',
-    component: WeatherApiTest
-  }
+    path: "/test",
+    name: "ApiTest",
+    component: WeatherApiTest,
+  },
+  {
+    path: "/hub",
+    name: "InteractiveHub",
+    component: InteractiveHub,
+  },
 ];
 
 const router = createRouter({
