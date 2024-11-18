@@ -46,7 +46,7 @@
         <router-link
           to="/hub"
           class="nav-link"
-          :class="{ active: $route.path === '/test' }"
+          :class="{ active: $route.path === '/hub' }"
         >
           <span class="icon">🔧</span>
           Interactive Hub
