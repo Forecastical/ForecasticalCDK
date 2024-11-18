@@ -54,6 +54,7 @@ async def create_user(request: UserCreate):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred")
 
+
 @app.post("/user/validate")
 async def validate_user(auth: UserAuth):
     if is_valid_user(auth):
@@ -61,7 +62,10 @@ async def validate_user(auth: UserAuth):
     else:
         raise HTTPException(status_code=403, detail="Invalid credentials")
 
+
 "Update User here"
+
+
 @app.patch("/user")
 async def update_user(auth: UserAuth, user_data: UserUpdate):
     try:
