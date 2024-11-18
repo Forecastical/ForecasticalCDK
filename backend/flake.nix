@@ -1,35 +1,20 @@
 {
-  description = "Python shell flake";
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-
-    mach-nix.url = "github:davhau/mach-nix";
-  };
-
-  outputs = { self, nixpkgs, mach-nix, flake-utils, ... }:
+  outputs = { self, nixpkgs }:
     let
-      pythonVersion = "python39";
+      supportedSystems = [ "x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin" ];
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+      pkgs = forAllSystems (system: nixpkgs.legacyPackages.${system});
     in
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-        mach = mach-nix.lib.${system};
-
-        pythonEnv = mach.mkPython {
-          python = pythonVersion;
-          requirements = builtins.readFile ./requirements.txt;
+    {
+      devShells = forAllSystems (system: {
+        default = pkgs.${system}.mkShell {
+          packages = with pkgs.${system}; [
+            poetry
+            python3
+          ];
         };
-      in
-      {
-        devShells.default = pkgs.mkShellNoCC {
-          packages = [ pythonEnv ];
-
-          shellHook = ''
-            export PYTHONPATH="${pythonEnv}/bin/python"
-          '';
-        };
-      }
-    );
+      });
+    };
 }

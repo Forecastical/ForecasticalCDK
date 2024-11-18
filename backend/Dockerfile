@@ -1,12 +1,10 @@
 FROM pytorch/pytorch:latest
 
 COPY . .
-
 RUN apt-get update \
     && apt-get -y install libpq-dev gcc \
     && pip install psycopg2
-RUN pip install -r requirements.txt
-RUN pip install uvicorn python-multipart
+RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt --timeout=1000
 EXPOSE 8000
 
 #RUN pip install --no-cache-dir -r requirements.txt

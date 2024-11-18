@@ -1,190 +1,138 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
-from model_inference import cv_forecast_image
+from lib.ml.model_inference import cv_forecast_image
+from lib.orm import Users, Comments, Posts, init_db
+from lib.model import UserAuth, UserCreate, UserUpdate, CreateComment, EditComment
+from peewee import IntegrityError
 import uuid
-import pickle
+
+# import pickle
 import numpy as np
-import pandas as pd
-from pydantic import BaseModel 
-from peewee import *
-from typing import Optional
+
+# import pandas as pd
 from datetime import datetime
 
 
 app = FastAPI()
 IMAGEDIR = "images/"
-db = PostgresqlDatabase('postgres', host='postgres', port=5432, user='postgres', password='postgres')
+init_db()
 
-'''DB objects'''
-class Users (Model):
-    '''need user_id here to asso user with unique id'''
-    username = TextField()
-    password = TextField()
-    user_fname = TextField()
-    user_lname = TextField()
-    user_age = IntegerField()
-    home_lat = DoubleField()
-    home_lon = DoubleField()
-    use_celsius = BooleanField()
-    user_alerts = BooleanField() # Not sure what this does.
-    class Meta:
-        database=db
-        db_table='Users'
-    #
-#
 
-class Comments (Model):
-    user_id = ForeignKeyField(Users)
-    comment = TextField()
-    time_stamp = DateTimeField()
-    lat = DoubleField()
-    lon = DoubleField()
-    class Meta:
-        database=db
-        db_table='Comments'
+def success_response(message, status_code):
+    return {"message": message, "status_code": status_code}
 
-class Posts (Model):
-    user_id = ForeignKeyField(Users)
-    #image = TextField() # Peewee does not support storing images in pgsql.
-    # We can grab the image file from ./data/<username>/<post_id>.png
-    caption = TextField()
-    time_stamp = DateTimeField()
-    lat = DoubleField()
-    lon = DoubleField()
-    class Meta:
-        database=db
-        db_table='Posts'
 
-db.connect()
-db.create_tables([Users])
-db.create_tables([Posts])
-db.create_tables([Comments])
+def is_valid_user(auth: UserAuth):
+    try:
+        user = Users.get(Users.username == auth.username)
+        return user.password == auth.password
+    except Users.DoesNotExist:
+        return False
 
-print("Created table")
-
-'''Pydantic models for Handling User Input'''
-class UserCreate(BaseModel):
-    username: str
-    password: str
-    user_fname: str
-    user_lname: str
-    user_age: int
-    home_lat: float
-    home_lon: float
-    use_celsius: bool
-    user_alerts: bool
-
-class UserUpdate(BaseModel):
-    username: Optional[str]
-    password: Optional[str]
-    user_fname: Optional[str]
-    user_lname: Optional[str]
-    user_age: Optional[int]
-    home_lat: Optional[float]
-    home_lon: Optional[float]
-    use_celsius: Optional[bool]
-    user_alerts: Optional[bool]
-
-class CreateComment(BaseModel):
-    user_id: int
-    comment: str
-    lat: float
-    lon = float
-
-class EditComment(BaseModel):
-    user_id: Optional[int]
-    comment: Optional[str]
-    lat: Optional[float]
-    lon = Optional[float]
-
-## Users
-# Register user
-# Login as user ?? 
-
-## Posts
-# Create post
-# Edit Post
-# Delete post
-
-## Comments
-# Create Comment
-# Edit comment
-# Delete Comment
-
-## Recommendations
-# Get recommendations?
-
-'''DB API Calls'''
 
 "Create New User here"
-@app.post("/users/")
-async def create_user(request = UserCreate):
-    # create a user 
+
+
+@app.post("/user")
+async def create_user(request: UserCreate):
+    # create a user
     try:
-        new_user = Users(request.username, request.password, 
-                         request.user_fname, request.user_fname, request.user_age,
-                         request.home_lat, request.home_lon, request.use_celsius, 
-                         request.user_alerts)
-        
-        return {"new user created": new_user.username, "status_code": 201}
-    except IntegrityError as e:
-        raise HTTPException(
-            status_code=400, detail=f"Failed to create user"
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"An unexpected error occurred"
+        new_user = Users.create(
+            username=request.username,
+            password=request.password,
+            user_fname=request.user_fname,
+            user_lname=request.user_lname,
+            user_age=request.user_age,
+            home_lat=request.home_lat,
+            home_lon=request.home_lon,
+            use_celsius=request.use_celsius,
+            user_alerts=request.user_alerts,
         )
 
+        return success_response("User created", 201)
+    except IntegrityError as e:
+        raise HTTPException(status_code=400, detail=f"Failed to create user")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An unexpected error occurred")
+
+@app.post("/user/validate")
+async def validate_user(auth: UserAuth):
+    if is_valid_user(auth):
+        return success_response("User validated", 200)
+    else:
+        raise HTTPException(status_code=403, detail="Invalid credentials")
+
 "Update User here"
-@app.patch("/username/{username}")
-async def update_user(user_name: str, user_data: UserUpdate):
+@app.patch("/user")
+async def update_user(auth: UserAuth, user_data: UserUpdate):
     try:
-        # get user from user_name
-        user = Users.get(Users.username==user_name)
-        # update fields 
+        if not is_valid_user(auth):
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+
+        user = Users.get(Users.username == auth.username)
+        # update fields
         data_dict = user_data.dict(exclude_unset=True).items()
         for key, values in data_dict:
             setattr(user, key, values)
-        
-        return {"message": "user updated", "status_code": 200}
-    # user doesn't exist 
+
+        return success_response("User updated", 200)
+    # user doesn't exist
     except Users.DoesNotExist:
         raise HTTPException(status_code=404, detail="User not found")
     # internal server error
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="unable to update user"
+            detail="unable to update user",
         )
+
 
 "Create comment here"
-@app.post("/comment/")
-async def create_comment(comment: CreateComment):
+
+
+@app.post("/comment")
+async def create_comment(auth: UserAuth, comment: CreateComment):
     try:
-        new_comment = Comments(comment.user_id, comment.comment, datetime.datetime.now(), 
-                               comment.lon, comment.lat)
-        
-        return {"new comment created": new_comment.comment, "status_code": 201}
-    except IntegrityError as e:
-        raise HTTPException(
-            status_code=400, detail=f"Failed to create comment"
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"An unexpected error occurred"
+        if not is_valid_user(auth):
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+
+        new_comment = Comments(
+            comment.user_id,
+            comment.comment,
+            datetime.datetime.now(),
+            comment.lon,
+            comment.lat,
         )
 
-"Update User here"
-@app.patch("/username/{user_id}")
-async def update_user(user_id: int, comment: EditComment):
+        return success_response(f"Comment created {new_comment.comment}", 201)
+    except IntegrityError as e:
+        raise HTTPException(status_code=400, detail=f"Failed to create comment")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An unexpected error occurred")
+
+
+"Update Comment here"
+
+
+@app.patch("/comment/{comment_id}")
+async def update_comment(comment_id: int, auth: UserAuth, comment: EditComment):
     try:
-        edit_comment = Comments.get(Comments.user_id==user_id)
+
+        if (
+            not is_valid_user(auth)
+            or not Comments.get_by_id(comment_id).user_id
+            == Users.get(username=auth.username).id
+        ):
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+
+        # access the target comment
+        edit_comment = Comments.get(Comments.id == comment_id)
+        # get a dictionary of the new comment data
         data_dict = comment.dict(exclude_unset=True).items()
-        
+        # update the comment
         for key, value in data_dict:
             setattr(edit_comment, key, value)
 
-        return {"message": "user updated", "status_code": 200}
+        return success_response("Comment updated", 200)
 
     except Comments.DoesNotExist:
         raise HTTPException(status_code=404, detail="comment not found")
@@ -192,21 +140,28 @@ async def update_user(user_id: int, comment: EditComment):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="unable to update comment"
+            detail="unable to update comment",
         )
 
+
 "Delete comment here"
-@app.delete("/comments/{comment_id}")
-async def update_user(comment_id: int, user_id: int):
+
+
+@app.delete("/comment/{comment_id}")
+async def delete_comment(comment_id: int, auth: UserAuth):
     try:
+        if not is_valid_user(auth):
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+        # Get the comment
         comment = Comments.get_by_id(comment_id)
-
-        if user_id != comment.user_id.id:
-            raise HTTPException(
-                status_code=403, detail="Unable to delete comment"
-            )
-
+        # Get the author of the comment
+        author = Users.get(Users.username == auth.username)
+        # Check if the auth is for the comment author
+        if not auth.username == author.username:
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+        # delete comment
         comment.delete_instance()
+        return success_response("Comment deleted", 200)
 
     except Comments.DoesNotExist:
         raise HTTPException(status_code=404, detail="Comment not found")
@@ -214,18 +169,19 @@ async def update_user(comment_id: int, user_id: int):
         raise HTTPException(status_code=500, detail="An error occurred")
 
 
-'''AI/ML API Calls'''
-@app.post("/upload_image/", status_code=status.HTTP_201_CREATED)
+"""AI/ML API Calls"""
+
+
+@app.post("/upload_image", status_code=status.HTTP_201_CREATED)
 async def create_upload_file(file: UploadFile = File(...)):
     if file.content_type != "image/jpeg":
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, 
-            detail="only jpg images"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="only jpg images"
         )
 
     file.filename = f"{uuid.uuid4()}.jpg"
     file_path = f"{IMAGEDIR}{file.filename}"
-   
+
     # writing contents to file
     try:
         contents = await file.read()
@@ -234,18 +190,19 @@ async def create_upload_file(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="File image upload failed"
+            detail="File image upload failed",
         )
 
-    # predicting the weather based on image 
+    # predicting the weather based on image
     try:
-        prediction = cv_forecast_image(file_path, PATH='./model/vision_model.pth')
+        prediction = cv_forecast_image(file_path, PATH="./model/vision_model.pth")
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="image prediction failed"
+            detail="image prediction failed",
         )
 
     return {"prediction": prediction, "filename": file.filename, "status_code": 201}
+
 
 # clothing reccomender api call
