@@ -1,14 +1,13 @@
 <template>
   <div>
-    <input 
-        type="text"
-        v-model="searchQuery"
-        @input="onSearch"
-        placeholder="Search for a city..."
+    <input
+      type="text"
+      v-model="searchQuery"
+      @input="onSearch"
+      placeholder="Search for a city..."
     />
   </div>
 </template>
-
 
 <script>
 export default {
@@ -25,14 +24,11 @@ export default {
 };
 </script>
 
-
 <style scoped>
-
 input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
 }
-
 </style>
