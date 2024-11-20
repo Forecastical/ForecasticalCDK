@@ -15,10 +15,6 @@
           <p class="forecast">Today's Forecast: {{ todayForecast }}</p>
         </div>
 
-        <div class="search-section">
-          <SearchBar @search="handleSearch" />
-        </div>
-
         <div class="weekly-forecast">
           <h2>Weekly Forecast</h2>
           <div class="forecast-grid">
@@ -39,6 +35,12 @@
               </p>
             </div>
           </div>
+        </div>
+
+        <div class="search-section">
+          <SearchBar 
+            @location-selected="handleSearch"
+           />
         </div>
 
         <div class="update-location">
@@ -80,6 +82,7 @@
 <script>
 import MapCard from "./MapCard.vue";
 import SearchBar from "./SearchBar.vue";
+
 import WeatherIcon from "./WeatherIcon.vue";
 import { weatherService, WEATHER_CODES } from "@/services/weatherApi";
 import { geocodingService } from "@/services/geocodingApi";
@@ -112,16 +115,25 @@ export default {
       todayForecast: "---",
       weeklyConditions: [],
       sunTimes: null,
-      loading: false,
-      error: null,
+      loading: {
+        search: false,
+        weather: false
+      },
+      error: {
+        search: null,
+        weather: null
+      },
+      results: {
+        search: null
+      }
     };
   },
 
   methods: {
     async fetchWeatherData() {
       try {
-        this.loading = true;
-        this.error = null;
+        this.loading.weather = true;
+        this.error.weather = null;
 
         if (!this.latitude || !this.longitude) {
           const position = await this.getUserLocation();
@@ -178,9 +190,9 @@ export default {
         };
       } catch (error) {
         console.error("Error fetching weather data:", error);
-        this.error = "Failed to fetch weather data";
+        this.error.weather = "Failed to fetch weather data";
       } finally {
-        this.loading = false;
+        this.loading.weather = false;
       }
     },
 
@@ -207,13 +219,13 @@ export default {
       }
     },
 
-    async handleSearch(query) {
+    async handleSearch(location) {
       try {
-        const locations = await geocodingService.searchLocations(query);
-        if (locations.length > 0) {
-          const location = locations[0];
+        //const locations = await geocodingService.searchLocations(query);
+        if (location) {
           this.latitude = location.latitude;
           this.longitude = location.longitude;
+          this.city = location.city;
           await this.fetchWeatherData();
 
           // Fetch and update the city name
@@ -221,7 +233,7 @@ export default {
           console.log("Updated City Name:", this.currentLocation);
         }
       } catch (error) {
-        console.error("Error searching location:", error);
+        console.error("Error searching weather for new location:", error);
       }
     },
 
