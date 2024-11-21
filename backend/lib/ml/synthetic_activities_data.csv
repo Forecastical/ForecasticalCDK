@@ -1,0 +1,1001 @@
+Age,Temperature,Condition,Activity
+3,40,windy,swim
+91,29,snowy,fly kites
+54,60,cloudy,garden
+34,47,windy,fly kites
+83,56,cloudy,play board games
+72,45,rainy,read
+62,51,sunny,picnic
+92,28,sunny,read
+91,45,windy,play board games
+8,48,rainy,read
+60,53,windy,fly kites
+80,84,sunny,garden
+85,60,cloudy,garden
+95,79,cloudy,garden
+15,44,snowy,play board games
+94,51,rainy,play board games
+83,46,windy,picnic
+57,11,cloudy,play board games
+12,7,snowy,play board games
+29,33,sunny,garden
+91,31,sunny,play board games
+60,23,sunny,read
+1,11,sunny,play board games
+48,44,sunny,garden
+75,51,windy,read
+63,74,cloudy,read
+23,74,sunny,fly kites
+90,54,sunny,read
+88,31,snowy,read
+64,35,rainy,read
+70,24,windy,play board games
+14,55,sunny,fly kites
+91,91,cloudy,swim
+55,48,windy,fly kites
+65,54,windy,hike
+86,55,cloudy,play board games
+58,46,windy,read
+63,17,cloudy,read
+51,0,snowy,play board games
+14,76,sunny,run
+87,62,cloudy,garden
+58,44,windy,fly kites
+32,66,sunny,garden
+54,72,sunny,picnic
+10,53,windy,fly kites
+7,46,sunny,hike
+47,11,sunny,run
+90,89,rainy,swim
+72,61,sunny,garden
+79,62,windy,fly kites
+45,17,sunny,read
+78,72,sunny,garden
+52,50,rainy,play board games
+60,24,snowy,read
+2,79,rainy,picnic
+25,86,cloudy,hike
+61,59,windy,fly kites
+32,50,windy,read
+66,51,windy,play board games
+41,43,rainy,run
+33,43,rainy,hike
+9,62,cloudy,garden
+31,77,cloudy,garden
+59,70,windy,hike
+77,62,windy,fly kites
+25,100,sunny,run
+62,25,snowy,read
+87,40,cloudy,read
+95,25,snowy,read
+37,70,windy,picnic
+44,53,rainy,read
+93,43,cloudy,hike
+52,55,rainy,picnic
+92,16,cloudy,play board games
+73,62,rainy,fly kites
+51,0,windy,run
+95,95,cloudy,hike
+44,44,sunny,run
+40,93,cloudy,run
+81,57,windy,fly kites
+26,42,windy,read
+15,41,windy,play board games
+27,50,sunny,read
+44,38,rainy,play board games
+46,48,sunny,garden
+91,64,cloudy,picnic
+40,55,cloudy,run
+51,83,cloudy,swim
+46,71,sunny,fly kites
+46,67,rainy,play board games
+38,22,snowy,read
+45,86,sunny,play board games
+29,62,sunny,play board games
+80,21,snowy,play board games
+46,54,cloudy,fly kites
+48,52,cloudy,read
+34,45,rainy,play board games
+46,56,windy,fly kites
+98,77,cloudy,garden
+90,50,sunny,read
+95,82,windy,play board games
+46,62,sunny,run
+46,20,cloudy,read
+96,44,snowy,play board games
+29,37,rainy,read
+62,64,windy,fly kites
+35,63,windy,read
+15,69,rainy,picnic
+12,60,windy,swim
+28,37,cloudy,picnic
+7,40,rainy,play board games
+1,55,windy,garden
+87,26,cloudy,play board games
+4,11,windy,fly kites
+92,59,sunny,garden
+52,31,snowy,play board games
+45,41,rainy,read
+47,46,rainy,read
+57,69,windy,fly kites
+16,31,sunny,read
+4,10,cloudy,play board games
+20,47,cloudy,read
+48,76,cloudy,picnic
+4,66,windy,play board games
+36,49,cloudy,play board games
+9,85,windy,play board games
+15,59,cloudy,hike
+77,77,sunny,garden
+59,6,snowy,play board games
+6,36,windy,picnic
+8,15,snowy,fly kites
+73,30,snowy,play board games
+5,56,cloudy,run
+53,30,rainy,run
+41,74,sunny,fly kites
+3,35,snowy,play board games
+92,50,sunny,fly kites
+55,74,sunny,hike
+17,40,windy,fly kites
+11,42,windy,read
+58,51,windy,fly kites
+64,74,windy,fly kites
+33,52,sunny,fly kites
+27,23,cloudy,read
+42,16,sunny,read
+42,42,cloudy,play board games
+51,81,sunny,garden
+5,29,cloudy,read
+39,18,snowy,play board games
+67,29,windy,fly kites
+11,37,cloudy,swim
+26,76,sunny,hike
+11,91,cloudy,garden
+73,68,sunny,read
+77,70,sunny,garden
+57,13,cloudy,read
+12,44,sunny,run
+32,42,cloudy,fly kites
+52,56,rainy,play board games
+28,71,rainy,garden
+21,78,windy,picnic
+17,8,windy,fly kites
+50,89,sunny,fly kites
+62,74,windy,fly kites
+59,25,snowy,play board games
+33,66,rainy,picnic
+11,57,windy,swim
+34,70,sunny,garden
+38,40,rainy,fly kites
+16,39,sunny,run
+11,18,windy,read
+28,75,cloudy,run
+55,78,sunny,swim
+18,78,sunny,garden
+30,91,sunny,hike
+90,20,sunny,hike
+55,56,windy,picnic
+58,38,cloudy,fly kites
+86,38,windy,read
+56,28,cloudy,play board games
+13,23,windy,play board games
+50,84,sunny,play board games
+84,61,cloudy,play board games
+73,31,windy,read
+97,50,cloudy,play board games
+23,0,windy,fly kites
+61,78,windy,garden
+86,69,rainy,hike
+90,69,sunny,play board games
+9,84,rainy,hike
+61,37,windy,read
+91,72,cloudy,picnic
+30,11,sunny,read
+9,89,rainy,picnic
+11,50,cloudy,read
+86,74,windy,picnic
+63,58,rainy,read
+53,65,windy,fly kites
+97,39,cloudy,garden
+9,41,sunny,hike
+57,77,sunny,run
+69,42,cloudy,play board games
+11,51,rainy,hike
+95,17,windy,fly kites
+88,27,sunny,read
+13,100,windy,read
+40,63,cloudy,read
+64,45,windy,fly kites
+85,30,sunny,read
+17,33,cloudy,fly kites
+1,0,windy,fly kites
+7,72,rainy,swim
+97,87,sunny,read
+75,37,rainy,read
+62,71,sunny,swim
+10,72,rainy,play board games
+9,74,rainy,picnic
+64,25,cloudy,play board games
+92,49,sunny,fly kites
+65,3,cloudy,play board games
+6,37,rainy,hike
+11,73,sunny,run
+95,29,windy,play board games
+80,58,cloudy,hike
+81,69,rainy,play board games
+13,24,snowy,read
+70,16,cloudy,read
+52,65,cloudy,garden
+64,53,cloudy,hike
+16,57,windy,fly kites
+80,28,snowy,read
+12,69,rainy,run
+57,53,cloudy,read
+84,56,windy,play board games
+37,62,sunny,read
+40,89,cloudy,swim
+3,86,sunny,picnic
+77,29,snowy,play board games
+7,33,cloudy,play board games
+43,36,rainy,read
+70,65,rainy,read
+48,21,sunny,fly kites
+98,80,cloudy,picnic
+91,73,sunny,garden
+34,60,sunny,garden
+62,14,snowy,play board games
+76,56,cloudy,picnic
+64,19,sunny,read
+60,72,sunny,swim
+42,35,rainy,read
+20,76,sunny,picnic
+1,40,snowy,play board games
+47,79,sunny,hike
+98,100,rainy,play board games
+67,66,sunny,play board games
+84,52,cloudy,play board games
+41,16,snowy,read
+47,42,windy,fly kites
+64,77,cloudy,read
+63,45,sunny,play board games
+61,48,rainy,read
+83,100,windy,fly kites
+92,44,sunny,garden
+66,28,snowy,play board games
+81,88,sunny,play board games
+27,40,cloudy,fly kites
+39,59,sunny,fly kites
+1,44,windy,picnic
+80,69,cloudy,play board games
+62,0,windy,read
+33,46,windy,fly kites
+42,40,rainy,garden
+66,41,windy,read
+66,40,sunny,read
+8,35,rainy,read
+22,33,cloudy,hike
+38,28,sunny,hike
+47,34,sunny,read
+97,26,sunny,garden
+46,75,sunny,garden
+57,84,rainy,run
+3,53,sunny,fly kites
+44,52,cloudy,hike
+88,54,cloudy,play board games
+92,52,cloudy,fly kites
+35,50,windy,play board games
+29,85,sunny,hike
+88,63,rainy,play board games
+91,36,windy,hike
+26,55,cloudy,swim
+98,51,windy,play board games
+15,32,cloudy,garden
+77,38,rainy,read
+85,35,rainy,play board games
+11,54,cloudy,swim
+13,38,rainy,run
+6,22,windy,read
+74,34,cloudy,read
+33,67,rainy,read
+29,54,sunny,hike
+84,48,rainy,read
+60,52,windy,fly kites
+18,68,sunny,play board games
+71,50,windy,read
+52,41,rainy,read
+91,66,sunny,picnic
+53,51,sunny,picnic
+50,10,snowy,read
+78,73,windy,garden
+33,92,sunny,picnic
+73,34,cloudy,read
+31,64,cloudy,hike
+65,81,sunny,garden
+16,49,rainy,fly kites
+67,40,windy,garden
+74,39,cloudy,fly kites
+23,0,snowy,read
+81,47,snowy,fly kites
+84,64,rainy,read
+81,43,windy,fly kites
+64,73,sunny,play board games
+57,2,cloudy,play board games
+95,39,windy,read
+1,69,windy,play board games
+80,63,windy,garden
+94,19,cloudy,play board games
+2,27,windy,fly kites
+83,94,cloudy,garden
+49,48,cloudy,play board games
+78,48,cloudy,read
+22,45,cloudy,picnic
+39,90,sunny,picnic
+76,57,cloudy,read
+35,34,sunny,play board games
+20,72,sunny,picnic
+27,41,rainy,run
+24,55,sunny,hike
+13,37,rainy,run
+30,41,cloudy,picnic
+43,82,sunny,garden
+28,68,windy,fly kites
+74,13,sunny,hike
+22,42,rainy,picnic
+29,27,windy,hike
+93,44,cloudy,play board games
+25,46,windy,fly kites
+76,78,windy,fly kites
+25,60,sunny,picnic
+83,50,rainy,picnic
+95,58,windy,read
+45,37,windy,picnic
+2,100,sunny,fly kites
+33,45,sunny,read
+23,74,windy,garden
+33,20,snowy,read
+40,84,sunny,run
+16,17,sunny,run
+8,30,windy,fly kites
+67,71,sunny,garden
+28,20,sunny,run
+17,77,sunny,picnic
+63,48,cloudy,fly kites
+24,0,cloudy,hike
+98,100,sunny,read
+81,41,rainy,read
+6,58,windy,hike
+91,51,sunny,read
+83,86,rainy,play board games
+47,26,cloudy,play board games
+81,100,rainy,read
+86,29,rainy,read
+2,31,snowy,play board games
+81,75,sunny,garden
+76,15,snowy,play board games
+51,48,rainy,play board games
+51,59,windy,fly kites
+12,66,rainy,play board games
+46,56,cloudy,hike
+81,73,windy,fly kites
+54,32,sunny,hike
+70,69,sunny,hike
+43,81,sunny,run
+90,26,snowy,play board games
+72,73,cloudy,read
+73,49,sunny,hike
+59,34,rainy,fly kites
+79,18,windy,read
+54,49,rainy,picnic
+16,64,cloudy,run
+84,16,windy,read
+8,54,rainy,fly kites
+89,28,snowy,read
+2,24,snowy,picnic
+70,7,cloudy,read
+8,52,sunny,garden
+72,30,cloudy,play board games
+8,52,sunny,run
+62,35,cloudy,fly kites
+72,83,sunny,garden
+1,84,cloudy,picnic
+36,74,sunny,hike
+89,91,sunny,picnic
+33,66,cloudy,picnic
+24,58,sunny,run
+20,51,rainy,read
+94,25,snowy,play board games
+33,69,cloudy,picnic
+90,29,snowy,play board games
+3,8,cloudy,read
+92,49,rainy,play board games
+93,50,windy,play board games
+68,41,rainy,fly kites
+57,46,windy,fly kites
+17,98,sunny,run
+51,30,cloudy,fly kites
+38,38,cloudy,play board games
+68,34,cloudy,hike
+17,82,sunny,garden
+36,86,sunny,play board games
+11,83,sunny,garden
+64,52,rainy,read
+6,23,windy,run
+9,41,rainy,play board games
+43,62,windy,fly kites
+46,40,cloudy,play board games
+97,49,rainy,read
+7,71,sunny,run
+91,69,windy,garden
+38,65,cloudy,fly kites
+86,59,sunny,fly kites
+47,69,cloudy,fly kites
+25,77,cloudy,picnic
+43,64,sunny,garden
+26,69,rainy,picnic
+33,11,snowy,play board games
+67,78,sunny,garden
+65,74,sunny,swim
+55,53,sunny,hike
+84,79,sunny,garden
+80,34,cloudy,garden
+52,37,cloudy,read
+70,45,windy,fly kites
+43,19,cloudy,read
+19,61,cloudy,swim
+98,56,sunny,garden
+2,100,cloudy,swim
+32,68,cloudy,picnic
+88,69,windy,fly kites
+34,71,rainy,hike
+21,62,rainy,run
+18,36,rainy,run
+48,30,cloudy,fly kites
+29,43,sunny,garden
+8,12,snowy,play board games
+2,39,windy,fly kites
+34,38,cloudy,fly kites
+1,22,snowy,read
+45,53,sunny,hike
+71,32,windy,fly kites
+86,73,windy,hike
+59,56,rainy,play board games
+61,60,windy,garden
+14,92,sunny,play board games
+47,15,windy,fly kites
+42,0,snowy,play board games
+10,35,windy,read
+62,20,rainy,play board games
+50,21,sunny,play board games
+66,74,sunny,garden
+81,51,windy,garden
+41,57,sunny,hike
+43,3,windy,play board games
+54,26,sunny,run
+45,53,windy,run
+66,63,cloudy,swim
+85,79,sunny,picnic
+82,12,sunny,play board games
+55,54,cloudy,play board games
+70,51,windy,fly kites
+10,31,snowy,play board games
+66,87,rainy,hike
+59,81,sunny,run
+54,22,sunny,fly kites
+58,71,sunny,garden
+65,70,windy,garden
+89,29,sunny,hike
+1,48,sunny,garden
+68,62,cloudy,hike
+11,51,sunny,hike
+43,50,cloudy,hike
+24,52,sunny,garden
+83,70,rainy,play board games
+53,52,rainy,play board games
+54,45,cloudy,read
+77,28,windy,play board games
+77,79,sunny,hike
+10,52,windy,fly kites
+41,59,sunny,hike
+80,66,cloudy,hike
+23,100,rainy,run
+50,10,sunny,fly kites
+14,47,windy,play board games
+29,69,sunny,read
+38,33,windy,fly kites
+77,31,windy,read
+78,22,windy,read
+91,65,windy,garden
+62,90,sunny,garden
+9,50,sunny,hike
+29,100,windy,picnic
+10,33,windy,play board games
+94,72,windy,hike
+24,53,sunny,read
+60,71,windy,picnic
+79,92,cloudy,swim
+64,83,sunny,garden
+87,54,sunny,swim
+71,49,cloudy,read
+56,33,cloudy,hike
+12,42,cloudy,run
+43,61,windy,fly kites
+8,59,windy,fly kites
+10,49,windy,hike
+98,29,sunny,hike
+91,93,sunny,read
+30,34,cloudy,play board games
+77,11,sunny,read
+10,56,cloudy,hike
+65,58,cloudy,play board games
+3,58,sunny,play board games
+22,45,cloudy,hike
+39,7,snowy,hike
+93,59,sunny,hike
+80,50,windy,picnic
+76,43,sunny,picnic
+78,49,rainy,play board games
+14,41,rainy,fly kites
+20,41,cloudy,picnic
+16,63,rainy,read
+2,42,windy,play board games
+93,31,snowy,read
+5,24,snowy,hike
+89,49,cloudy,read
+35,54,rainy,picnic
+23,58,windy,picnic
+54,73,windy,fly kites
+8,69,sunny,play board games
+18,57,windy,fly kites
+63,68,windy,garden
+8,20,windy,fly kites
+30,45,windy,play board games
+66,67,rainy,read
+84,48,windy,read
+67,19,windy,play board games
+21,55,cloudy,play board games
+11,29,sunny,hike
+62,71,cloudy,play board games
+61,54,windy,read
+21,20,sunny,hike
+65,33,windy,fly kites
+68,49,rainy,read
+49,37,snowy,read
+45,51,sunny,hike
+2,24,sunny,picnic
+47,28,cloudy,read
+55,85,sunny,swim
+70,26,windy,fly kites
+55,41,cloudy,read
+51,44,sunny,garden
+27,69,sunny,hike
+87,43,cloudy,read
+16,45,rainy,play board games
+56,38,cloudy,garden
+57,28,cloudy,read
+69,19,snowy,play board games
+2,11,cloudy,play board games
+6,86,rainy,picnic
+84,52,sunny,picnic
+83,48,sunny,fly kites
+73,78,sunny,picnic
+71,75,sunny,picnic
+15,49,windy,run
+76,62,rainy,garden
+90,56,cloudy,play board games
+2,41,rainy,play board games
+43,55,sunny,picnic
+61,52,sunny,play board games
+27,27,windy,fly kites
+21,96,rainy,swim
+25,45,rainy,garden
+70,40,rainy,read
+45,81,rainy,read
+11,76,windy,hike
+49,4,cloudy,play board games
+33,19,snowy,read
+68,62,cloudy,read
+74,0,snowy,read
+52,69,cloudy,fly kites
+5,77,rainy,play board games
+95,19,snowy,read
+20,52,rainy,hike
+85,42,sunny,read
+91,13,cloudy,play board games
+57,0,sunny,read
+47,48,cloudy,play board games
+75,21,sunny,read
+96,32,snowy,play board games
+51,40,cloudy,picnic
+38,39,cloudy,play board games
+1,45,cloudy,read
+94,85,rainy,picnic
+76,18,snowy,read
+92,27,snowy,play board games
+33,0,snowy,play board games
+22,94,cloudy,garden
+10,42,windy,fly kites
+22,74,cloudy,play board games
+31,53,sunny,garden
+64,42,cloudy,play board games
+32,64,windy,play board games
+53,23,snowy,read
+5,36,cloudy,swim
+97,59,cloudy,garden
+54,100,sunny,garden
+35,69,cloudy,fly kites
+36,59,windy,garden
+12,74,windy,hike
+49,20,sunny,read
+33,5,snowy,read
+7,48,windy,fly kites
+20,44,sunny,garden
+10,16,rainy,play board games
+47,33,rainy,play board games
+59,41,cloudy,read
+74,51,sunny,garden
+54,7,snowy,play board games
+57,23,cloudy,fly kites
+56,69,sunny,picnic
+76,44,cloudy,read
+19,57,cloudy,read
+18,58,sunny,fly kites
+5,52,windy,hike
+3,21,sunny,swim
+26,34,sunny,run
+98,22,rainy,play board games
+56,63,sunny,garden
+5,49,rainy,play board games
+69,62,sunny,swim
+88,47,sunny,garden
+40,55,rainy,picnic
+3,0,cloudy,play board games
+42,38,sunny,read
+45,72,cloudy,garden
+57,21,windy,run
+93,82,cloudy,picnic
+32,46,cloudy,read
+6,42,sunny,play board games
+33,68,cloudy,read
+2,63,sunny,read
+58,36,sunny,garden
+47,41,rainy,picnic
+5,29,sunny,picnic
+59,54,cloudy,fly kites
+74,67,windy,swim
+55,69,sunny,hike
+88,45,sunny,read
+26,48,sunny,picnic
+24,57,sunny,garden
+29,76,sunny,picnic
+37,25,sunny,read
+46,58,sunny,hike
+76,69,windy,read
+98,64,cloudy,garden
+45,59,windy,fly kites
+53,49,rainy,play board games
+33,72,sunny,hike
+52,46,sunny,hike
+28,68,rainy,run
+92,92,sunny,swim
+91,50,cloudy,picnic
+23,27,snowy,play board games
+90,61,rainy,read
+49,55,windy,hike
+33,29,snowy,read
+43,51,windy,run
+90,53,windy,play board games
+60,42,sunny,play board games
+16,6,snowy,read
+95,46,cloudy,play board games
+65,46,sunny,read
+3,53,windy,fly kites
+34,65,cloudy,hike
+35,40,cloudy,garden
+82,60,rainy,read
+2,88,sunny,play board games
+16,73,cloudy,hike
+70,39,rainy,fly kites
+49,50,cloudy,hike
+4,44,rainy,swim
+93,25,snowy,play board games
+71,70,sunny,garden
+84,60,windy,hike
+28,55,cloudy,run
+79,56,rainy,read
+89,43,cloudy,play board games
+11,25,snowy,play board games
+37,0,windy,fly kites
+2,36,cloudy,play board games
+83,43,windy,play board games
+15,9,snowy,fly kites
+64,71,sunny,garden
+82,35,windy,play board games
+8,62,cloudy,hike
+37,71,windy,read
+9,53,rainy,hike
+93,40,windy,play board games
+27,49,cloudy,read
+40,65,sunny,picnic
+65,71,sunny,hike
+71,53,sunny,picnic
+81,99,sunny,picnic
+44,30,windy,play board games
+28,32,cloudy,play board games
+82,85,rainy,garden
+81,84,sunny,picnic
+65,30,sunny,read
+79,53,sunny,play board games
+43,53,cloudy,swim
+5,82,sunny,hike
+25,93,sunny,hike
+38,67,rainy,hike
+28,13,sunny,garden
+61,82,sunny,hike
+54,39,rainy,read
+47,46,windy,run
+58,93,windy,fly kites
+67,82,rainy,hike
+6,21,cloudy,hike
+29,27,windy,play board games
+52,47,sunny,hike
+21,60,sunny,picnic
+82,25,snowy,read
+17,60,cloudy,garden
+43,81,sunny,garden
+63,46,windy,play board games
+79,47,snowy,play board games
+5,26,sunny,hike
+50,54,windy,garden
+40,59,windy,picnic
+12,58,sunny,garden
+85,42,windy,picnic
+39,31,snowy,read
+74,68,sunny,garden
+51,67,rainy,play board games
+77,55,windy,read
+22,54,rainy,read
+64,48,rainy,play board games
+73,30,snowy,read
+43,50,sunny,garden
+34,76,rainy,play board games
+48,33,rainy,read
+71,42,windy,play board games
+1,48,windy,picnic
+23,63,rainy,run
+54,48,windy,fly kites
+87,33,windy,read
+58,33,snowy,read
+6,58,sunny,hike
+70,55,rainy,play board games
+48,30,snowy,play board games
+72,63,cloudy,play board games
+21,63,cloudy,play board games
+46,51,sunny,fly kites
+62,87,sunny,garden
+77,83,rainy,swim
+53,53,cloudy,hike
+43,60,cloudy,fly kites
+24,5,snowy,play board games
+2,70,windy,swim
+31,37,rainy,picnic
+22,34,rainy,picnic
+50,60,rainy,run
+78,50,sunny,picnic
+5,40,rainy,read
+24,74,sunny,run
+3,37,windy,play board games
+44,86,sunny,hike
+8,91,sunny,hike
+90,67,windy,picnic
+54,0,snowy,play board games
+53,37,rainy,play board games
+87,20,snowy,read
+42,21,windy,hike
+50,49,windy,fly kites
+66,46,windy,read
+83,90,sunny,swim
+14,68,sunny,picnic
+25,35,windy,fly kites
+82,43,rainy,hike
+1,34,windy,swim
+27,88,sunny,picnic
+83,84,windy,fly kites
+32,0,snowy,fly kites
+42,100,rainy,swim
+93,54,sunny,garden
+58,64,sunny,read
+5,46,cloudy,hike
+18,38,rainy,read
+35,47,cloudy,fly kites
+73,33,rainy,play board games
+83,93,windy,hike
+60,63,sunny,hike
+21,54,sunny,picnic
+24,100,rainy,swim
+27,19,windy,fly kites
+40,45,windy,fly kites
+66,5,snowy,play board games
+63,0,windy,play board games
+55,59,sunny,garden
+63,32,windy,read
+43,81,windy,run
+31,48,cloudy,read
+36,44,rainy,read
+22,34,cloudy,play board games
+32,59,windy,fly kites
+33,79,cloudy,hike
+11,88,sunny,hike
+67,93,sunny,read
+71,65,rainy,read
+63,58,rainy,play board games
+4,37,windy,play board games
+2,60,windy,read
+52,100,sunny,fly kites
+64,40,snowy,play board games
+11,20,snowy,play board games
+16,84,rainy,run
+21,73,sunny,play board games
+71,0,windy,fly kites
+1,4,sunny,play board games
+45,97,cloudy,swim
+67,54,cloudy,read
+59,67,sunny,hike
+49,73,rainy,read
+32,45,sunny,read
+11,50,rainy,swim
+19,43,rainy,garden
+1,42,windy,play board games
+44,54,sunny,picnic
+34,36,rainy,read
+52,37,cloudy,garden
+98,61,rainy,read
+12,44,windy,play board games
+61,100,rainy,play board games
+49,78,sunny,run
+27,59,cloudy,fly kites
+44,64,sunny,hike
+66,48,rainy,play board games
+21,49,rainy,read
+77,47,rainy,hike
+54,52,cloudy,hike
+69,93,cloudy,garden
+88,43,windy,read
+42,0,sunny,read
+13,58,cloudy,picnic
+60,77,sunny,run
+45,63,cloudy,read
+67,23,windy,read
+18,57,sunny,picnic
+93,64,sunny,play board games
+80,12,cloudy,play board games
+78,0,sunny,garden
+28,12,sunny,play board games
+3,37,cloudy,swim
+22,64,sunny,read
+47,48,cloudy,run
+58,24,rainy,play board games
+77,86,cloudy,swim
+22,75,sunny,swim
+15,30,rainy,read
+40,26,snowy,read
+7,43,cloudy,hike
+29,75,sunny,picnic
+13,29,windy,play board games
+11,50,cloudy,play board games
+25,98,windy,hike
+56,28,snowy,read
+50,52,cloudy,read
+17,87,cloudy,garden
+32,17,sunny,fly kites
+60,9,windy,read
+16,37,snowy,read
+58,73,sunny,hike
+86,79,sunny,swim
+74,37,cloudy,hike
+31,24,windy,fly kites
+75,63,sunny,garden
+53,57,cloudy,garden
+40,89,cloudy,garden
+59,0,cloudy,play board games
+51,65,sunny,garden
+38,27,snowy,read
+61,10,snowy,play board games
+51,41,windy,hike
+56,17,cloudy,run
+50,46,rainy,run
+40,71,windy,fly kites
+28,84,sunny,hike
+26,49,sunny,hike
+34,12,windy,fly kites
+54,10,snowy,play board games
+33,23,snowy,play board games
+89,51,windy,fly kites
+47,85,windy,garden
+82,100,sunny,garden
+22,37,windy,fly kites
+82,42,rainy,play board games
+46,29,snowy,read
+21,71,sunny,hike
+6,75,sunny,hike
+69,59,sunny,read
+56,48,rainy,read
+46,53,rainy,read
+25,66,cloudy,picnic
+66,38,rainy,read
+74,91,rainy,swim
+64,32,rainy,fly kites
+79,44,windy,read
+15,56,rainy,read
+34,36,rainy,read
+68,49,windy,fly kites
+95,33,windy,play board games
+42,28,windy,play board games
+22,63,rainy,read
+52,89,cloudy,swim
+15,94,rainy,read
+20,66,sunny,play board games
+83,52,rainy,play board games
+96,72,windy,garden
+56,30,rainy,read
+96,67,windy,swim
+50,97,cloudy,run
+32,50,cloudy,run
+55,36,windy,fly kites
+59,0,sunny,hike
+29,57,rainy,play board games
+5,61,cloudy,run
+12,66,sunny,hike
+1,50,rainy,fly kites
+55,40,cloudy,garden
+81,4,snowy,play board games
+90,68,sunny,read
+79,67,cloudy,play board games
+4,98,rainy,swim
+1,100,sunny,picnic
+83,50,windy,read
+73,57,cloudy,read
+36,41,rainy,read
+45,57,windy,swim
+7,36,cloudy,swim
+62,52,windy,hike
+54,41,windy,fly kites
+37,16,cloudy,read
+29,50,windy,hike
+65,31,sunny,garden
+47,88,sunny,play board games
+65,38,cloudy,garden
+42,51,sunny,read
+12,0,windy,read
+44,28,cloudy,read
+83,60,rainy,picnic
+66,39,windy,read
+64,54,cloudy,read
+29,77,cloudy,hike
+94,24,snowy,play board games
+89,36,rainy,read
+31,33,cloudy,run
+67,60,windy,play board games
+81,0,sunny,fly kites
+33,75,sunny,picnic
+96,25,sunny,read
+61,59,windy,play board games
+34,15,cloudy,read
+88,70,sunny,picnic
+69,40,rainy,play board games
+11,58,rainy,run
+62,57,sunny,play board games
+45,100,cloudy,swim
+76,42,rainy,play board games
+33,78,sunny,play board games
+85,62,cloudy,picnic
+43,85,sunny,hike
+86,64,cloudy,hike
+88,58,cloudy,play board games
+65,68,sunny,garden
+93,44,windy,fly kites
+67,33,sunny,read
+93,64,rainy,play board games
+34,8,sunny,play board games
+30,60,windy,run
+48,36,rainy,read

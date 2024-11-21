@@ -6,15 +6,8 @@ temperatures = range(0, 100)
 conditions = ["sunny", "cloudy", "rainy", "snowy", "windy"]
 
 activity_suggestions = [
-        "shovel",
-        "umbrella",
-        "sun screeen",
-        "ice scraper",
-        "sun screen",
-        "lip balm",
-        "sunscreen",
-        "head-phones",
-    ]
+   'hike','read', 'play board games','run', 'garden','picnic','swim', 'fly kites'
+]
 
 # Probabilistic rules
 def get_clothing(age, temp, condition):
