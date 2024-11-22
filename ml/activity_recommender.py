@@ -22,13 +22,11 @@ TF-IDF will be chosen for now. One model with user profiles.
 
 """
 # gender, age, height, weather
-
 data = {
-'tool':['shovel','ice scraper' 'umbrella','sun screeen', 'ice scraper','sun screen','umbrella', 'lip balm', 'ice scraper', 'ice scraper', 'sunscreen', 'sunglasses'],
+'activities':['hike','read', 'play board games','run', 'garden','picnic','swim', 'fly kites', 'jeans', 'scarf', 't-shirt'],
 'gender':['male', 'female','male','male', 'male','female', 'male', 'female', 'female', 'male', 'female'],
 'age':['adult','young adult','young adult','adult', 'young adult','young adult', 'young adult', 'teen', 'adult', 'elderly', 'adult'],
 'weather': ['cold', 'cold', 'rainy', 'sunny', 'cold', 'sunny', 'rainy', 'cold', 'cold', 'sunny', 'sunny']
-
 }
 
 for key in data.keys(): print(key, len(data[key]))
@@ -79,7 +77,7 @@ class ClothingRecommender():
 
     def save_model(self)->None:
         os.makedirs('model', exist_ok=True)
-        with open('./model/tool_model.pkl', 'wb') as file:
+        with open('./model/activities_model.pkl', 'wb') as file:
             pickle.dump(self.model, file)
         print("Model generated.")
 
@@ -92,13 +90,20 @@ if __name__ == '__main__':
    features = ['gender', 'age', 'weather']
    model = ClothingRecommender(model = RandomForestClassifier(), feedback = None)
    X = df.drop(columns=features)
-   y = df['tool']
+   y = df['activities']
    model.preprocess(X = X, y = y)
    model.train()
    recommendations = model.predict(k = 2)
    print(model.get_converted_features(recommendations))
    model.save_model()
-   loaded_model = model.load_model(filename = './model/tool_model.pkl')
-   model.model = loaded_model
+#    loaded_model = model.load_model(filename = './model/activities_model.pkl')
+#    model.model = loaded_model
    print(model.get_converted_features(model.predict(k = 3)))
+
+
+
+    
+
+
+
 

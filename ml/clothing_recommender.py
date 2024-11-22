@@ -63,7 +63,7 @@ class ClothingRecommender():
         classes =  self.label_encoder.inverse_transform(recommendations[0])
         return classes
     
-    def get_classes_ordered(self, classes, order='higest'):
+    def get_classes_ordered(self, classes, order='highest'):
         if order == 'highest':
             return reversed(classes)
         elif order == 'lowest':
