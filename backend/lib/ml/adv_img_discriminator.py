@@ -18,7 +18,7 @@ import math
 import torchvision.models as models
 import torch.nn.functional as F
 
-def cv_forecast_image(PATH ='./model/vision_model.pth', image_name = 'data/dataset/frost/3603.jpg', threshold=0.5):
+def cv_forecast_image(PATH ='./model/vision_model.pth', image_filename = 'data/dataset/frost/3603.jpg', threshold=0.5):
 
     model = models.vit_b_16(pretrained=True)
     model.heads.head = torch.nn.Linear(in_features=768, out_features=11)
@@ -39,7 +39,7 @@ def cv_forecast_image(PATH ='./model/vision_model.pth', image_name = 'data/datas
     transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
-    img = Image.open(image_name)
+    img = Image.open(image_filename)
     img_tensor = preprocess(img).unsqueeze(0)
 
     entropy = 0
