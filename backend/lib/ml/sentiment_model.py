@@ -25,7 +25,7 @@ comments = [
 ]
 
 def get_comments(pipeline_type = "sentiment-analysis",comments = comments):
-    sentiment_pipeline = pipeline("sentiment-analysis")
+    sentiment_pipeline = pipeline(pipeline_type)
 
     results = sentiment_pipeline(comments)
     sentiment_counts = {"POSITIVE": 0, "NEGATIVE": 0, "NEUTRAL": 0}
