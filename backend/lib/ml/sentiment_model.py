@@ -11,11 +11,9 @@ import torch
 
 from transformers import pipeline
 
-# Load sentiment analysis pipeline
-sentiment_pipeline = pipeline("sentiment-analysis")
 
 
-# Comments for sentiment analysis
+# example of comment param
 comments = [
     "I hate this experience.",
     "I love this product!",
@@ -26,15 +24,20 @@ comments = [
     "I hate this experience."
 ]
 
-results = sentiment_pipeline(comments)
-sentiment_counts = {"POSITIVE": 0, "NEGATIVE": 0, "NEUTRAL": 0}
+def get_comments(pipeline_type = "sentiment-analysis",comments = comments):
+    sentiment_pipeline = pipeline("sentiment-analysis")
 
-for result in results:
-    label = result['label']
-    sentiment_counts[label] += 1
+    results = sentiment_pipeline(comments)
+    sentiment_counts = {"POSITIVE": 0, "NEGATIVE": 0, "NEUTRAL": 0}
 
-overall_sentiment = max(sentiment_counts, key=sentiment_counts.get)
-print(overall_sentiment)
+    for result in results:
+        label = result['label']
+        sentiment_counts[label] += 1
+
+    overall_sentiment = max(sentiment_counts, key=sentiment_counts.get)
+
+    return overall_sentiment
+#print(overall_sentiment)
 
 
 
