@@ -63,8 +63,8 @@ class ClothingRecommender:
         )
         self.model.fit(self.X_train, self.Y_train)
 
-    def predict(self, k: int):
-        predicted_probs = self.model.predict_proba(self.X_test)
+    def predict(self, new_features, k: int):
+        predicted_probs = self.model.predict_proba(new_features)
         predicted_recommendations = np.argsort(predicted_probs, axis=1)[:, -k:]
         return predicted_recommendations
 
@@ -103,9 +103,7 @@ if __name__ == "__main__":
     
     recommendations = model.predict(k=2)
     print(model.get_converted_features(recommendations))
-    #model.save_model()
-    loaded_model = model.load_model(filename="./model/clothing_model.pkl")
-    model.model = loaded_model
-    rec = str(model.get_converted_features(model.predict(k=3)))
+    model.save_model()
+   
     
     

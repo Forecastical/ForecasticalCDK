@@ -2,6 +2,8 @@ import openmeteo_requests
 import requests_cache
 import pandas as pd
 from retry_requests import retry
+from openmeteo_sdk.Variable import Variable
+
 
 class WeatherDataProcessor:
     def __init__(self):
@@ -19,23 +21,28 @@ class WeatherDataProcessor:
             "hourly": "weather_code",
         }
         
+        def celsius_to_fahrenheit(celsius):
+                fahrenheit = (celsius * 9/5) + 32
+                return fahrenheit
+
         # get API response from open meteo
         try:
-            responses = self.openmeteo.weather_api(
-                url=url,
-                params=params
-            )
-            
-            # current API responses for weather code and temp
-            info = responses[0] 
-            current = info.Current()
-            temperature = current.variables(0).value()
-            weather_code = current.variables(1).value()
+            responses = self.openmeteo.weather_api("https://api.open-meteo.com/v1/forecast", params=params)
+            response = responses[0]
+            current = response.Current()
+
+            current_variables = list(map(lambda i: current.Variables(i), 
+                range(0, current.VariablesLength())))
+            current_temperature_2m = next(filter(lambda x: x.Variable() 
+                == Variable.temperature and x.Altitude() == 2, current_variables))
+
+            curr_temp = celsius_to_fahrenheit(current_temperature_2m.Value())      
+            weather_code = response.Hourly().Variables(1)
             
             # Extract weather conditions
             return {
                 "current_weather": {
-                    "temperature": temperature,
+                    "temperature": int(curr_temp),
                     "current_code": weather_code
                 }
             }
@@ -56,7 +63,7 @@ class WeatherDataProcessor:
         # Extract current weather information
         temperature = weather_data['current_weather'].get('temperature', 0)
         weathercode = weather_data['current_weather'].get('current_code', 0)
-        
+        print(weathercode)
         # Categorize temperature
         temperature_category = self._categorize_temperature(temperature)
         
@@ -103,4 +110,14 @@ class WeatherDataProcessor:
         else:
             return "windy"
         
-
+# Usage example
+def get_weather_recommendation(latitude, longitude):
+    processor = WeatherDataProcessor()
+    
+    # Fetch weather data
+    weather_data = processor.fetch_weather_data(latitude, longitude)
+   
+    # Process weather data
+    processed_weather = processor.process_weather_data(weather_data)
+    
+    return processed_weather
