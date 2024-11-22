@@ -1,0 +1,1001 @@
+Age,Temperature,Condition,Clothing
+72,44,cloudy,hand sanitizer
+16,28,sunny,lip balm
+43,42,cloudy,lip balm
+41,21,cloudy,hand warmer
+11,73,sunny,sunscreen
+14,85,rainy,sunscreen
+12,43,windy,tissues
+42,79,windy,poncho
+71,24,sunny,hand warmer
+38,37,cloudy,sunglasses
+68,46,rainy,poncho
+92,29,cloudy,tissues
+87,55,cloudy,tissues
+32,56,windy,tissues
+90,90,windy,bag
+49,43,windy,lip balm
+10,31,sunny,umbrella
+61,28,snowy,hand warmer
+23,73,windy,sunscreen
+27,41,sunny,umbrella
+56,22,windy,hand sanitizer
+17,9,snowy,hand warmer
+89,83,windy,sunscreen
+53,46,rainy,hand warmer
+5,29,sunny,tissues
+69,78,sunny,sunscreen
+71,8,sunny,water bottle
+57,51,rainy,umbrella
+78,27,cloudy,lip balm
+90,37,windy,flashlight
+45,64,sunny,lip balm
+33,35,sunny,sunglasses
+1,0,snowy,water bottle
+75,59,windy,sunscreen
+62,71,windy,sunscreen
+21,41,windy,tissues
+9,65,windy,lip balm
+78,43,snowy,bag
+76,79,sunny,sunscreen
+70,0,windy,bag
+26,48,cloudy,hand sanitizer
+63,0,snowy,tissues
+65,4,sunny,hand warmer
+10,53,windy,hand sanitizer
+75,16,snowy,hand warmer
+26,38,rainy,bag
+22,73,rainy,sunglasses
+52,24,snowy,hand warmer
+43,22,snowy,bag
+29,70,windy,lip balm
+46,95,windy,bag
+6,18,rainy,lip balm
+71,4,windy,tissues
+65,33,rainy,portable fan
+7,39,sunny,portable fan
+58,47,cloudy,hand sanitizer
+1,84,windy,bag
+15,57,rainy,poncho
+31,52,cloudy,water bottle
+69,50,cloudy,sunscreen
+22,94,sunny,water bottle
+70,32,cloudy,tissues
+20,26,cloudy,hand warmer
+67,30,sunny,water bottle
+26,12,sunny,hand sanitizer
+81,73,sunny,tissues
+12,16,sunny,sunglasses
+64,46,cloudy,hand warmer
+31,49,cloudy,lip balm
+78,43,rainy,flashlight
+87,79,windy,sunscreen
+96,23,windy,sunscreen
+19,53,rainy,bag
+87,61,windy,water bottle
+30,78,sunny,sunglasses
+17,25,windy,bag
+27,69,rainy,sunglasses
+18,42,windy,hand sanitizer
+64,35,cloudy,sunglasses
+41,48,rainy,umbrella
+13,43,snowy,tissues
+7,53,rainy,umbrella
+96,56,cloudy,hand warmer
+67,62,cloudy,water bottle
+44,48,cloudy,bag
+90,68,sunny,portable fan
+32,25,snowy,hand warmer
+35,0,windy,hand warmer
+13,42,cloudy,tissues
+83,37,windy,water bottle
+88,24,snowy,lip balm
+26,67,rainy,poncho
+48,31,cloudy,hand warmer
+85,36,windy,hand sanitizer
+97,88,rainy,water bottle
+1,45,rainy,tissues
+57,45,snowy,tissues
+60,66,windy,water bottle
+94,53,sunny,water bottle
+1,14,snowy,lip balm
+44,66,windy,umbrella
+89,57,sunny,portable fan
+13,53,cloudy,lip balm
+51,95,sunny,portable fan
+31,94,sunny,hand sanitizer
+69,81,sunny,lip balm
+82,31,snowy,sunglasses
+4,82,rainy,water bottle
+74,26,windy,hand warmer
+61,45,cloudy,umbrella
+4,31,snowy,hand warmer
+31,18,sunny,sunglasses
+50,45,windy,poncho
+68,16,sunny,lip balm
+60,0,windy,umbrella
+69,56,windy,tissues
+98,18,snowy,sunscreen
+97,38,cloudy,sunscreen
+88,42,cloudy,tissues
+39,26,sunny,flashlight
+31,37,windy,tissues
+48,50,windy,lip balm
+39,40,rainy,tissues
+88,5,snowy,lip balm
+58,83,sunny,portable fan
+17,15,windy,tissues
+83,92,sunny,umbrella
+61,72,sunny,umbrella
+23,7,snowy,sunscreen
+92,77,cloudy,water bottle
+80,58,sunny,bag
+40,70,rainy,umbrella
+70,96,sunny,sunglasses
+36,39,sunny,umbrella
+6,59,cloudy,lip balm
+40,34,windy,flashlight
+40,74,cloudy,tissues
+87,68,sunny,tissues
+58,49,cloudy,portable fan
+96,2,snowy,sunscreen
+62,0,sunny,bag
+51,41,cloudy,tissues
+17,56,sunny,sunscreen
+39,30,windy,lip balm
+19,62,windy,bag
+13,31,snowy,tissues
+98,84,rainy,portable fan
+32,14,snowy,flashlight
+41,39,cloudy,hand sanitizer
+86,23,snowy,umbrella
+16,47,cloudy,hand sanitizer
+17,72,rainy,sunscreen
+36,36,windy,hand warmer
+64,76,rainy,bag
+13,60,cloudy,water bottle
+31,5,windy,umbrella
+53,71,windy,bag
+36,50,cloudy,hand sanitizer
+39,100,rainy,umbrella
+83,64,windy,sunscreen
+30,91,rainy,poncho
+98,72,windy,water bottle
+88,72,windy,bag
+66,79,sunny,water bottle
+87,5,cloudy,poncho
+4,64,sunny,sunglasses
+75,64,windy,sunglasses
+20,93,cloudy,portable fan
+72,49,cloudy,hand sanitizer
+4,65,windy,bag
+93,30,snowy,sunscreen
+64,46,cloudy,sunscreen
+16,48,windy,sunscreen
+35,45,windy,hand sanitizer
+73,64,cloudy,bag
+46,39,windy,tissues
+13,88,windy,water bottle
+81,89,windy,bag
+51,44,rainy,water bottle
+70,80,sunny,sunscreen
+98,50,rainy,sunscreen
+36,37,cloudy,umbrella
+56,20,sunny,sunscreen
+12,47,windy,sunglasses
+20,63,windy,tissues
+14,58,windy,sunscreen
+88,74,cloudy,hand sanitizer
+96,17,rainy,hand sanitizer
+1,67,windy,tissues
+16,72,rainy,portable fan
+10,27,snowy,tissues
+91,36,windy,tissues
+20,48,rainy,poncho
+6,65,sunny,portable fan
+22,65,sunny,umbrella
+38,72,rainy,portable fan
+8,79,sunny,water bottle
+28,28,windy,hand warmer
+18,28,cloudy,hand warmer
+49,43,cloudy,hand sanitizer
+57,53,rainy,water bottle
+20,64,rainy,portable fan
+95,37,sunny,water bottle
+18,33,windy,hand warmer
+38,74,windy,bag
+30,28,snowy,hand warmer
+30,19,windy,water bottle
+85,27,windy,hand sanitizer
+91,59,cloudy,sunglasses
+57,30,cloudy,lip balm
+34,22,snowy,bag
+38,80,sunny,water bottle
+51,36,snowy,hand warmer
+18,26,windy,umbrella
+51,46,sunny,umbrella
+76,53,rainy,poncho
+8,63,sunny,tissues
+89,57,sunny,water bottle
+27,64,cloudy,water bottle
+10,21,snowy,hand warmer
+68,1,sunny,water bottle
+15,39,rainy,hand warmer
+75,18,snowy,lip balm
+66,0,cloudy,hand warmer
+77,44,sunny,lip balm
+92,78,sunny,bag
+11,34,cloudy,hand sanitizer
+29,80,cloudy,water bottle
+23,4,snowy,tissues
+31,55,cloudy,lip balm
+23,73,rainy,sunglasses
+3,64,rainy,flashlight
+67,53,cloudy,portable fan
+19,61,rainy,umbrella
+28,9,windy,hand sanitizer
+86,2,windy,hand warmer
+61,67,sunny,water bottle
+69,12,snowy,tissues
+76,91,rainy,umbrella
+96,70,cloudy,water bottle
+88,5,sunny,hand warmer
+22,60,windy,sunglasses
+64,49,windy,tissues
+92,71,sunny,lip balm
+23,0,snowy,tissues
+24,29,sunny,hand sanitizer
+74,50,sunny,flashlight
+75,77,sunny,portable fan
+71,21,snowy,tissues
+16,74,rainy,poncho
+51,51,sunny,hand warmer
+54,0,sunny,sunscreen
+36,35,windy,tissues
+67,40,windy,hand warmer
+63,85,sunny,portable fan
+88,37,windy,lip balm
+52,5,snowy,hand warmer
+25,17,snowy,sunscreen
+64,55,windy,hand warmer
+73,0,windy,hand warmer
+10,92,sunny,water bottle
+45,34,cloudy,sunglasses
+11,59,windy,bag
+44,71,sunny,bag
+72,56,cloudy,lip balm
+20,84,rainy,umbrella
+82,62,sunny,sunscreen
+27,30,cloudy,tissues
+86,44,cloudy,water bottle
+81,78,sunny,bag
+12,34,sunny,sunscreen
+17,89,cloudy,portable fan
+5,2,cloudy,tissues
+88,58,rainy,lip balm
+32,45,windy,poncho
+28,60,rainy,umbrella
+40,34,sunny,sunglasses
+43,100,sunny,sunscreen
+76,10,snowy,tissues
+95,30,windy,lip balm
+61,50,rainy,hand sanitizer
+44,64,sunny,lip balm
+66,20,windy,tissues
+8,91,sunny,portable fan
+96,50,windy,tissues
+1,23,windy,tissues
+9,63,windy,bag
+1,28,snowy,tissues
+15,61,sunny,tissues
+24,34,rainy,sunscreen
+66,57,rainy,poncho
+32,57,sunny,lip balm
+3,37,rainy,tissues
+26,81,rainy,umbrella
+81,12,windy,poncho
+1,29,snowy,lip balm
+29,8,snowy,hand warmer
+25,83,windy,bag
+59,34,windy,umbrella
+75,22,snowy,tissues
+71,35,windy,hand sanitizer
+90,74,cloudy,portable fan
+23,73,sunny,sunscreen
+90,40,cloudy,flashlight
+89,30,snowy,lip balm
+33,54,cloudy,portable fan
+91,63,windy,bag
+24,68,sunny,sunglasses
+26,42,cloudy,sunglasses
+74,86,windy,lip balm
+26,55,windy,bag
+25,73,sunny,water bottle
+9,55,windy,bag
+41,83,windy,bag
+17,66,windy,bag
+36,65,sunny,water bottle
+9,64,rainy,bag
+74,21,cloudy,sunscreen
+70,35,cloudy,tissues
+42,27,sunny,hand warmer
+13,26,snowy,hand warmer
+18,79,sunny,sunglasses
+66,19,windy,bag
+40,49,sunny,sunscreen
+36,25,sunny,lip balm
+37,41,sunny,lip balm
+24,35,rainy,tissues
+35,65,sunny,umbrella
+56,83,cloudy,water bottle
+13,46,cloudy,bag
+33,57,windy,bag
+56,63,sunny,water bottle
+92,94,rainy,umbrella
+80,60,cloudy,lip balm
+8,35,rainy,hand sanitizer
+87,81,cloudy,bag
+43,56,rainy,tissues
+97,70,sunny,portable fan
+47,50,windy,hand sanitizer
+64,56,cloudy,bag
+73,29,snowy,hand sanitizer
+86,74,windy,water bottle
+9,50,windy,hand sanitizer
+44,92,cloudy,sunscreen
+62,45,rainy,umbrella
+66,20,cloudy,tissues
+47,70,sunny,water bottle
+16,44,cloudy,hand sanitizer
+51,89,cloudy,water bottle
+1,60,rainy,water bottle
+14,91,sunny,water bottle
+89,86,cloudy,sunglasses
+62,56,windy,hand sanitizer
+66,97,sunny,water bottle
+58,87,sunny,lip balm
+62,42,snowy,hand warmer
+54,33,windy,tissues
+71,61,rainy,water bottle
+76,36,rainy,umbrella
+17,62,rainy,sunscreen
+54,45,rainy,tissues
+16,0,cloudy,umbrella
+70,54,sunny,bag
+88,24,snowy,hand warmer
+76,24,sunny,lip balm
+90,40,cloudy,bag
+32,11,sunny,hand warmer
+23,72,sunny,sunscreen
+72,82,windy,bag
+48,43,sunny,lip balm
+51,54,cloudy,portable fan
+86,41,rainy,hand sanitizer
+80,24,rainy,sunglasses
+57,68,sunny,water bottle
+20,34,cloudy,sunglasses
+87,70,rainy,umbrella
+57,4,cloudy,hand warmer
+37,100,sunny,sunscreen
+88,57,cloudy,portable fan
+6,34,windy,hand sanitizer
+8,1,snowy,bag
+93,16,snowy,tissues
+10,44,cloudy,hand sanitizer
+6,72,sunny,sunscreen
+68,42,windy,hand warmer
+49,44,rainy,lip balm
+15,52,sunny,sunscreen
+20,49,windy,hand warmer
+92,67,sunny,water bottle
+1,73,sunny,sunscreen
+24,35,sunny,umbrella
+77,74,windy,poncho
+42,36,snowy,portable fan
+73,35,sunny,water bottle
+69,60,windy,hand warmer
+18,12,cloudy,sunglasses
+25,40,windy,bag
+29,85,sunny,bag
+23,55,sunny,lip balm
+82,58,windy,bag
+66,71,sunny,sunscreen
+70,38,rainy,tissues
+83,79,sunny,umbrella
+38,70,sunny,sunglasses
+80,42,sunny,bag
+61,47,rainy,poncho
+17,50,windy,lip balm
+82,15,snowy,tissues
+31,37,snowy,sunscreen
+65,66,rainy,poncho
+4,67,windy,poncho
+28,31,windy,tissues
+69,6,sunny,bag
+17,63,rainy,portable fan
+2,47,sunny,hand warmer
+66,60,sunny,sunscreen
+34,62,windy,water bottle
+83,74,windy,water bottle
+53,42,windy,hand warmer
+62,30,cloudy,bag
+86,78,sunny,hand sanitizer
+6,100,cloudy,lip balm
+59,100,sunny,lip balm
+2,87,sunny,sunglasses
+4,85,sunny,water bottle
+83,72,sunny,sunglasses
+55,29,cloudy,water bottle
+13,80,cloudy,hand sanitizer
+43,51,sunny,umbrella
+34,70,sunny,water bottle
+89,41,cloudy,portable fan
+73,60,rainy,poncho
+97,14,windy,sunscreen
+65,73,sunny,water bottle
+47,44,sunny,tissues
+72,62,cloudy,poncho
+62,45,cloudy,hand sanitizer
+88,30,snowy,hand warmer
+7,62,sunny,water bottle
+98,32,rainy,hand sanitizer
+4,39,cloudy,sunscreen
+16,66,cloudy,tissues
+60,37,cloudy,flashlight
+19,13,snowy,umbrella
+36,94,sunny,water bottle
+37,18,sunny,hand sanitizer
+56,51,cloudy,lip balm
+14,49,windy,bag
+58,36,windy,tissues
+1,84,sunny,portable fan
+17,88,sunny,portable fan
+91,60,windy,lip balm
+60,59,sunny,hand warmer
+10,49,cloudy,lip balm
+43,27,windy,hand warmer
+76,46,windy,lip balm
+84,45,windy,sunglasses
+5,23,windy,poncho
+9,43,cloudy,water bottle
+27,94,sunny,portable fan
+82,17,sunny,sunscreen
+87,23,snowy,hand warmer
+51,54,cloudy,portable fan
+82,46,rainy,poncho
+7,62,windy,bag
+55,73,rainy,umbrella
+32,55,sunny,umbrella
+24,64,windy,bag
+50,27,snowy,hand warmer
+92,16,snowy,sunscreen
+92,0,snowy,umbrella
+66,40,cloudy,flashlight
+62,57,windy,bag
+84,6,sunny,sunscreen
+89,22,windy,tissues
+47,73,cloudy,water bottle
+30,58,cloudy,bag
+54,69,sunny,water bottle
+2,90,windy,water bottle
+5,54,sunny,sunscreen
+22,75,cloudy,tissues
+90,0,cloudy,tissues
+12,55,windy,sunscreen
+15,48,rainy,umbrella
+56,60,cloudy,sunscreen
+28,67,sunny,water bottle
+89,5,windy,sunscreen
+90,38,windy,water bottle
+43,47,cloudy,flashlight
+72,61,windy,lip balm
+25,46,rainy,poncho
+95,47,rainy,tissues
+47,8,cloudy,hand warmer
+47,65,windy,bag
+57,100,rainy,sunglasses
+4,71,sunny,hand warmer
+14,98,sunny,hand sanitizer
+71,34,rainy,portable fan
+41,37,sunny,hand sanitizer
+35,27,sunny,sunglasses
+17,18,cloudy,tissues
+66,78,rainy,bag
+23,40,cloudy,portable fan
+51,24,sunny,portable fan
+59,81,rainy,umbrella
+3,47,cloudy,tissues
+43,18,windy,umbrella
+21,32,windy,poncho
+1,9,windy,tissues
+82,96,cloudy,portable fan
+79,47,rainy,bag
+44,27,cloudy,hand warmer
+17,74,rainy,umbrella
+34,83,sunny,sunscreen
+14,38,windy,lip balm
+16,9,windy,lip balm
+28,65,sunny,umbrella
+91,45,cloudy,portable fan
+65,59,windy,bag
+39,13,snowy,hand warmer
+86,75,rainy,water bottle
+82,92,sunny,portable fan
+50,39,rainy,bag
+72,0,snowy,tissues
+49,78,sunny,portable fan
+67,32,sunny,water bottle
+2,34,cloudy,poncho
+31,28,sunny,lip balm
+75,100,sunny,umbrella
+40,47,cloudy,lip balm
+57,45,rainy,poncho
+42,60,rainy,lip balm
+26,30,windy,flashlight
+38,44,sunny,sunglasses
+16,60,cloudy,sunscreen
+86,37,windy,hand warmer
+56,58,sunny,water bottle
+69,26,cloudy,bag
+1,79,cloudy,portable fan
+21,68,sunny,umbrella
+91,44,cloudy,sunscreen
+15,45,cloudy,umbrella
+94,84,sunny,umbrella
+52,0,windy,tissues
+45,41,cloudy,lip balm
+28,48,windy,bag
+69,18,windy,hand warmer
+8,10,cloudy,sunglasses
+28,23,snowy,umbrella
+11,11,cloudy,poncho
+52,48,cloudy,portable fan
+4,57,sunny,sunglasses
+22,74,windy,lip balm
+32,43,snowy,lip balm
+18,80,sunny,portable fan
+67,81,cloudy,portable fan
+8,62,cloudy,tissues
+75,85,rainy,sunglasses
+23,24,sunny,poncho
+40,100,cloudy,hand sanitizer
+75,21,snowy,tissues
+61,39,windy,sunscreen
+22,0,sunny,tissues
+43,45,cloudy,hand sanitizer
+14,14,sunny,sunscreen
+56,49,cloudy,umbrella
+78,26,snowy,umbrella
+79,53,cloudy,umbrella
+29,36,cloudy,bag
+63,59,sunny,bag
+42,50,cloudy,bag
+94,42,cloudy,portable fan
+58,21,sunny,sunscreen
+25,81,cloudy,portable fan
+31,9,windy,bag
+86,40,rainy,bag
+39,79,rainy,sunglasses
+69,35,windy,hand warmer
+5,44,sunny,lip balm
+30,58,cloudy,water bottle
+19,98,sunny,sunglasses
+86,57,rainy,poncho
+27,29,snowy,sunscreen
+56,34,cloudy,portable fan
+27,28,sunny,bag
+64,59,rainy,sunglasses
+19,62,cloudy,poncho
+16,28,snowy,tissues
+94,52,cloudy,bag
+91,67,sunny,water bottle
+41,23,sunny,tissues
+19,48,windy,bag
+12,44,cloudy,tissues
+33,75,windy,water bottle
+65,18,sunny,sunglasses
+85,53,sunny,sunscreen
+88,81,sunny,portable fan
+57,64,rainy,bag
+96,82,cloudy,water bottle
+33,59,windy,sunscreen
+22,35,sunny,hand warmer
+79,58,rainy,umbrella
+39,92,rainy,sunglasses
+96,92,sunny,sunscreen
+3,36,cloudy,tissues
+7,71,windy,umbrella
+67,37,rainy,hand sanitizer
+74,49,windy,hand warmer
+23,72,cloudy,water bottle
+36,31,sunny,umbrella
+65,49,snowy,bag
+12,33,windy,water bottle
+42,41,rainy,hand warmer
+75,16,snowy,tissues
+84,22,snowy,tissues
+59,0,sunny,tissues
+81,66,rainy,sunscreen
+10,39,cloudy,bag
+44,53,rainy,lip balm
+36,67,sunny,water bottle
+1,73,sunny,sunscreen
+24,38,cloudy,water bottle
+14,100,sunny,portable fan
+32,72,sunny,hand sanitizer
+1,43,rainy,sunglasses
+98,63,cloudy,tissues
+56,15,cloudy,hand sanitizer
+55,27,sunny,tissues
+16,26,snowy,tissues
+40,37,windy,sunglasses
+35,52,rainy,lip balm
+1,46,windy,hand warmer
+79,86,rainy,water bottle
+35,50,windy,lip balm
+8,79,sunny,bag
+43,58,sunny,tissues
+28,41,windy,tissues
+76,54,sunny,water bottle
+88,74,sunny,sunscreen
+23,49,sunny,tissues
+2,64,windy,hand warmer
+20,32,cloudy,hand sanitizer
+96,72,rainy,sunglasses
+23,50,cloudy,tissues
+76,30,windy,umbrella
+39,42,windy,hand warmer
+90,77,sunny,sunglasses
+14,69,sunny,sunscreen
+47,81,cloudy,sunglasses
+65,26,cloudy,water bottle
+12,99,rainy,umbrella
+32,64,sunny,umbrella
+58,62,windy,sunglasses
+8,47,windy,water bottle
+8,47,windy,tissues
+51,66,sunny,water bottle
+83,10,snowy,tissues
+75,51,windy,bag
+88,46,cloudy,portable fan
+32,100,sunny,portable fan
+13,52,cloudy,hand warmer
+33,30,cloudy,water bottle
+71,32,cloudy,lip balm
+45,73,sunny,water bottle
+26,61,rainy,portable fan
+72,96,windy,sunglasses
+5,3,cloudy,hand warmer
+38,63,cloudy,portable fan
+72,46,sunny,portable fan
+56,49,rainy,lip balm
+55,72,sunny,sunglasses
+33,32,rainy,umbrella
+21,68,windy,bag
+52,40,cloudy,poncho
+92,64,rainy,hand warmer
+25,95,rainy,umbrella
+5,55,cloudy,hand sanitizer
+66,54,windy,tissues
+27,18,windy,lip balm
+24,61,cloudy,lip balm
+93,0,windy,sunscreen
+71,62,cloudy,portable fan
+23,64,rainy,poncho
+21,67,sunny,portable fan
+14,39,snowy,sunglasses
+49,50,windy,sunglasses
+51,33,windy,umbrella
+27,37,rainy,flashlight
+16,69,sunny,sunglasses
+66,66,windy,sunscreen
+70,62,windy,water bottle
+76,57,rainy,tissues
+62,51,windy,sunglasses
+16,33,windy,hand sanitizer
+5,14,snowy,lip balm
+52,52,cloudy,tissues
+16,62,cloudy,water bottle
+12,32,windy,water bottle
+2,13,sunny,tissues
+78,65,windy,tissues
+26,56,sunny,sunglasses
+79,29,windy,bag
+86,61,sunny,portable fan
+24,100,sunny,water bottle
+51,80,windy,water bottle
+98,43,cloudy,poncho
+13,43,windy,sunscreen
+64,26,cloudy,hand warmer
+89,0,snowy,hand warmer
+49,0,cloudy,hand warmer
+18,56,cloudy,hand sanitizer
+76,28,windy,hand warmer
+89,70,sunny,water bottle
+31,49,rainy,umbrella
+12,86,sunny,water bottle
+39,35,windy,tissues
+10,38,cloudy,bag
+47,60,windy,poncho
+27,29,windy,hand sanitizer
+25,51,cloudy,hand warmer
+94,58,windy,bag
+3,58,sunny,water bottle
+18,48,windy,tissues
+32,56,cloudy,hand sanitizer
+9,78,sunny,umbrella
+6,28,sunny,tissues
+86,55,sunny,water bottle
+84,97,cloudy,sunscreen
+62,39,windy,bag
+96,50,cloudy,bag
+94,48,cloudy,bag
+56,63,sunny,portable fan
+2,46,cloudy,sunscreen
+86,47,windy,sunscreen
+35,57,windy,sunglasses
+15,20,snowy,hand warmer
+43,58,sunny,sunscreen
+70,31,cloudy,tissues
+73,73,windy,sunscreen
+43,51,rainy,umbrella
+10,42,windy,tissues
+13,70,rainy,poncho
+48,51,rainy,tissues
+69,37,snowy,sunscreen
+83,61,cloudy,hand sanitizer
+59,49,windy,hand warmer
+36,57,windy,sunscreen
+29,46,rainy,lip balm
+84,25,sunny,bag
+24,67,sunny,sunscreen
+15,65,sunny,sunglasses
+21,0,sunny,water bottle
+51,6,sunny,sunglasses
+70,1,sunny,portable fan
+39,29,sunny,water bottle
+51,60,sunny,water bottle
+2,28,snowy,tissues
+17,18,windy,tissues
+91,49,snowy,hand warmer
+69,26,sunny,tissues
+92,71,sunny,water bottle
+54,50,cloudy,tissues
+70,35,windy,bag
+2,64,cloudy,tissues
+45,24,sunny,hand warmer
+17,19,sunny,sunscreen
+78,53,rainy,umbrella
+66,31,snowy,hand warmer
+38,75,sunny,umbrella
+6,83,sunny,bag
+82,19,snowy,lip balm
+75,49,windy,lip balm
+89,42,cloudy,poncho
+48,89,sunny,sunglasses
+63,65,sunny,water bottle
+86,55,windy,portable fan
+11,45,cloudy,flashlight
+58,32,windy,lip balm
+66,88,windy,hand sanitizer
+72,54,cloudy,bag
+79,32,windy,umbrella
+67,61,rainy,tissues
+95,74,windy,hand sanitizer
+27,65,sunny,sunscreen
+85,52,windy,bag
+68,97,sunny,umbrella
+23,74,sunny,water bottle
+61,85,cloudy,portable fan
+97,50,sunny,sunscreen
+39,72,sunny,sunglasses
+11,56,rainy,portable fan
+38,89,sunny,portable fan
+20,72,sunny,portable fan
+21,69,sunny,sunscreen
+21,43,cloudy,sunscreen
+2,69,cloudy,portable fan
+21,55,sunny,hand sanitizer
+43,43,rainy,umbrella
+40,41,rainy,bag
+65,88,sunny,sunglasses
+47,45,windy,hand sanitizer
+98,74,rainy,water bottle
+59,18,snowy,hand warmer
+22,24,snowy,bag
+38,63,windy,water bottle
+89,75,sunny,portable fan
+90,77,rainy,sunscreen
+18,46,sunny,sunscreen
+41,69,cloudy,bag
+67,27,windy,hand warmer
+7,27,snowy,hand warmer
+11,49,rainy,sunscreen
+39,16,snowy,lip balm
+30,33,cloudy,tissues
+24,22,snowy,hand warmer
+11,33,cloudy,hand sanitizer
+12,21,sunny,umbrella
+78,38,windy,sunscreen
+77,47,cloudy,bag
+18,44,rainy,hand sanitizer
+53,61,windy,lip balm
+11,60,windy,bag
+7,85,sunny,water bottle
+61,42,rainy,poncho
+10,54,cloudy,bag
+64,69,windy,portable fan
+82,30,cloudy,tissues
+66,44,cloudy,sunscreen
+41,67,sunny,water bottle
+75,77,sunny,umbrella
+64,44,sunny,sunscreen
+35,60,sunny,lip balm
+17,68,rainy,bag
+28,58,windy,tissues
+77,82,windy,tissues
+93,83,sunny,sunscreen
+3,70,rainy,hand warmer
+53,52,cloudy,hand sanitizer
+5,76,sunny,hand sanitizer
+5,24,snowy,bag
+21,66,cloudy,water bottle
+25,22,cloudy,hand warmer
+70,16,cloudy,sunglasses
+4,16,cloudy,sunscreen
+18,86,sunny,sunscreen
+70,45,cloudy,sunscreen
+73,91,cloudy,bag
+91,82,sunny,sunglasses
+17,61,sunny,umbrella
+9,56,windy,lip balm
+92,30,rainy,poncho
+21,72,cloudy,sunglasses
+22,70,cloudy,portable fan
+71,25,snowy,poncho
+98,46,cloudy,tissues
+5,100,cloudy,sunscreen
+98,99,cloudy,portable fan
+41,77,sunny,sunscreen
+78,44,cloudy,water bottle
+61,43,cloudy,poncho
+34,36,snowy,lip balm
+46,58,cloudy,tissues
+98,96,sunny,sunscreen
+87,32,cloudy,hand sanitizer
+85,47,windy,hand sanitizer
+7,29,windy,bag
+38,39,cloudy,tissues
+30,3,sunny,portable fan
+76,21,windy,poncho
+91,46,rainy,umbrella
+53,66,sunny,water bottle
+24,38,cloudy,hand warmer
+71,80,rainy,poncho
+61,100,sunny,bag
+1,84,cloudy,sunglasses
+95,69,sunny,sunglasses
+85,91,sunny,sunscreen
+27,92,sunny,sunglasses
+95,67,sunny,water bottle
+9,95,cloudy,lip balm
+71,62,sunny,sunscreen
+53,94,sunny,portable fan
+59,22,cloudy,water bottle
+22,29,sunny,hand sanitizer
+67,53,cloudy,portable fan
+71,63,rainy,sunglasses
+32,75,sunny,sunscreen
+30,44,cloudy,hand warmer
+4,39,cloudy,hand warmer
+80,14,cloudy,tissues
+36,31,sunny,hand sanitizer
+79,54,cloudy,bag
+7,49,rainy,water bottle
+31,14,windy,water bottle
+78,56,windy,bag
+79,51,cloudy,sunglasses
+77,52,cloudy,poncho
+4,7,rainy,hand warmer
+37,63,sunny,sunscreen
+48,41,windy,bag
+74,51,rainy,umbrella
+57,22,snowy,hand warmer
+92,11,sunny,lip balm
+43,65,windy,bag
+73,26,windy,tissues
+23,53,windy,lip balm
+31,3,cloudy,tissues
+42,58,windy,poncho
+93,78,rainy,sunscreen
+6,72,sunny,umbrella
+50,64,cloudy,sunscreen
+35,91,cloudy,hand sanitizer
+74,35,windy,sunscreen
+43,57,windy,sunglasses
+41,83,cloudy,hand sanitizer
+19,75,windy,sunscreen
+22,59,sunny,poncho
+26,72,cloudy,tissues
+84,71,sunny,umbrella
+62,48,cloudy,hand sanitizer
+57,82,sunny,lip balm
+78,100,sunny,hand sanitizer
+28,61,sunny,water bottle
+70,48,windy,portable fan
+62,61,windy,bag
+41,26,snowy,lip balm
+81,54,windy,sunscreen
+66,62,windy,hand sanitizer
+84,47,cloudy,hand warmer
+83,46,rainy,tissues
+4,51,cloudy,bag
+76,61,windy,hand sanitizer
+83,61,rainy,umbrella
+86,58,cloudy,tissues
+30,42,rainy,hand sanitizer
+50,59,sunny,water bottle
+29,33,sunny,hand sanitizer
+48,48,windy,sunscreen
+80,97,sunny,portable fan
+20,40,sunny,tissues
+83,45,windy,hand warmer
+36,77,rainy,umbrella
+64,27,sunny,hand warmer
+21,60,cloudy,bag
+8,62,sunny,sunscreen
+33,63,rainy,umbrella
+39,36,windy,flashlight
+63,68,cloudy,sunscreen
+17,50,cloudy,hand sanitizer
+7,46,cloudy,bag
+16,53,sunny,umbrella
+60,17,windy,hand sanitizer
+57,69,sunny,umbrella
+82,59,cloudy,bag
+19,41,cloudy,lip balm
+5,19,snowy,umbrella
+41,74,cloudy,sunglasses
+33,0,windy,lip balm
+60,76,windy,sunglasses
+65,0,snowy,tissues
+13,34,rainy,tissues
+67,45,cloudy,sunscreen
+96,67,sunny,sunscreen
+17,41,windy,hand sanitizer
+15,51,rainy,poncho
+38,60,sunny,portable fan
+54,38,cloudy,portable fan
+42,42,cloudy,hand warmer
+22,77,rainy,umbrella
+8,56,cloudy,bag
+28,60,rainy,hand sanitizer
+37,46,cloudy,hand warmer
+59,28,sunny,tissues
+53,47,snowy,tissues
+71,30,sunny,sunglasses
+75,62,rainy,umbrella
+38,57,windy,bag
+65,44,rainy,tissues
+45,41,rainy,hand warmer
+20,83,rainy,sunscreen
+59,61,windy,tissues
+24,80,windy,hand sanitizer
+59,39,rainy,lip balm
+22,45,cloudy,sunglasses
+1,54,rainy,poncho
+68,60,rainy,poncho
+95,30,sunny,tissues
+19,59,cloudy,umbrella
+85,55,windy,sunscreen
+35,6,sunny,bag
+66,18,sunny,umbrella
+60,0,snowy,tissues
+34,48,cloudy,poncho
+11,78,sunny,sunscreen
+43,50,rainy,flashlight
+85,50,rainy,poncho
+73,26,windy,tissues
+96,64,cloudy,poncho
+8,39,cloudy,flashlight
+22,45,rainy,umbrella
