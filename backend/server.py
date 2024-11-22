@@ -221,11 +221,12 @@ async def create_upload_file(auth: UserAuth, file: UploadFile = File(...)):
         img_check = check_image(file_path, PATH="./model/disc/vision_model.pth")
 
         if img_check:
+            print("image is fake, try again")
             raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="File image upload failed",
         )
-        
+
         else:
             prediction = cv_forecast_image(file_path, PATH="./model/vision_model.pth")
             update = update_forecast(time.time, np.array[0.1, prediction])
