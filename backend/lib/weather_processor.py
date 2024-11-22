@@ -94,15 +94,13 @@ class WeatherDataProcessor:
 
         if weathercode in clear_codes:
             return "sunny"
-        elif weathercode in partly_cloudy_codes:
-            return "partly_cloudy"
-        elif weathercode in cloudy_codes:
+        elif weathercode in cloudy_codes or weathercode in partly_cloudy_codes:
             return "cloudy"
         elif weathercode in rain_codes:
             return "rainy"
         elif weathercode in snow_codes:
-            return "snow"
+            return "snowy"
         else:
-            return "unknown"
-
+            return "windy"
+        
 

@@ -23,63 +23,25 @@ TF-IDF will be chosen for now. One model with user profiles.
 """
 # gender, age, height, weather
 
-data = {
-    "clothing": [
-        "jacket",
-        "jacket" "raincoat",
-        "t-shirt",
-        "fleece",
-        "t-shirt",
-        "pants",
-        "shorts",
-        "jeans",
-        "scarf",
-        "t-shirt",
-        "skirt",
-    ],
-    "gender": [
-        "male",
-        "female",
-        "male",
-        "male",
-        "male",
-        "female",
-        "male",
-        "female",
-        "female",
-        "male",
-        "female",
-    ],
-    "age": [
-        "adult",
-        "young adult",
-        "young adult",
-        "adult",
-        "young adult",
-        "young adult",
-        "young adult",
-        "teen",
-        "adult",
-        "elderly",
-        "adult",
-    ],
-    "weather": [
-        "cold",
-        "cold",
-        "rainy",
-        "sunny",
-        "cold",
-        "sunny",
-        "rainy",
-        "cold",
-        "cold",
-        "sunny",
-        "sunny",
-    ],
-}
+df = pd.read_csv('synthetic_clothing_data.csv')
 
-for key in data.keys():
-    print(key, len(data[key]))
+# preprocess data in csv 
+def process_age(df):
+    df.loc[df['Age'] < 18, 'Age Group'] = "teen"
+    df.loc[df['Age'].between(18,24), 'Age Group'] = "young adult"
+    df.loc[df['Age'].between(25, 75), 'Age Group'] = "adult"
+    df.loc[df['Age'] > 18, 'Age Group'] = "elderly" 
+    return df 
+
+def process_temp(df):
+    df.loc[df['Temperature'] < 40, 'Temp'] = "cold"
+    df.loc[df['Temperature'].between(40,59), 'Temp'] = "mild"
+    df.loc[df['Temperature'].between(60,79), 'Temp'] = "warm"
+    df.loc[df['Temperature'] >= 80, 'Temp'] = "hot"
+    return df
+
+process_age(df)
+process_temp(df)
 
 
 class ClothingRecommender:
@@ -138,16 +100,21 @@ class ClothingRecommender:
 
 
 if __name__ == "__main__":
-    df = pd.DataFrame(data)
-    features = ["gender", "age", "weather"]
+    df = pd.DataFrame(df)
+    features = ["Age", "Temperature"]
     model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
     X = df.drop(columns=features)
-    y = df["clothing"]
+    print(X)
+    
+    y = df["Clothing"]
     model.preprocess(X=X, y=y)
     model.train()
+    
+    
     recommendations = model.predict(k=2)
     print(model.get_converted_features(recommendations))
     model.save_model()
     loaded_model = model.load_model(filename="./model/clothing_model.pkl")
     model.model = loaded_model
     print(model.get_converted_features(model.predict(k=3)))
+    
