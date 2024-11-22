@@ -3,7 +3,8 @@ from lib.ml.model_inference import cv_forecast_image
 from lib.ml.forecast_update import update_forecast
 from lib.ml.clothing_recommender import ClothingRecommender, process_age
 from lib.ml.adv_img_discriminator import check_image
-from lib.orm import Users, Comments, Posts, init_db
+from lib.ml.sentiment_model import get_comments
+from lib.orm import Users, Comments, Posts, extract_db_comments
 from lib.model import UserAuth, UserCreate, UserUpdate, CreateComment, EditComment
 from peewee import IntegrityError
 from sklearn.ensemble import RandomForestClassifier
@@ -299,3 +300,18 @@ async def reccomend_tools(auth: UserAuth):
     return {"prediction": reccomendation, "status_code": 200}
 
 
+# sentiment api call
+@app.get("/sentiment", status_code=status.HTTP_200_OK)
+async def sentiment():
+    sentiment_comments = extract_db_comments()
+
+    try:
+        sentiment = get_comments(pipeline_type="sentiment-analysis", 
+                                 comments=extract_db_comments)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="clothes rec failed internally",
+        )
+     
+    return {"sentiment": sentiment, "status_code": 200}

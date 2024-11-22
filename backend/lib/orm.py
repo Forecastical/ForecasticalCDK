@@ -63,3 +63,11 @@ def init_db():
     db.create_tables([Posts])
     db.create_tables([Comments])
     print("Created table")
+
+def extract_db_comments():
+    comments = []
+    
+    for instance in Comments.select().where(Comments.comment.is_null(False)):
+        comments.append(instance.comment)
+
+    return comments
