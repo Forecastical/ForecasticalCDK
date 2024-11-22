@@ -2,6 +2,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException, status
 from lib.ml.model_inference import cv_forecast_image
 from lib.ml.forecast_update import update_forecast
 from lib.ml.clothing_recommender import ClothingRecommender, process_age
+from lib.ml.adv_img_discriminator import check_image
 from lib.orm import Users, Comments, Posts, init_db
 from lib.model import UserAuth, UserCreate, UserUpdate, CreateComment, EditComment
 from peewee import IntegrityError
@@ -216,8 +217,18 @@ async def create_upload_file(auth: UserAuth, file: UploadFile = File(...)):
         
     # predicting the weather based on image
     try:
-        prediction = cv_forecast_image(file_path, PATH="./model/vision_model.pth")
-        update = update_forecast(time.time, np.array[0.1, prediction])
+        # check if image is fake first 
+        img_check = check_image(file_path, PATH="./model/disc/vision_model.pth")
+
+        if img_check:
+            raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="File image upload failed",
+        )
+        
+        else:
+            prediction = cv_forecast_image(file_path, PATH="./model/vision_model.pth")
+            update = update_forecast(time.time, np.array[0.1, prediction])
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
