@@ -65,28 +65,18 @@ class ClothingRecommender:
 
     def predict(self, k: int):
         predicted_probs = self.model.predict_proba(self.X_test)
-        # print(predicted_probs)
         predicted_recommendations = np.argsort(predicted_probs, axis=1)[:, -k:]
-        # print(predicted_recommendations)
-        # print(self.label_encoder.inverse_transform(predicted_recommendations[0]))
-        # print(self.model.classes_[predicted_recommendations[0]])
         return predicted_recommendations
 
     def get_converted_features(self, recommendations):
         classes = self.label_encoder.inverse_transform(recommendations[0])
         return classes
 
-    def get_classes_ordered(self, classes, order="higest"):
+    def get_classes_ordered(self, classes, order="highest"):
         if order == "highest":
             return reversed(classes)
         elif order == "lowest":
             return classes
-
-    def update_user_profile() -> None:
-        pass
-
-    def get_recommendations() -> None:
-        pass
 
     def save_model(self) -> None:
         os.makedirs("model", exist_ok=True)
@@ -113,8 +103,9 @@ if __name__ == "__main__":
     
     recommendations = model.predict(k=2)
     print(model.get_converted_features(recommendations))
-    model.save_model()
+    #model.save_model()
     loaded_model = model.load_model(filename="./model/clothing_model.pkl")
     model.model = loaded_model
-    print(model.get_converted_features(model.predict(k=3)))
+    rec = str(model.get_converted_features(model.predict(k=3)))
+    
     

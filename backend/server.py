@@ -1,9 +1,11 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
 from lib.ml.model_inference import cv_forecast_image
 from lib.ml.forecast_update import update_forecast
+from lib.ml.clothing_recommender import ClothingRecommender
 from lib.orm import Users, Comments, Posts, init_db
 from lib.model import UserAuth, UserCreate, UserUpdate, CreateComment, EditComment
 from peewee import IntegrityError
+from sklearn.ensemble import RandomForestClassifier
 import uuid
 import time 
 import os
@@ -225,3 +227,17 @@ async def create_upload_file(auth: UserAuth, file: UploadFile = File(...)):
 
 
 # clothing reccomender api call
+@app.get("/clothes_reccomended", status_code=status.HTTP_200_OK)
+async def reccomend_clothes(auth: UserAuth):
+    try:
+        model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
+        loaded_model = model.load_model(filename=".lib/ml/model/clothing_model.pkl")
+        model.model = loaded_model
+        reccomendation = str(model.get_converted_features(model.predict(k=3)))
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="clothes rec failed internally",
+        )
+
+    return {"prediction": reccomendation, "status_code": 200}
