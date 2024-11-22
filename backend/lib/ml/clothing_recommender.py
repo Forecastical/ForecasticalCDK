@@ -21,7 +21,7 @@ SVD,LightFM
 TF-IDF will be chosen for now. One model with user profiles.
 
 """
-# gender, age, height, weather
+
 
 df = pd.read_csv('synthetic_clothing_data.csv')
 

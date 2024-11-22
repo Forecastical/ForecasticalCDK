@@ -1,0 +1,1001 @@
+Age,Temperature,Condition,Tool
+68,51,sunny,lip balm
+83,80,sunny,sun screen
+46,62,cloudy,umbrella
+60,44,sunny,lip balm
+89,59,sunny,shovel
+52,77,sunny,ice scraper
+54,23,windy,head-phones
+15,22,snowy,umbrella
+40,48,cloudy,head-phones
+69,40,sunny,umbrella
+6,52,windy,sun screeen
+48,53,cloudy,shovel
+20,34,windy,sun screen
+59,30,snowy,sun screeen
+91,32,windy,umbrella
+23,33,rainy,ice scraper
+32,52,sunny,ice scraper
+33,72,sunny,sun screen
+83,24,rainy,umbrella
+45,61,sunny,sun screen
+29,25,cloudy,umbrella
+5,20,rainy,sun screeen
+64,20,snowy,sun screeen
+54,31,sunny,ice scraper
+11,58,sunny,ice scraper
+7,2,sunny,umbrella
+47,34,rainy,sun screeen
+84,79,sunny,sun screeen
+14,62,windy,umbrella
+53,86,cloudy,shovel
+46,62,rainy,sun screeen
+24,48,rainy,umbrella
+22,16,cloudy,ice scraper
+97,48,cloudy,head-phones
+85,22,sunny,umbrella
+98,42,windy,head-phones
+95,36,rainy,umbrella
+75,91,cloudy,lip balm
+57,26,snowy,umbrella
+97,46,cloudy,sun screeen
+48,68,sunny,sunscreen
+84,5,sunny,shovel
+45,79,sunny,sun screen
+14,63,cloudy,ice scraper
+23,53,rainy,umbrella
+83,41,cloudy,shovel
+58,44,cloudy,umbrella
+59,38,windy,lip balm
+4,60,sunny,lip balm
+61,68,windy,shovel
+30,36,rainy,shovel
+78,42,snowy,sun screeen
+28,75,sunny,sunscreen
+32,69,cloudy,shovel
+66,72,sunny,sun screeen
+38,48,cloudy,head-phones
+68,42,sunny,lip balm
+39,30,windy,head-phones
+65,40,windy,sun screen
+17,17,cloudy,umbrella
+68,16,windy,head-phones
+12,57,windy,head-phones
+33,87,cloudy,sun screen
+85,10,snowy,shovel
+38,24,windy,umbrella
+46,39,windy,sun screen
+2,24,snowy,sun screeen
+3,57,windy,lip balm
+62,21,sunny,shovel
+6,54,windy,head-phones
+80,46,windy,head-phones
+73,56,windy,head-phones
+1,80,cloudy,lip balm
+59,64,rainy,shovel
+86,66,sunny,lip balm
+1,41,sunny,lip balm
+82,26,cloudy,umbrella
+27,8,windy,sun screeen
+65,76,windy,shovel
+46,66,windy,sun screeen
+10,83,cloudy,sunscreen
+43,55,rainy,ice scraper
+63,97,rainy,shovel
+58,52,windy,umbrella
+10,57,windy,ice scraper
+82,63,cloudy,head-phones
+36,45,sunny,shovel
+69,93,sunny,sun screen
+52,51,cloudy,head-phones
+47,92,rainy,umbrella
+27,57,sunny,umbrella
+81,60,windy,shovel
+25,88,sunny,sun screeen
+64,50,cloudy,umbrella
+47,42,cloudy,head-phones
+24,30,snowy,umbrella
+67,0,cloudy,sun screeen
+69,51,windy,shovel
+29,36,cloudy,lip balm
+55,30,sunny,shovel
+38,59,windy,lip balm
+58,36,rainy,umbrella
+66,39,cloudy,umbrella
+75,54,windy,umbrella
+11,78,cloudy,shovel
+13,53,windy,head-phones
+94,43,cloudy,lip balm
+3,52,windy,head-phones
+98,31,cloudy,shovel
+55,52,windy,head-phones
+47,20,windy,head-phones
+30,66,sunny,head-phones
+76,81,rainy,lip balm
+29,44,cloudy,sun screen
+31,70,sunny,shovel
+90,67,sunny,sun screeen
+40,59,rainy,ice scraper
+31,82,sunny,sunscreen
+40,67,windy,shovel
+31,16,sunny,sun screen
+1,47,windy,sun screeen
+85,28,snowy,sun screeen
+19,50,windy,shovel
+25,39,sunny,ice scraper
+13,100,rainy,umbrella
+31,0,sunny,sun screeen
+48,47,cloudy,sun screeen
+43,30,cloudy,sun screeen
+16,60,sunny,sun screen
+53,53,cloudy,head-phones
+15,57,sunny,ice scraper
+46,0,sunny,head-phones
+50,7,cloudy,head-phones
+86,91,cloudy,lip balm
+27,8,snowy,umbrella
+87,16,windy,head-phones
+80,46,windy,umbrella
+73,66,sunny,sun screen
+71,40,cloudy,shovel
+67,56,cloudy,head-phones
+39,62,sunny,shovel
+24,35,rainy,head-phones
+27,77,rainy,sun screen
+17,49,windy,umbrella
+36,49,cloudy,sun screeen
+33,34,windy,head-phones
+79,50,sunny,sun screen
+70,2,snowy,sun screeen
+1,53,sunny,sun screen
+3,24,snowy,sun screeen
+29,6,snowy,sun screeen
+75,0,cloudy,sun screeen
+7,20,sunny,umbrella
+36,0,cloudy,sun screeen
+87,29,snowy,shovel
+37,74,sunny,shovel
+78,42,cloudy,umbrella
+11,37,cloudy,sun screeen
+54,86,sunny,umbrella
+25,1,snowy,ice scraper
+14,53,windy,head-phones
+20,67,sunny,head-phones
+31,94,windy,ice scraper
+26,52,windy,head-phones
+34,74,sunny,sun screeen
+87,24,windy,sun screeen
+85,60,cloudy,sun screen
+58,50,cloudy,head-phones
+76,53,cloudy,head-phones
+42,42,rainy,sun screeen
+21,13,cloudy,umbrella
+98,68,windy,sun screen
+30,58,rainy,sun screeen
+51,37,cloudy,shovel
+97,55,rainy,sun screeen
+30,0,sunny,sun screeen
+42,39,rainy,umbrella
+27,83,cloudy,lip balm
+73,32,sunny,umbrella
+29,11,windy,sun screeen
+16,70,sunny,shovel
+50,26,snowy,sun screeen
+22,87,cloudy,sun screen
+84,47,windy,head-phones
+15,61,windy,lip balm
+70,14,cloudy,umbrella
+20,33,snowy,umbrella
+33,47,sunny,shovel
+22,2,windy,sun screeen
+64,50,rainy,lip balm
+78,40,windy,sun screeen
+29,64,cloudy,lip balm
+94,67,windy,umbrella
+48,53,windy,sunscreen
+30,100,rainy,umbrella
+97,74,cloudy,sun screen
+11,100,rainy,sun screen
+80,58,windy,head-phones
+95,39,windy,head-phones
+10,37,rainy,sun screeen
+62,52,windy,lip balm
+36,22,snowy,umbrella
+65,84,cloudy,umbrella
+97,47,cloudy,sun screeen
+61,30,snowy,head-phones
+17,42,rainy,ice scraper
+60,47,sunny,shovel
+15,88,sunny,ice scraper
+68,81,rainy,shovel
+26,17,cloudy,sun screeen
+36,14,snowy,head-phones
+15,24,sunny,sun screeen
+68,100,sunny,shovel
+17,24,windy,head-phones
+33,40,rainy,sun screeen
+54,73,cloudy,lip balm
+16,53,windy,sun screeen
+87,25,rainy,umbrella
+3,33,rainy,lip balm
+77,59,windy,umbrella
+90,0,snowy,sun screeen
+48,100,sunny,ice scraper
+96,73,windy,lip balm
+49,47,cloudy,umbrella
+71,13,sunny,sun screeen
+45,31,snowy,umbrella
+28,36,windy,sun screeen
+95,71,rainy,sun screeen
+4,44,sunny,umbrella
+8,30,snowy,umbrella
+32,22,cloudy,umbrella
+50,51,windy,head-phones
+71,0,snowy,sun screeen
+9,11,snowy,umbrella
+87,88,rainy,head-phones
+37,100,rainy,sun screeen
+19,39,windy,head-phones
+42,43,cloudy,head-phones
+79,53,windy,head-phones
+75,78,rainy,umbrella
+66,5,sunny,shovel
+61,100,sunny,sun screen
+17,71,rainy,sunscreen
+44,58,windy,head-phones
+42,8,snowy,sun screeen
+29,50,windy,sun screeen
+44,37,cloudy,head-phones
+58,68,windy,sun screeen
+4,42,cloudy,head-phones
+60,27,snowy,shovel
+79,6,windy,head-phones
+23,47,cloudy,umbrella
+38,24,snowy,sun screeen
+83,86,sunny,sun screen
+16,50,windy,sun screeen
+40,51,sunny,lip balm
+98,97,sunny,shovel
+8,34,windy,head-phones
+59,16,windy,head-phones
+23,62,sunny,sun screen
+1,67,windy,sun screen
+88,80,sunny,lip balm
+21,40,cloudy,head-phones
+67,59,sunny,shovel
+41,76,sunny,umbrella
+7,30,cloudy,sun screeen
+58,34,windy,head-phones
+72,62,cloudy,sun screen
+13,29,cloudy,sun screeen
+32,98,sunny,lip balm
+13,67,sunny,shovel
+36,85,sunny,ice scraper
+66,51,cloudy,sun screen
+52,74,rainy,shovel
+52,22,sunny,sun screeen
+1,74,cloudy,sun screen
+3,39,windy,sun screeen
+59,32,cloudy,head-phones
+5,95,sunny,umbrella
+13,40,windy,sun screeen
+53,40,sunny,ice scraper
+18,93,sunny,shovel
+16,45,cloudy,ice scraper
+44,0,snowy,umbrella
+15,51,windy,head-phones
+55,30,snowy,sun screeen
+24,22,snowy,umbrella
+5,64,sunny,lip balm
+56,31,cloudy,shovel
+59,43,sunny,ice scraper
+37,54,sunny,shovel
+42,56,cloudy,head-phones
+16,69,sunny,umbrella
+61,76,cloudy,lip balm
+22,73,sunny,shovel
+35,32,rainy,sun screeen
+63,83,windy,sunscreen
+98,0,rainy,umbrella
+63,64,sunny,umbrella
+60,52,windy,shovel
+67,42,windy,sun screeen
+53,60,windy,ice scraper
+96,11,snowy,sun screeen
+90,74,sunny,head-phones
+7,73,sunny,shovel
+82,74,windy,sun screeen
+5,36,windy,shovel
+95,42,cloudy,sun screeen
+96,9,snowy,shovel
+11,66,sunny,lip balm
+6,71,windy,head-phones
+1,58,rainy,sun screeen
+83,58,cloudy,sun screen
+83,59,cloudy,sun screeen
+29,39,windy,sun screeen
+93,40,rainy,umbrella
+2,25,windy,lip balm
+28,52,rainy,sun screeen
+56,94,sunny,ice scraper
+59,72,sunny,shovel
+76,30,sunny,sun screeen
+87,30,sunny,lip balm
+20,53,windy,head-phones
+62,77,sunny,sun screen
+92,22,sunny,sun screeen
+97,3,cloudy,sun screeen
+91,94,sunny,sunscreen
+41,33,snowy,sun screeen
+39,45,windy,head-phones
+2,65,cloudy,head-phones
+75,44,cloudy,sun screeen
+80,82,sunny,sun screen
+9,8,rainy,ice scraper
+6,61,cloudy,shovel
+26,27,windy,sun screeen
+18,59,windy,head-phones
+46,34,windy,ice scraper
+5,79,sunny,sun screeen
+13,56,windy,shovel
+92,68,sunny,sun screen
+54,51,windy,sun screeen
+60,25,snowy,umbrella
+6,34,cloudy,sun screeen
+15,45,snowy,sun screeen
+26,80,rainy,sun screen
+82,10,snowy,sun screeen
+30,11,snowy,sun screeen
+36,32,sunny,ice scraper
+96,75,rainy,sun screeen
+71,23,snowy,umbrella
+26,48,sunny,lip balm
+30,41,windy,ice scraper
+19,30,sunny,shovel
+76,40,sunny,umbrella
+7,47,rainy,sun screeen
+40,100,rainy,umbrella
+32,79,sunny,shovel
+39,44,rainy,umbrella
+25,19,snowy,sun screeen
+92,33,rainy,umbrella
+60,14,windy,head-phones
+69,8,snowy,sun screeen
+90,35,snowy,sun screeen
+31,23,cloudy,sun screeen
+89,40,windy,lip balm
+95,25,sunny,lip balm
+4,32,cloudy,head-phones
+57,57,cloudy,shovel
+50,65,rainy,umbrella
+86,45,windy,sun screeen
+68,51,cloudy,sun screeen
+66,25,sunny,sun screeen
+7,33,rainy,lip balm
+31,36,cloudy,shovel
+2,36,cloudy,head-phones
+31,100,cloudy,sun screen
+63,49,rainy,sun screeen
+80,54,windy,sun screeen
+37,61,windy,shovel
+85,84,sunny,sun screen
+80,100,rainy,lip balm
+50,37,windy,head-phones
+87,35,rainy,sun screeen
+54,91,sunny,head-phones
+42,23,snowy,sun screeen
+39,44,windy,shovel
+70,27,snowy,sun screeen
+96,22,windy,sun screeen
+38,50,sunny,sun screeen
+58,63,windy,sun screeen
+72,62,rainy,umbrella
+41,58,rainy,shovel
+49,50,cloudy,head-phones
+28,44,rainy,umbrella
+6,22,rainy,shovel
+45,25,sunny,sun screeen
+34,71,cloudy,shovel
+42,22,rainy,sun screeen
+31,66,rainy,head-phones
+29,35,sunny,head-phones
+54,45,cloudy,head-phones
+78,72,sunny,shovel
+23,67,rainy,lip balm
+88,53,cloudy,lip balm
+43,43,rainy,lip balm
+26,16,windy,head-phones
+32,80,sunny,sun screen
+14,64,cloudy,ice scraper
+20,30,snowy,umbrella
+5,76,windy,lip balm
+43,44,windy,head-phones
+44,40,rainy,sun screeen
+77,69,cloudy,lip balm
+23,64,cloudy,umbrella
+86,63,cloudy,sun screeen
+90,38,sunny,umbrella
+62,65,sunny,umbrella
+52,21,cloudy,sun screeen
+59,64,cloudy,sun screen
+81,22,snowy,sun screeen
+40,81,rainy,umbrella
+92,78,rainy,umbrella
+20,29,sunny,sun screeen
+17,12,windy,sun screeen
+27,46,windy,ice scraper
+62,12,snowy,sun screeen
+96,60,cloudy,sun screeen
+47,100,sunny,sunscreen
+91,40,sunny,shovel
+27,41,cloudy,ice scraper
+50,40,windy,sun screen
+66,82,cloudy,lip balm
+65,25,windy,head-phones
+87,59,windy,sun screeen
+16,55,sunny,sun screen
+9,58,windy,head-phones
+53,100,sunny,ice scraper
+72,97,sunny,sun screen
+96,78,windy,head-phones
+22,40,windy,head-phones
+11,87,sunny,sunscreen
+11,51,sunny,ice scraper
+10,24,snowy,sun screeen
+67,37,windy,head-phones
+6,82,sunny,shovel
+1,69,sunny,lip balm
+47,86,sunny,shovel
+71,64,rainy,sun screen
+24,73,cloudy,sunscreen
+12,10,cloudy,umbrella
+55,54,windy,lip balm
+44,64,windy,lip balm
+60,86,sunny,shovel
+38,34,cloudy,umbrella
+70,17,snowy,sun screeen
+9,66,windy,ice scraper
+72,57,windy,head-phones
+11,4,sunny,shovel
+24,54,windy,head-phones
+57,49,sunny,lip balm
+90,65,cloudy,lip balm
+44,76,sunny,sun screen
+17,32,cloudy,umbrella
+17,28,snowy,sun screeen
+3,63,rainy,sun screeen
+34,19,sunny,sun screeen
+59,34,windy,head-phones
+13,29,snowy,sun screeen
+42,72,windy,ice scraper
+40,72,sunny,shovel
+98,6,sunny,umbrella
+45,62,sunny,sunscreen
+9,69,sunny,lip balm
+73,42,rainy,umbrella
+27,27,snowy,sun screeen
+37,24,windy,shovel
+29,55,cloudy,head-phones
+50,41,cloudy,sun screeen
+48,25,windy,sun screeen
+28,0,snowy,shovel
+23,8,rainy,sun screeen
+51,46,windy,head-phones
+85,7,windy,sun screeen
+12,40,cloudy,umbrella
+28,100,windy,sunscreen
+52,72,rainy,sun screeen
+21,93,sunny,ice scraper
+47,58,windy,sun screeen
+29,23,snowy,sun screeen
+73,76,sunny,sun screen
+71,70,sunny,sun screen
+93,46,windy,lip balm
+59,26,cloudy,umbrella
+17,85,sunny,shovel
+91,0,snowy,umbrella
+31,32,sunny,sun screen
+12,19,snowy,umbrella
+34,58,windy,umbrella
+69,88,sunny,lip balm
+66,67,sunny,sun screeen
+92,36,sunny,shovel
+4,56,cloudy,sun screen
+71,100,sunny,sun screen
+73,100,sunny,sun screen
+95,6,snowy,sun screeen
+76,35,rainy,sun screeen
+68,32,rainy,umbrella
+65,65,sunny,head-phones
+77,41,cloudy,head-phones
+11,20,snowy,sun screeen
+16,100,sunny,sun screen
+42,0,sunny,shovel
+31,38,snowy,umbrella
+79,97,cloudy,sun screen
+30,9,cloudy,umbrella
+67,45,sunny,sun screeen
+63,24,cloudy,umbrella
+84,49,rainy,head-phones
+40,25,windy,head-phones
+81,69,rainy,umbrella
+93,65,sunny,sun screen
+72,27,snowy,umbrella
+92,30,snowy,umbrella
+48,33,cloudy,lip balm
+16,83,rainy,sun screeen
+51,100,sunny,sun screen
+79,77,cloudy,sun screen
+66,48,cloudy,umbrella
+52,7,snowy,sun screeen
+69,14,windy,sun screeen
+19,53,cloudy,sun screen
+79,0,snowy,sun screeen
+33,76,rainy,lip balm
+63,61,windy,sun screen
+13,66,sunny,shovel
+32,76,rainy,head-phones
+82,0,windy,head-phones
+70,75,sunny,sun screen
+66,68,sunny,sun screen
+22,92,sunny,shovel
+41,70,sunny,sunscreen
+39,19,cloudy,umbrella
+3,35,rainy,head-phones
+27,35,cloudy,head-phones
+43,26,snowy,shovel
+37,58,windy,head-phones
+67,18,sunny,umbrella
+59,79,rainy,shovel
+68,92,sunny,shovel
+51,51,cloudy,lip balm
+53,61,cloudy,sunscreen
+74,40,cloudy,lip balm
+94,17,windy,head-phones
+98,10,snowy,sun screeen
+57,45,cloudy,ice scraper
+51,77,sunny,sunscreen
+68,36,windy,head-phones
+15,94,sunny,lip balm
+50,27,snowy,sun screeen
+90,76,rainy,umbrella
+53,29,cloudy,head-phones
+90,81,sunny,lip balm
+69,84,rainy,lip balm
+80,50,rainy,sun screeen
+96,30,cloudy,umbrella
+66,31,cloudy,umbrella
+47,56,cloudy,umbrella
+55,61,sunny,lip balm
+42,49,rainy,umbrella
+50,53,sunny,shovel
+39,31,windy,head-phones
+89,29,windy,sun screeen
+18,45,windy,head-phones
+81,39,rainy,umbrella
+91,70,windy,sunscreen
+93,78,rainy,sun screeen
+1,22,windy,head-phones
+92,79,sunny,sun screen
+51,64,cloudy,sun screeen
+65,30,sunny,umbrella
+38,7,snowy,sun screeen
+32,50,sunny,ice scraper
+68,59,rainy,umbrella
+84,84,cloudy,sun screen
+43,58,windy,sun screeen
+1,12,windy,lip balm
+21,100,windy,sunscreen
+4,69,rainy,sun screeen
+67,17,windy,head-phones
+22,20,sunny,sun screen
+50,47,windy,shovel
+91,85,sunny,sun screen
+19,10,snowy,head-phones
+61,58,windy,shovel
+49,38,cloudy,sun screen
+26,46,sunny,sun screen
+16,95,rainy,sunscreen
+10,59,sunny,umbrella
+96,59,rainy,sun screeen
+11,35,windy,head-phones
+98,27,cloudy,umbrella
+23,94,rainy,sunscreen
+83,60,sunny,lip balm
+80,17,cloudy,head-phones
+69,34,cloudy,umbrella
+59,41,windy,head-phones
+3,10,snowy,head-phones
+81,67,cloudy,sun screeen
+10,87,sunny,sunscreen
+20,72,sunny,shovel
+81,54,windy,shovel
+66,83,sunny,sun screen
+81,71,sunny,umbrella
+29,0,sunny,shovel
+4,24,cloudy,head-phones
+54,89,rainy,lip balm
+80,71,sunny,sun screeen
+78,82,rainy,lip balm
+19,47,cloudy,sun screeen
+53,73,sunny,lip balm
+92,46,sunny,umbrella
+24,78,cloudy,sun screeen
+2,55,cloudy,lip balm
+29,65,sunny,lip balm
+67,38,sunny,sun screeen
+66,64,rainy,sun screeen
+88,61,rainy,umbrella
+72,38,cloudy,umbrella
+66,61,windy,umbrella
+8,59,cloudy,shovel
+30,75,rainy,sun screeen
+58,95,rainy,ice scraper
+5,56,windy,sun screeen
+79,52,sunny,lip balm
+10,42,cloudy,sun screeen
+69,71,rainy,umbrella
+97,30,snowy,umbrella
+91,63,windy,sun screen
+60,53,windy,shovel
+52,66,rainy,sun screen
+5,17,cloudy,sun screeen
+40,78,rainy,shovel
+2,47,windy,sun screeen
+9,28,cloudy,ice scraper
+85,31,snowy,shovel
+24,59,windy,sun screen
+86,61,sunny,shovel
+95,67,sunny,sun screeen
+17,53,rainy,sun screeen
+86,32,cloudy,sun screeen
+74,74,rainy,umbrella
+48,81,windy,head-phones
+87,62,sunny,sun screen
+30,78,sunny,lip balm
+54,44,windy,sun screeen
+86,63,windy,sun screeen
+51,16,rainy,sun screeen
+17,61,windy,head-phones
+30,36,cloudy,umbrella
+59,34,snowy,umbrella
+52,22,sunny,sun screeen
+76,83,rainy,umbrella
+5,49,cloudy,umbrella
+70,72,rainy,umbrella
+16,40,rainy,sun screeen
+71,60,cloudy,sunscreen
+70,18,snowy,umbrella
+71,26,snowy,sun screeen
+11,87,sunny,sun screeen
+56,61,windy,umbrella
+69,73,windy,head-phones
+11,24,snowy,umbrella
+5,18,sunny,shovel
+25,87,cloudy,shovel
+13,76,sunny,head-phones
+36,49,windy,sun screeen
+94,32,cloudy,head-phones
+69,53,cloudy,shovel
+66,37,windy,umbrella
+58,70,sunny,head-phones
+10,100,rainy,lip balm
+15,32,rainy,sun screeen
+62,86,sunny,lip balm
+14,82,sunny,sunscreen
+17,36,cloudy,sun screeen
+53,44,cloudy,umbrella
+79,53,rainy,sun screeen
+88,59,sunny,lip balm
+70,78,windy,sun screeen
+82,78,rainy,lip balm
+66,64,cloudy,sun screeen
+51,58,windy,head-phones
+48,21,snowy,umbrella
+11,70,cloudy,sun screen
+21,57,rainy,sun screen
+58,55,sunny,sun screen
+18,42,sunny,sun screeen
+88,62,cloudy,sun screen
+10,33,cloudy,shovel
+48,38,cloudy,umbrella
+48,45,cloudy,shovel
+95,49,cloudy,umbrella
+34,63,cloudy,sunscreen
+62,16,cloudy,head-phones
+50,52,cloudy,umbrella
+51,0,windy,sun screeen
+97,36,rainy,sun screeen
+91,39,windy,umbrella
+54,68,sunny,lip balm
+65,57,cloudy,lip balm
+10,74,cloudy,ice scraper
+96,53,sunny,head-phones
+67,32,rainy,umbrella
+85,15,snowy,umbrella
+79,68,sunny,lip balm
+87,30,rainy,umbrella
+50,28,windy,sun screeen
+96,60,cloudy,sun screen
+58,0,snowy,sun screeen
+46,59,cloudy,sun screen
+65,18,snowy,sun screeen
+17,4,sunny,sun screeen
+63,88,rainy,umbrella
+93,73,cloudy,head-phones
+4,68,sunny,lip balm
+68,51,sunny,sun screeen
+60,41,sunny,sun screeen
+70,68,rainy,sun screeen
+79,45,cloudy,shovel
+1,99,cloudy,sun screeen
+87,60,windy,head-phones
+66,23,cloudy,sun screeen
+32,69,rainy,lip balm
+6,25,sunny,shovel
+24,47,windy,head-phones
+28,27,snowy,umbrella
+69,56,sunny,shovel
+62,72,rainy,umbrella
+22,49,cloudy,sun screeen
+97,31,cloudy,head-phones
+34,5,sunny,lip balm
+94,46,windy,head-phones
+72,49,windy,umbrella
+44,100,sunny,shovel
+89,40,sunny,sun screeen
+90,45,rainy,umbrella
+10,56,rainy,ice scraper
+69,44,rainy,umbrella
+7,100,cloudy,sun screeen
+84,36,cloudy,head-phones
+52,25,sunny,umbrella
+58,71,sunny,lip balm
+51,61,rainy,umbrella
+59,94,rainy,shovel
+81,31,snowy,head-phones
+43,46,windy,head-phones
+70,76,sunny,shovel
+33,33,snowy,shovel
+67,44,rainy,head-phones
+20,52,cloudy,ice scraper
+15,56,cloudy,ice scraper
+43,28,windy,umbrella
+68,37,rainy,sun screeen
+48,73,sunny,ice scraper
+84,63,sunny,sun screen
+80,93,rainy,umbrella
+44,65,sunny,lip balm
+7,54,sunny,sunscreen
+10,55,windy,lip balm
+46,15,sunny,shovel
+44,82,sunny,lip balm
+83,0,snowy,sun screeen
+22,51,sunny,shovel
+73,28,snowy,umbrella
+32,75,sunny,lip balm
+88,50,windy,lip balm
+53,53,rainy,umbrella
+82,59,sunny,lip balm
+74,69,windy,lip balm
+85,66,sunny,head-phones
+58,7,snowy,umbrella
+12,24,cloudy,umbrella
+85,12,windy,shovel
+92,44,cloudy,umbrella
+30,100,cloudy,sunscreen
+14,53,cloudy,umbrella
+92,29,cloudy,umbrella
+97,45,windy,umbrella
+11,74,windy,sun screen
+83,43,windy,head-phones
+19,100,cloudy,lip balm
+87,84,sunny,shovel
+12,59,sunny,shovel
+93,39,cloudy,umbrella
+92,81,rainy,shovel
+64,89,rainy,sun screeen
+79,68,cloudy,umbrella
+50,83,sunny,lip balm
+58,24,rainy,umbrella
+80,46,sunny,umbrella
+80,76,rainy,umbrella
+68,35,windy,head-phones
+53,18,snowy,umbrella
+54,72,cloudy,lip balm
+81,75,cloudy,sun screen
+16,51,cloudy,shovel
+55,64,cloudy,umbrella
+70,5,cloudy,umbrella
+32,37,rainy,ice scraper
+38,39,rainy,ice scraper
+29,53,rainy,umbrella
+50,87,sunny,head-phones
+70,46,windy,umbrella
+15,29,sunny,lip balm
+50,43,cloudy,sun screeen
+75,19,cloudy,sun screeen
+31,35,windy,head-phones
+53,48,windy,sun screeen
+36,45,windy,head-phones
+78,65,windy,sunscreen
+63,17,sunny,shovel
+77,64,windy,lip balm
+18,43,windy,sun screeen
+35,18,sunny,shovel
+28,88,sunny,head-phones
+87,41,rainy,sun screeen
+67,90,sunny,umbrella
+94,76,rainy,umbrella
+12,27,windy,ice scraper
+83,55,sunny,sun screen
+14,50,sunny,umbrella
+67,55,sunny,lip balm
+55,35,windy,umbrella
+64,69,cloudy,umbrella
+67,21,snowy,umbrella
+33,4,cloudy,umbrella
+86,33,cloudy,sun screeen
+77,47,sunny,sun screeen
+81,54,cloudy,umbrella
+63,48,windy,head-phones
+48,47,rainy,sun screen
+78,19,sunny,shovel
+28,0,snowy,sun screeen
+44,53,sunny,head-phones
+84,0,rainy,umbrella
+7,53,sunny,shovel
+47,40,sunny,sun screen
+7,30,cloudy,head-phones
+21,54,sunny,sun screen
+6,30,cloudy,sun screeen
+66,100,cloudy,shovel
+84,20,sunny,sun screeen
+80,48,rainy,umbrella
+79,57,windy,lip balm
+30,68,sunny,sun screeen
+71,53,rainy,umbrella
+84,55,sunny,umbrella
+87,48,sunny,head-phones
+17,32,cloudy,sun screen
+33,75,sunny,lip balm
+82,46,cloudy,sun screeen
+31,40,rainy,ice scraper
+82,56,cloudy,sun screen
+12,52,cloudy,ice scraper
+28,32,cloudy,sun screeen
+69,22,snowy,umbrella
+12,10,cloudy,sun screeen
+61,40,cloudy,umbrella
+33,70,sunny,ice scraper
+82,34,rainy,sun screeen
+41,94,sunny,sunscreen
+9,55,windy,lip balm
+41,83,windy,head-phones
+78,64,rainy,sun screeen
+2,57,sunny,sun screen
+82,52,cloudy,sun screeen
+56,42,windy,umbrella
+95,39,sunny,lip balm
+52,31,snowy,head-phones
+38,28,cloudy,sun screeen
+67,49,cloudy,shovel
+56,15,sunny,shovel
+83,57,windy,head-phones
+61,41,sunny,umbrella
+53,42,windy,umbrella
+78,62,windy,head-phones
+73,80,sunny,sun screen
+56,33,windy,head-phones
+18,14,sunny,ice scraper
+66,40,windy,sun screen
+1,59,cloudy,umbrella
+63,57,sunny,sun screen
+56,59,rainy,sun screen
+40,83,sunny,head-phones
+4,51,windy,umbrella
+49,100,sunny,shovel
+43,72,sunny,lip balm
+61,54,rainy,umbrella
+14,61,sunny,sun screeen
+58,62,sunny,sun screen
+2,11,sunny,lip balm
+94,27,snowy,sun screeen
+38,21,cloudy,sun screeen
+32,57,sunny,ice scraper
+32,89,sunny,sunscreen
+32,41,cloudy,ice scraper
+70,72,sunny,shovel
+16,65,sunny,shovel
+52,55,windy,umbrella
+43,64,sunny,sun screeen
+91,79,rainy,shovel
+39,40,windy,sun screeen
+42,57,windy,sun screeen
+68,40,rainy,umbrella
+30,35,windy,umbrella
+39,78,sunny,ice scraper
+66,36,cloudy,sun screeen
+41,73,windy,sunscreen
+58,65,windy,umbrella
+67,5,snowy,umbrella
+39,34,windy,head-phones
+59,84,windy,lip balm
+75,63,sunny,sunscreen
+7,71,sunny,sunscreen
+53,28,snowy,umbrella
+4,0,sunny,umbrella
+16,58,rainy,head-phones
+16,53,sunny,head-phones
+28,52,cloudy,sun screeen
+10,45,cloudy,sunscreen
+33,45,sunny,sun screen
+24,62,cloudy,sun screeen
+59,23,windy,head-phones
+50,16,snowy,sun screeen
+78,75,windy,sun screeen
+77,47,windy,umbrella
+24,100,rainy,sun screen
+29,37,windy,shovel
+60,30,rainy,sun screeen
+57,94,sunny,ice scraper
+98,31,sunny,umbrella
+79,46,cloudy,sun screeen
+43,39,rainy,umbrella
+31,0,cloudy,ice scraper
+79,53,cloudy,sun screeen
+37,60,rainy,sun screeen
+46,37,windy,head-phones
+23,30,sunny,umbrella
+3,42,rainy,sun screeen
+61,60,rainy,umbrella
+44,77,rainy,lip balm
+45,27,snowy,sun screeen
+2,36,rainy,sun screeen
+3,48,rainy,umbrella
+47,77,rainy,umbrella
+49,49,cloudy,sun screeen
+68,69,rainy,sun screeen
+59,58,rainy,shovel
+6,44,windy,sun screeen
+5,34,cloudy,sun screeen
+32,24,sunny,head-phones
+46,1,snowy,umbrella
+16,38,sunny,sun screen
+44,51,windy,sun screeen
+22,27,snowy,sun screeen
+77,40,windy,sun screeen
+93,41,windy,umbrella
+71,39,windy,sun screeen
+25,72,cloudy,shovel
+9,55,sunny,shovel
+61,65,rainy,umbrella
+2,63,cloudy,sun screen
+58,100,sunny,sunscreen
+15,62,windy,sun screen
+70,61,rainy,sun screeen
+79,50,windy,head-phones
+33,100,sunny,lip balm
+62,88,sunny,shovel
+3,0,snowy,umbrella
+58,82,sunny,sun screen
+79,50,windy,umbrella
+15,72,sunny,head-phones
+51,26,snowy,ice scraper
+12,31,snowy,sun screeen
+14,42,windy,head-phones
+23,19,sunny,sun screen
+14,0,sunny,lip balm
+70,52,cloudy,umbrella
+50,55,rainy,shovel
+56,20,snowy,umbrella
+65,63,cloudy,sunscreen
+74,42,sunny,umbrella
+31,69,cloudy,shovel
+71,56,windy,sun screeen
+27,35,rainy,ice scraper
+91,70,cloudy,sun screen
+50,48,windy,head-phones
+96,74,sunny,sun screen
+89,39,cloudy,sun screeen
+50,67,cloudy,head-phones

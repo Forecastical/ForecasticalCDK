@@ -21,66 +21,25 @@ SVD,LightFM
 TF-IDF will be chosen for now. One model with user profiles.
 
 """
-# gender, age, height, weather
+df = pd.read_csv('synthetic_tools_data.csv')
 
-data = {
-    "tool": [
-        "shovel",
-        "ice scraper" "umbrella",
-        "sun screeen",
-        "ice scraper",
-        "sun screen",
-        "umbrella",
-        "lip balm",
-        "ice scraper",
-        "ice scraper",
-        "sunscreen",
-        "sunglasses",
-    ],
-    "gender": [
-        "male",
-        "female",
-        "male",
-        "male",
-        "male",
-        "female",
-        "male",
-        "female",
-        "female",
-        "male",
-        "female",
-    ],
-    "age": [
-        "adult",
-        "young adult",
-        "young adult",
-        "adult",
-        "young adult",
-        "young adult",
-        "young adult",
-        "teen",
-        "adult",
-        "elderly",
-        "adult",
-    ],
-    "weather": [
-        "cold",
-        "cold",
-        "rainy",
-        "sunny",
-        "cold",
-        "sunny",
-        "rainy",
-        "cold",
-        "cold",
-        "sunny",
-        "sunny",
-    ],
-}
+# preprocess data in csv 
+def process_age(df):
+    df.loc[df['Age'] < 18, 'Age Group'] = "teen"
+    df.loc[df['Age'].between(18,24), 'Age Group'] = "young adult"
+    df.loc[df['Age'].between(25, 75), 'Age Group'] = "adult"
+    df.loc[df['Age'] > 18, 'Age Group'] = "elderly" 
+    return df 
 
-for key in data.keys():
-    print(key, len(data[key]))
+def process_temp(df):
+    df.loc[df['Temperature'] < 40, 'Temp'] = "cold"
+    df.loc[df['Temperature'].between(40,59), 'Temp'] = "mild"
+    df.loc[df['Temperature'].between(60,79), 'Temp'] = "warm"
+    df.loc[df['Temperature'] >= 80, 'Temp'] = "hot"
+    return df
 
+process_age(df)
+process_temp(df)
 
 class ClothingRecommender:
 
@@ -101,13 +60,9 @@ class ClothingRecommender:
         )
         self.model.fit(self.X_train, self.Y_train)
 
-    def predict(self, k: int):
-        predicted_probs = self.model.predict_proba(self.X_test)
-        # print(predicted_probs)
+    def predict(self, new_features, k: int):
+        predicted_probs = self.model.predict_proba(new_features)
         predicted_recommendations = np.argsort(predicted_probs, axis=1)[:, -k:]
-        # print(predicted_recommendations)
-        # print(self.label_encoder.inverse_transform(predicted_recommendations[0]))
-        # print(self.model.classes_[predicted_recommendations[0]])
         return predicted_recommendations
 
     def get_converted_features(self, recommendations):
@@ -138,16 +93,19 @@ class ClothingRecommender:
 
 
 if __name__ == "__main__":
-    df = pd.DataFrame(data)
-    features = ["gender", "age", "weather"]
+    df = pd.DataFrame(df)
+    features = ["Age", "Temperature"]
     model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
     X = df.drop(columns=features)
-    y = df["tool"]
+    y = df["Tool"]
     model.preprocess(X=X, y=y)
     model.train()
+    
+    
     recommendations = model.predict(k=2)
     print(model.get_converted_features(recommendations))
     model.save_model()
+    
     loaded_model = model.load_model(filename="./model/tool_model.pkl")
     model.model = loaded_model
-    print(model.get_converted_features(model.predict(k=3)))
+    print(model.get_converted_features(model.predict(model.X_test, k=3)))
