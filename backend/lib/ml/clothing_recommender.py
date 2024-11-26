@@ -10,6 +10,11 @@ from sklearn.ensemble import RandomForestClassifier
 import os
 
 
+# Get current file's directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+csv_path = os.path.join(current_dir, './synthetic_clothing_data.csv')
+
+
 """
 content based filtering approach
 
@@ -23,7 +28,7 @@ TF-IDF will be chosen for now. One model with user profiles.
 """
 
 
-df = pd.read_csv('synthetic_clothing_data.csv')
+df = pd.read_csv(csv_path)
 
 # preprocess data in csv 
 def process_age(df):

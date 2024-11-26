@@ -8,21 +8,26 @@ db = PostgresqlDatabase(
 
 
 class Users(Model):
-    """need user_id here to asso user with unique id"""
-
-    username = TextField(unique=True)
-    password = TextField()
-    user_fname = TextField()
-    user_lname = TextField()
+    # Existing fields
+    username = CharField(unique=True)
+    password = CharField()
+    user_fname = CharField()
+    user_lname = CharField()
     user_age = IntegerField()
-    home_lat = DoubleField()
-    home_lon = DoubleField()
+    home_lat = FloatField()
+    home_lon = FloatField()
     use_celsius = BooleanField()
-    user_alerts = BooleanField()  # Not sure what this does.
+    user_alerts = BooleanField()
+    # New fields
+    profile_image = CharField(null=True)
+    bio = TextField(null=True)
+    preferred_activities = TextField(null=True)  # Store as JSON string
+    favorite_weather = CharField(null=True)
+    notification_email = CharField(null=True)
+    theme_preference = CharField(null=True, default='dark')
 
     class Meta:
         database = db
-        db_table = "Users"
 
     #
 

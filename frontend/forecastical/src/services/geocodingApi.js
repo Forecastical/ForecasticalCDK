@@ -44,13 +44,18 @@ export class GeocodingService {
    */
   async reverseGeocode(latitude, longitude) {
     try {
+      // Add validation for coordinates
+      if (latitude === undefined || longitude === undefined) {
+        throw new Error('Invalid coordinates provided');
+      }
+
       // First try to search for nearby locations
       const response = await this.geocodingClient.get('/search', {
         params: {
-          name: '', // Empty name to search all locations
-          latitude: latitude,
-          longitude: longitude,
-          radius: 10000, // 10km radius
+          name: '',
+          latitude: parseFloat(latitude),
+          longitude: parseFloat(longitude),
+          radius: 10000,
           count: 1,
           language: 'en',
           format: 'json'
@@ -63,15 +68,16 @@ export class GeocodingService {
 
       // Fallback to coordinate display if no location found
       return {
-        name: `${latitude.toFixed(2)}°, ${longitude.toFixed(2)}°`,
-        admin1: 'Unknown Location',
-        country: ''
+        name: `${parseFloat(latitude).toFixed(2)}°`,
+        admin1: `${parseFloat(longitude).toFixed(2)}°`,
+        country: 'Unknown Location'
       };
     } catch (error) {
       console.error('Error reverse geocoding:', error);
+      // Return a default location object instead of throwing
       return {
-        name: `${latitude.toFixed(2)}°, ${longitude.toFixed(2)}°`,
-        admin1: 'Unknown Location',
+        name: 'Unknown Location',
+        admin1: '',
         country: ''
       };
     }

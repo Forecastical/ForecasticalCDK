@@ -10,6 +10,7 @@ class UserAuth(BaseModel):
 
 
 class UserCreate(BaseModel):
+    # Existing fields
     username: str
     password: str
     user_fname: str
@@ -19,19 +20,33 @@ class UserCreate(BaseModel):
     home_lon: float
     use_celsius: bool
     user_alerts: bool
+    # New fields
+    profile_image: Optional[str] = None
+    bio: Optional[str] = None
+    preferred_activities: Optional[List[str]] = None
+    favorite_weather: Optional[str] = None
+    notification_email: Optional[str] = None
+    theme_preference: Optional[str] = "dark"
 
 
 class UserUpdate(BaseModel):
-    username: Optional[str]
-    password: Optional[str]
-    user_fname: Optional[str]
-    user_lname: Optional[str]
-    user_age: Optional[int]
-    home_lat: Optional[float]
-    home_lon: Optional[float]
-    use_celsius: Optional[bool]
-    user_alerts: Optional[bool]
-
+    # Existing fields
+    username: Optional[str] = None
+    password: Optional[str] = None
+    user_fname: Optional[str] = None
+    user_lname: Optional[str] = None
+    user_age: Optional[int] = None
+    home_lat: Optional[float] = None
+    home_lon: Optional[float] = None
+    use_celsius: Optional[bool] = None
+    user_alerts: Optional[bool] = None
+    # New fields
+    profile_image: Optional[str] = None
+    bio: Optional[str] = None
+    preferred_activities: Optional[List[str]] = None
+    favorite_weather: Optional[str] = None
+    notification_email: Optional[str] = None
+    theme_preference: Optional[str] = None
 
 class CreateComment(BaseModel):
     user_id: int

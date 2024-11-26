@@ -1,34 +1,30 @@
 version: '3.5'
 services:
   backend:
+    platform: linux/arm64
     build: ./backend/
     volumes:
       - ./userdata:/data
+      - ./backend:/backend
     ports:
       - "8000:8000"
     networks:
       - postgres
-  frontend:
-    build: ./frontend/
-    ports:
-      - "3000:8080"
-        #  open-meteo:
-        #    image: ghcr.io/open-meteo/open-meteo
-        #    volumes:
-        #      - "./open-meteo/data:/app/data"
-        #    ports:
-        #      - '8080:8080'
-        #    command: ["serve", "--env", "production", "--hostname", "0.0.0.0", "--port", "8080"]
-        #  sync-forecast:
-        #    image: ghcr.io/open-meteo/open-meteo
-        #    container_name: open-meteo-sync
-        #    depends_on:
-        #      - open-meteo
-        #    volumes:
-        #      - "./open-meteo/data:/app/data"
-        #    command: ["sync", "ecmwf_ifs04", "temperature_2m"]
-        #    restart: no
-        #
+    environment:
+      - PYTHONPATH=/backend
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # frontend:
+  #   build: ./frontend/
+  #   ports:
+  #     - "3000:8080"
+  #   volumes:
+  #     - ./frontend/forecastical:/app
+  #     - /app/node_modules
+
   postgres:
     container_name: postgres_container
     image: postgres
@@ -37,13 +33,18 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
       - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
     networks:
       - postgres
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   
   pgadmin:
     container_name: pgadmin_container
@@ -52,20 +53,18 @@ services:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
-        #volumes:
-      #- pgadmin:/var/lib/pgadmin
-
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
       - postgres
     restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 networks:
   postgres:
     driver: bridge
 
 volumes:
-  postgres:
-  pgadmin:
-  open-meteo-data:
+  postgres_data:

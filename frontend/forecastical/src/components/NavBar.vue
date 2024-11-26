@@ -11,54 +11,93 @@
           <span class="icon">🏠</span>
           Weather
         </router-link>
-        <router-link
-          to="/profile"
-          class="nav-link"
-          :class="{ active: $route.path === '/profile' }"
-        >
-          <span class="icon">👤</span>
-          Profile
-        </router-link>
-        <router-link
-          to="/feed"
-          class="nav-link"
-          :class="{ active: $route.path === '/feed' }"
-        >
-          <span class="icon">📷</span>
-          Feed
-        </router-link>
-        <router-link
-          to="/recommendations"
-          class="nav-link"
-          :class="{ active: $route.path === '/recommendations' }"
-        >
-          <span class="icon">🎯</span>
-          Recommendations
-        </router-link>
-        <router-link
-          to="/test"
-          class="nav-link"
-          :class="{ active: $route.path === '/test' }"
-        >
-          <span class="icon">🔧</span>
-          API Test
-        </router-link>
-        <router-link
-          to="/hub"
-          class="nav-link"
-          :class="{ active: $route.path === '/test' }"
-        >
-          <span class="icon">🔧</span>
-          Interactive Hub
-        </router-link>
+        
+        <!-- Only show these links if user is authenticated -->
+        <template v-if="auth.isAuthenticated">
+          <router-link
+            to="/profile"
+            class="nav-link"
+            :class="{ active: $route.path === '/profile' }"
+          >
+            <span class="icon">👤</span>
+            Profile
+          </router-link>
+          <router-link
+            to="/feed"
+            class="nav-link"
+            :class="{ active: $route.path === '/feed' }"
+          >
+            <span class="icon">📷</span>
+            Feed
+          </router-link>
+          <router-link
+            to="/recommendations"
+            class="nav-link"
+            :class="{ active: $route.path === '/recommendations' }"
+          >
+            <span class="icon">🎯</span>
+            Recommendations
+          </router-link>
+          <router-link
+            to="/test"
+            class="nav-link"
+            :class="{ active: $route.path === '/test' }"
+          >
+            <span class="icon">🔧</span>
+            API Test
+          </router-link>
+          <router-link
+            to="/hub"
+            class="nav-link"
+            :class="{ active: $route.path === '/hub' }"
+          >
+            <span class="icon">🔧</span>
+            Interactive Hub
+          </router-link>
+          
+          <!-- Logout button -->
+          <button @click="handleLogout" class="nav-link logout-btn">
+            <span class="icon">🚪</span>
+            Logout
+          </button>
+        </template>
+
+        <!-- Show login button when not authenticated -->
+        <template v-else>
+          <router-link
+            to="/login"
+            class="nav-link"
+            :class="{ active: $route.path === '/login' }"
+          >
+            <span class="icon">🔑</span>
+            Login
+          </router-link>
+        </template>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+import { useAuthStore } from '@/store/auth';
+import { useRouter } from 'vue-router';
+
 export default {
   name: "NavBar",
+  setup() {
+    const auth = useAuthStore();
+    const router = useRouter();
+
+    const handleLogout = () => {
+      auth.logout();
+      router.push('/login');
+    };
+
+    return {
+      auth,
+      handleLogout
+    };
+  }
 };
 </script>
 
@@ -116,5 +155,23 @@ export default {
 
 .icon {
   font-size: 1.2rem;
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  padding: 8px 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logout-btn:hover {
+  background-color: #2c3e50;
+  color: #50e2e7;
 }
 </style>

@@ -1,10 +1,11 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from lib.ml.model_inference import cv_forecast_image
 from lib.ml.forecast_update import update_forecast
 from lib.ml.clothing_recommender import ClothingRecommender, process_age
 from lib.ml.adv_img_discriminator import check_image
 from lib.ml.sentiment_model import get_comments
-from lib.orm import Users, Comments, Posts, extract_db_comments
+from lib.orm import Users, Comments, Posts, extract_db_comments, init_db
 from lib.model import UserAuth, UserCreate, UserUpdate, CreateComment, EditComment
 from peewee import IntegrityError
 from sklearn.ensemble import RandomForestClassifier
@@ -13,6 +14,8 @@ import uuid
 import time 
 import os
 import pandas as pd
+import json
+
 
 # import pickle
 import numpy as np
@@ -20,8 +23,26 @@ import numpy as np
 # import pandas as pd
 from datetime import datetime
 
+PROFILE_IMAGES_DIR = "./data/profile_images"
+os.makedirs(PROFILE_IMAGES_DIR, exist_ok=True)
+
 
 app = FastAPI()
+
+# Add CORS middleware configuration right after creating the FastAPI app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:8081",  # Your frontend dev server
+        "http://localhost:8080",  # Common Vue dev server port
+        "http://localhost:3000"   # Alternative frontend port
+    ],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allow_headers=["*"],
+    expose_headers=["*"]
+)
+
 IMAGEDIR = "./data/"
 init_db()
 
@@ -64,15 +85,60 @@ async def create_user(request: UserCreate):
         raise HTTPException(status_code=500, detail=f"An unexpected error occurred")
 
 
+@app.options("/user/validate")
+async def validate_user_options():
+    return {"message": "OK"}
+
 @app.post("/user/validate")
 async def validate_user(auth: UserAuth):
-    if is_valid_user(auth):
-        return success_response("User validated", 200)
-    else:
-        raise HTTPException(status_code=403, detail="Invalid credentials")
-
+    print(f"Received login request for user: {auth.username}")  # Debug log
+    try:
+        if is_valid_user(auth):
+            print("User validation successful")  # Debug log
+            return success_response("User validated", 200)
+        else:
+            print("User validation failed")  # Debug log
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+    except Exception as e:
+        print(f"Error during validation: {str(e)}")  # Debug log
+        raise
 
 "Update User here"
+
+@app.post("/user/profile-image")
+async def upload_profile_image(auth: UserAuth, file: UploadFile = File(...)):
+    try:
+        if not is_valid_user(auth):
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+
+        # Validate image file
+        if not file.content_type.startswith('image/'):
+            raise HTTPException(status_code=400, detail="Only image files allowed")
+
+        # Create unique filename
+        filename = f"{uuid.uuid4()}.{file.filename.split('.')[-1]}"
+        file_path = os.path.join(PROFILE_IMAGES_DIR, filename)
+
+        # Save file
+        contents = await file.read()
+        with open(file_path, "wb") as f:
+            f.write(contents)
+
+        # Update user profile in database
+        user = Users.get(Users.username == auth.username)
+        
+        # Delete old profile image if exists
+        if user.profile_image:
+            old_file_path = os.path.join(PROFILE_IMAGES_DIR, user.profile_image)
+            if os.path.exists(old_file_path):
+                os.remove(old_file_path)
+        
+        user.profile_image = filename
+        user.save()
+
+        return success_response("Profile image updated", 201)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.patch("/user")
@@ -82,21 +148,25 @@ async def update_user(auth: UserAuth, user_data: UserUpdate):
             raise HTTPException(status_code=403, detail="Invalid credentials")
 
         user = Users.get(Users.username == auth.username)
-        # update fields
-        data_dict = user_data.dict(exclude_unset=True).items()
-        for key, values in data_dict:
-            setattr(user, key, values)
-
+        
+        # Convert the update data to dict
+        update_data = user_data.dict(exclude_unset=True)
+        
+        # Handle special fields
+        if 'preferred_activities' in update_data:
+            update_data['preferred_activities'] = json.dumps(update_data['preferred_activities'])
+        
+        # Update fields
+        for key, value in update_data.items():
+            setattr(user, key, value)
+        
+        user.save()
         return success_response("User updated", 200)
-    # user doesn't exist
+
     except Users.DoesNotExist:
         raise HTTPException(status_code=404, detail="User not found")
-    # internal server error
     except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="unable to update user",
-        )
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 "Create comment here"
