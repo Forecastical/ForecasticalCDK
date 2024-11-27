@@ -4,17 +4,17 @@ import axios from 'axios';
 const API_URL = 'http://localhost:8000';
 
 class AuthService {
-  constructor() {
-    this.client = axios.create({
-      baseURL: API_URL,
-      timeout: 5000,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      withCredentials: true
-    });
-  }
+    constructor() {
+        this.client = axios.create({
+            baseURL: API_URL,
+            timeout: 5000,
+            headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+            },
+            withCredentials: true
+        });
+        }
 
   async login(username, password) {
     try {
@@ -62,33 +62,64 @@ class AuthService {
     }
   }
 
-  async updateUser(userData) {
-    try {
-      const response = await this.client.patch('/user', userData, {
-        headers: this.getAuthHeader()
-      });
-      return response.data;
-    } catch (error) {
-      console.error('Update user error:', error);
-      throw error;
+    getCurrentUser() {
+        const userStr = localStorage.getItem('user');
+        if (!userStr) return null;
+        try {
+            return JSON.parse(userStr);
+        } catch (e) {
+            console.error('Error parsing user data:', e);
+            return null;
+        }
     }
-  }
 
-  logout() {
-    localStorage.removeItem('user');
-  }
 
-  getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));
-  }
-
-  getAuthHeader() {
-    const user = this.getCurrentUser();
-    if (user) {
-      return { Authorization: `Basic ${btoa(`${user.username}:${user.password}`)}` };
-    }
-    return {};
-  }
+    async updateUser(userData) {
+        try {
+          const currentUser = this.getCurrentUser();
+          if (!currentUser) {
+            throw new Error('No authenticated user found');
+          }
+      
+          // Separate auth and user_data as expected by the backend
+          const requestBody = {
+            auth: {
+              username: currentUser.username,
+              password: currentUser.password
+            },
+            user_data: userData  // This contains all the update fields
+          };
+      
+          console.log('Sending request body:', requestBody);
+      
+          const response = await this.client.patch('/user', requestBody);
+          
+          if (response.data && response.data.user) {
+            const updatedUserData = {
+              ...currentUser,
+              ...response.data.user,
+              // Ensure user_age is properly mapped
+              user_age: response.data.user.user_age
+            };
+            localStorage.setItem('user', JSON.stringify(updatedUserData));
+            return updatedUserData;
+          }
+      
+          return response.data;
+        } catch (error) {
+          console.error('Update user error:', error);
+          if (error.response?.data?.detail) {
+            const detail = error.response.data.detail;
+            if (Array.isArray(detail)) {
+              throw new Error(detail.map(err => err.msg).join('. '));
+            } else {
+              throw new Error(detail);
+            }
+          }
+          throw new Error(error.message || 'Failed to update user');
+        }
+      }
 }
 
-export const authService = new AuthService();
+const authService = new AuthService();
+export { authService };

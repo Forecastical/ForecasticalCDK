@@ -53,7 +53,7 @@
           </div>
           <div class="detail-item">
             <strong>Age:</strong>
-            <p>{{ userData.age }}</p>
+            <p>{{ userData.user_age }}</p>
           </div>
           <div class="detail-item">
             <strong>Location:</strong>
@@ -200,10 +200,9 @@
     </div>
   </div>
 </template>
-
 <script>
-import { useAuthStore } from '@/store/auth';
-//import { authService } from '@/services/authService';
+//import { useAuthStore } from '@/store/auth';
+import { authService } from '@/services/authService';
 
 export default {
   name: "ProfileView",
@@ -216,11 +215,15 @@ export default {
       userData: null,
       editForm: {
         username: "",
+        password: "",
+        user_fname: "",
+        user_lname: "",
         age: null,
-        home: "",
+        home_lat: null,
+        home_lon: null,
         preferredTemp: null,
-        alerts: "",
-        units: ""
+        use_celsius: false,
+        user_alerts: false
       }
     };
   },
@@ -228,19 +231,26 @@ export default {
   methods: {
     async fetchUserData() {
       try {
-        const auth = useAuthStore();
-        this.userData = auth.user || {};
-
-        // Convert boolean to string for display
-        this.userData.alerts = this.userData.user_alerts ? "Enabled" : "Disabled";
-        this.userData.units = this.userData.use_celsius ? "Celsius" : "Fahrenheit";
-        
-        // Format location using coordinates
-        if (this.userData.home_lat && this.userData.home_lon) {
-          this.userData.home = `${this.userData.home_lat.toFixed(2)}°, ${this.userData.home_lon.toFixed(2)}°`;
-        } else {
-          this.userData.home = "Location not set";
+        const currentUser = authService.getCurrentUser();
+        if (!currentUser) {
+          this.error = 'No user data found';
+          return;
         }
+
+        this.userData = {
+          ...currentUser,
+          // Set display values
+          alerts: currentUser.user_alerts ? "Enabled" : "Disabled",
+          units: currentUser.use_celsius ? "Celsius" : "Fahrenheit",
+          // Format location
+          home: currentUser.home_lat && currentUser.home_lon 
+            ? `${currentUser.home_lat.toFixed(2)}°, ${currentUser.home_lon.toFixed(2)}°` 
+            : "Location not set",
+          // Ensure we use user_age consistently
+          age: currentUser.user_age // This is for backward compatibility
+        };
+
+        console.log('Current user data:', this.userData);
 
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -248,28 +258,26 @@ export default {
       }
     },
 
-    openProfileEditor() {
-      this.initProfileForm();
-      this.showEditModal = true;
-    },
-
-    closeProfileEditor() {
-      this.showEditModal = false;
-      this.error = null;
-    },
-
     initProfileForm() {
+      const currentUser = authService.getCurrentUser();
+      if (!currentUser) return;
+
+      console.log('Current user for form init:', currentUser);
+
       this.editForm = {
-        username: this.userData.username,
-        password: this.userData.password,
-        user_fname: this.userData.user_fname,
-        user_lname: this.userData.user_lname,
-        age: this.userData.age,
-        home_lat: this.userData.home_lat,
-        home_lon: this.userData.home_lon,
-        use_celsius: this.userData.units === "Celsius",
-        user_alerts: this.userData.alerts === "Enabled"
+        username: currentUser.username,
+        password: currentUser.password,
+        user_fname: currentUser.user_fname || '',
+        user_lname: currentUser.user_lname || '',
+        age: currentUser.user_age?.toString() || '', // Using user_age here
+        home_lat: currentUser.home_lat,
+        home_lon: currentUser.home_lon,
+        use_celsius: Boolean(currentUser.use_celsius),
+        user_alerts: Boolean(currentUser.user_alerts),
+        preferredTemp: currentUser.preferredTemp || ''
       };
+
+      console.log('Initialized edit form:', this.editForm);
     },
 
     async saveChanges() {
@@ -277,43 +285,71 @@ export default {
       this.error = null;
 
       try {
-        const auth = useAuthStore();
-        await auth.updateProfile({
-          username: auth.user.username,
-          password: auth.user.password,
-          ...this.editForm
-        });
+        console.log('Original edit form:', this.editForm);
 
-        // Refresh user data after update
+        const updateData = {
+          user_fname: this.editForm.user_fname?.trim() || undefined,
+          user_lname: this.editForm.user_lname?.trim() || undefined,
+          user_age: this.editForm.age ? parseInt(this.editForm.age) : undefined,
+          home_lat: this.editForm.home_lat ? parseFloat(this.editForm.home_lat) : undefined,
+          home_lon: this.editForm.home_lon ? parseFloat(this.editForm.home_lon) : undefined,
+          use_celsius: this.editForm.use_celsius,
+          user_alerts: this.editForm.user_alerts
+        };
+
+        // Remove undefined values
+        const cleanedData = Object.fromEntries(
+          Object.entries(updateData).filter(entry => entry[1] !== undefined)
+        );
+
+        console.log('Cleaned update data:', cleanedData);
+
+        await authService.updateUser(cleanedData);
         await this.fetchUserData();
         this.closeProfileEditor();
+
       } catch (error) {
         console.error('Error updating profile:', error);
-        this.error = error.message || 'Failed to update profile';
+        this.error = error.message;
       } finally {
         this.loading = false;
       }
     },
 
     async updateLocation() {
-      if (navigator.geolocation) {
-        try {
-          const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-          });
-
-          this.editForm.home_lat = position.coords.latitude;
-          this.editForm.home_lon = position.coords.longitude;
-
-          // Save the new location
-          await this.saveChanges();
-        } catch (error) {
-          console.error('Error getting location:', error);
-          this.error = 'Could not get your location';
-        }
-      } else {
+      if (!navigator.geolocation) {
         this.error = 'Geolocation is not supported by your browser';
+        return;
       }
+
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        this.editForm.home_lat = position.coords.latitude;
+        this.editForm.home_lon = position.coords.longitude;
+
+        // If we're not in edit mode, open the editor
+        if (!this.showEditModal) {
+          this.openProfileEditor();
+        }
+
+      } catch (error) {
+        console.error('Error getting location:', error);
+        this.error = 'Could not get your location';
+      }
+    },
+
+    openProfileEditor() {
+      this.initProfileForm();
+      this.showEditModal = true;
+      this.error = null;
+    },
+
+    closeProfileEditor() {
+      this.showEditModal = false;
+      this.error = null;
     }
   },
 
