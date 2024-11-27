@@ -4,7 +4,7 @@ from lib.ml.forecast_update import update_forecast
 from lib.ml.clothing_recommender import ClothingRecommender, process_age
 from lib.ml.adv_img_discriminator import check_image
 from lib.ml.sentiment_model import get_comments
-from lib.orm import Users, Comments, Posts, extract_db_comments
+from lib.orm import Users, Comments, Posts, extract_db_comments, init_db
 from lib.model import UserAuth, UserCreate, UserUpdate, CreateComment, EditComment
 from peewee import IntegrityError
 from sklearn.ensemble import RandomForestClassifier
@@ -24,7 +24,6 @@ from datetime import datetime
 app = FastAPI()
 IMAGEDIR = "./data/"
 init_db()
-
 
 def success_response(message, status_code):
     return {"message": message, "status_code": status_code}

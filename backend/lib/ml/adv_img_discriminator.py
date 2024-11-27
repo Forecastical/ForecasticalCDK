@@ -52,7 +52,11 @@ def check_image(image_filename, PATH ='./model/vision_model.pth', threshold=0.5)
     return entropy > threshold
 
 
-if cv_forecast_image(PATH ='./model/vision_model.pth', threshold=0.5) == True:
-    print('Adversarial image detected, opinion rejected')
-else:
-    print('No adversarial image detected')
+#READ
+
+# I have no idea what the code below was doing, i assumed it was for testing
+
+#if check_image(PATH ='./model/vision_model.pth', threshold=0.5) == True:
+#    print('Adversarial image detected, opinion rejected')
+#else:
+#    print('No adversarial image detected')

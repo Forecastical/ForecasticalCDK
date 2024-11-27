@@ -22,8 +22,8 @@ TF-IDF will be chosen for now. One model with user profiles.
 
 """
 
-
-df = pd.read_csv('synthetic_clothing_data.csv')
+file_path = os.path.dirname(__file__)
+df = pd.read_csv(file_path + '/synthetic_clothing_data.csv')
 
 # preprocess data in csv 
 def process_age(df):

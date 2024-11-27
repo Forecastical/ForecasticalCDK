@@ -3,7 +3,7 @@ FROM pytorch/pytorch:latest
 COPY . .
 RUN apt-get update \
     && apt-get -y install libpq-dev gcc \
-    && pip install psycopg2
+    && pip install psycopg2 uvicorn python-multipart
 RUN --mount=type=cache,target=/root/.cache/pip pip install -r requirements.txt --timeout=1000
 EXPOSE 8000
 
