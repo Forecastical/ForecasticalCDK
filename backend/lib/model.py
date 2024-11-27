@@ -23,7 +23,7 @@ class UserCreate(BaseModel):
     # New fields
     profile_image: Optional[str] = None
     bio: Optional[str] = None
-    preferred_activities: Optional[List[str]] = None
+    preferred_activities: Optional[list[str]] = None
     favorite_weather: Optional[str] = None
     notification_email: Optional[str] = None
     theme_preference: Optional[str] = "dark"
@@ -43,7 +43,7 @@ class UserUpdate(BaseModel):
     # New fields
     profile_image: Optional[str] = None
     bio: Optional[str] = None
-    preferred_activities: Optional[List[str]] = None
+    preferred_activities: Optional[list[str]] = None
     favorite_weather: Optional[str] = None
     notification_email: Optional[str] = None
     theme_preference: Optional[str] = None
