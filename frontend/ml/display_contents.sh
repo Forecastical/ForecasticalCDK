@@ -1,13 +1,11 @@
-#!/bin/bash
 
-# Function to capture output
 capture_output() {
     echo "Directory Structure:"
     tree -L 2
 
     echo -e "\nFile Contents:"
 
-    find . -type f \( -name "*.c" -o -name "*.h" -o -name "*.asm" -o -name "Makefile" \) | while read file; do
+    find . -type f \( -name "*.py" -o -name "*.txt" -o -name "*.lock" -o -name "*.nix" -o -name "Makefile" \) | while read file; do
         echo -e "\n--- $file ---"
         echo "Location: $(dirname "$file")"
         echo "Contents:"

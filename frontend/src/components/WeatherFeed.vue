@@ -1,16 +1,19 @@
 <template>
-  
   <div class="weather-app">
     <div class="content">
       <div class="feed-container">
-
         <div class="feed-header">
           <h2 class="title">Weather Feed</h2>
-          <button @click="updateLocation" class="update-btn">
-            <span class="icon">↻</span>
-            Update Location
+          <button @click="toggleUpload" class="update-btn">
+            <span class="icon">📸</span>
+            Share Weather
           </button>
         </div>
+        
+        <ImageUpload 
+          v-if="showUpload"
+          @image-uploaded="handleNewImage"
+        />
         
         <div class="feed-card">
           <div class="image-container">
@@ -29,14 +32,13 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
+import ImageUpload from './ImageUpload.vue'
 import hurricane from '@/assets/hurricane.webp'
 import partlyCloudy from '@/assets/partly_cloudy.png'
 import rainy from '@/assets/rainy.png'
@@ -44,9 +46,13 @@ import sunny from '@/assets/sunny.png'
 
 export default {
   name: 'WeatherFeed',
+  components: {
+    ImageUpload
+  },
   data() {
     return {
       currentIndex: 0,
+      showUpload: false,
       images: [
         {
           url: hurricane,
@@ -91,8 +97,14 @@ export default {
     previousImage() {
       this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
     },
-    updateLocation() {
-      console.log('Updating location...');
+    toggleUpload() {
+      this.showUpload = !this.showUpload;
+    },
+    handleNewImage(newPost) {
+      // Add the new image to the beginning of the array
+      this.images.unshift(newPost);
+      this.currentIndex = 0; // Show the new image
+      this.showUpload = false; // Hide the upload form
     }
   }
 }

@@ -5,20 +5,28 @@
 
           <h2 class="title">{{ currentLocation }} Weather Recommendations </h2>
 
-            <div class="weather-overview" v-if="weatherData">
+            <div v-if="loading" class="loading">
+              Loading weather data...
+            </div>
+
+            <div v-else-if="error" class="error">
+              {{ error }}
+            </div>
+
+            <div class="weather-overview" v-if="weatherData && weatherData.current">
             <div class="current-conditions">
-                <div class="condition-item">
+              <div class="condition-item">
                 <span class="label">Temperature:</span>
                 <span class="value">{{ weatherData.current.temp_f }}°F</span>
-                </div>
-                <div class="condition-item">
+              </div>
+              <div class="condition-item">
                 <span class="label">Conditions:</span>
-                <span class="value">{{ weatherData.current.condition.text }}</span>
-                </div>
-                <div class="condition-item">
+                <span class="value">{{ weatherData.current?.condition?.text || 'N/A' }}</span>
+              </div>
+              <div class="condition-item">
                 <span class="label">Wind:</span>
                 <span class="value">{{ weatherData.current.wind_mph }} mph</span>
-                </div>
+              </div>
             </div>
 
             <p class="recommendation-basis">
@@ -75,6 +83,41 @@
   </template>
   
 <script>
+    import { useAuthStore } from '@/store/auth';
+    import { weatherService } from '@/services/weatherApi';
+    import { geocodingService } from '@/services/geocodingApi';
+
+    const WEATHER_CONDITIONS = {
+      0: 'clear sky',
+      1: 'mainly clear',
+      2: 'partly cloudy',
+      3: 'overcast',
+      45: 'foggy',
+      48: 'depositing rime fog',
+      51: 'light drizzle',
+      53: 'moderate drizzle',
+      55: 'dense drizzle',
+      56: 'light freezing drizzle',
+      57: 'dense freezing drizzle',
+      61: 'slight rain',
+      63: 'moderate rain',
+      65: 'heavy rain',
+      66: 'light freezing rain',
+      67: 'heavy freezing rain',
+      71: 'slight snow',
+      73: 'moderate snow',
+      75: 'heavy snow',
+      77: 'snow grains',
+      80: 'slight rain showers',
+      81: 'moderate rain showers',
+      82: 'violent rain showers',
+      85: 'slight snow showers',
+      86: 'heavy snow showers',
+      95: 'thunderstorm',
+      96: 'thunderstorm with slight hail',
+      99: 'thunderstorm with heavy hail'
+    };
+
     export default {
     name: 'WeatherRecommendations',
     data() {
@@ -84,6 +127,8 @@
         showActivities: false,
         currentLocation: "",
         weatherData: null,
+        error: null,
+        loading: false,
         recommendations: {
           cold: {
             clothing: [
@@ -190,15 +235,12 @@
     },
     computed: {
       currentRecommendations() {
-        if (!this.weatherData) return this.recommendations.mild;
+        if (!this.weatherData?.current) return this.recommendations.mild;
         
-        const condition = this.weatherData.current.condition.text.toLowerCase();
+        const condition = this.weatherData.current.condition.text;
         const temp = this.weatherData.current.temp_f;
         const windSpeed = this.weatherData.current.wind_mph;
         
-        // See which weather conditions that the current weather matches, and forward the reccomendations
-        // have for these weather conditions
-
         if (condition.includes('rain') || condition.includes('storm') || condition.includes('drizzle')) {
           return this.recommendations.rainy;
         }
@@ -218,6 +260,9 @@
     },
 
     methods: {
+    getWeatherDescription(code) {
+      return WEATHER_CONDITIONS[code] || 'unknown';
+    },
     toggleClothing() {
         this.showClothing = !this.showClothing;
     },
@@ -228,45 +273,88 @@
         this.showActivities = !this.showActivities;
     },
     async fetchWeatherData() {
-        try {
-        const apiKey = process.env.VUE_APP_API_KEY;
-        
-        const locationResponse = await fetch(`http://api.weatherapi.com/v1/ip.json?key=${apiKey}&q=auto:ip`);
-        const locationData = await locationResponse.json();
-        
-        const weatherResponse = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${locationData.lat},${locationData.lon}&days=7&aqi=yes`);
-        const weatherData = await weatherResponse.json();
-        
-        this.weatherData = weatherData;
-        this.currentLocation = `${weatherData.location.name}, ${weatherData.location.region}`;
-        } catch (error) {
-        console.error('Error fetching weather data:', error);
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const auth = useAuthStore();
+        const user = auth.user;
+
+        if (!user) {
+          throw new Error('User not authenticated');
         }
+
+        // Validate coordinates
+        if (!user.home_lat || !user.home_lon) {
+          throw new Error('User location not set');
+        }
+
+        // Get current weather using weatherService
+        const current = await weatherService.getCurrentWeather({
+          latitude: user.home_lat,
+          longitude: user.home_lon
+        });
+
+        // Get location name
+        const location = await geocodingService.reverseGeocode(
+          user.home_lat,
+          user.home_lon
+        );
+
+        // Format the data to match your component's expectations
+        this.weatherData = {
+          current: {
+            temp_f: (current.current.temperature_2m * 9/5) + 32,
+            condition: {
+              code: current.current.weather_code,
+              text: this.getWeatherDescription(current.current.weather_code)
+            },
+            wind_mph: current.current.wind_speed_10m * 0.621371
+          },
+          location: {
+            name: location.name || 'Unknown Location',
+            region: location.admin1 || ''
+          }
+        };
+
+        this.currentLocation = location.name && location.admin1 
+          ? `${location.name}, ${location.admin1}`
+          : 'Location Unavailable';
+
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+        this.error = error.message || 'Failed to load weather data';
+        this.weatherData = null;
+        // Set a default location name when there's an error
+        this.currentLocation = 'Location Unavailable';
+      } finally {
+        this.loading = false;
+      }
     },
     getRecommendationBasis() {
-        if (!this.weatherData) return '';
-        
-        const condition = this.weatherData.current.condition.text.toLowerCase();
-        const temp = this.weatherData.current.temp_f;
-        const windSpeed = this.weatherData.current.wind_mph;
-        
-        if (condition.includes('rain') || condition.includes('storm') || condition.includes('drizzle')) {
-            return 'rainy conditions';
-        }
-        
-        if (windSpeed > 20) {
-            return 'windy conditions';
-        }
-        
-        if (temp < 45) {
-            return 'cold temperatures';
-        } else if (temp > 75) {
-            return 'warm temperatures';
-        } else {
-            return 'mild conditions';
-        }
-    },
-    },
+      if (!this.weatherData?.current?.condition?.text) return '';
+      
+      const condition = this.weatherData.current.condition.text;
+      const temp = this.weatherData.current.temp_f;
+      const windSpeed = this.weatherData.current.wind_mph;
+      
+      if (condition.includes('rain') || condition.includes('storm') || condition.includes('drizzle')) {
+        return 'rainy conditions';
+      }
+      
+      if (windSpeed > 20) {
+        return 'windy conditions';
+      }
+      
+      if (temp < 45) {
+        return 'cold temperatures';
+      } else if (temp > 75) {
+        return 'warm temperatures';
+      } else {
+        return 'mild conditions';
+      }
+    }
+  },
     mounted() {
       this.fetchWeatherData();
     }
