@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "concurrently \"vue-cli-service serve\" \"cd ml && uvicorn server:app --reload --port 8000\"",
+    "serve": "concurrently \"vue-cli-service serve --port 3000\" \"cd ml && uvicorn server:app --reload --port 8000\"",
     "serve:frontend": "vue-cli-service serve",
     "serve:ml": "cd ml && uvicorn server:app --reload --port 8000",
     "build": "vue-cli-service build",
