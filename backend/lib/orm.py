@@ -1,4 +1,6 @@
 from peewee import *
+from datetime import datetime
+
 
 db = PostgresqlDatabase(
     "postgres", host="postgres", port=5432, user="postgres", password="postgres"
@@ -21,7 +23,7 @@ class Users(Model):
     # New fields
     profile_image = CharField(null=True)
     bio = TextField(null=True)
-    preferred_activities = TextField(null=True)  # Store as JSON string
+    preferred_activities = TextField(null=True)
     favorite_weather = CharField(null=True)
     notification_email = CharField(null=True)
     theme_preference = CharField(null=True, default='dark')
@@ -49,17 +51,16 @@ class Comments(Model):
 
 class Posts(Model):
     user_id = ForeignKeyField(Users)
-    # image = TextField() # Peewee does not support storing images in pgsql.
-    # We can grab the image file from ./data/<username>/<post_id>.png
+    image_path = CharField()  # Path to stored image
     caption = TextField()
-    time_stamp = DateTimeField()
-    lat = DoubleField()
-    lon = DoubleField()
+    created_at = DateTimeField(default=datetime.now)
+    weather_prediction = CharField(null=True)
+    latitude = DoubleField()
+    longitude = DoubleField()
 
     class Meta:
         database = db
         db_table = "Posts"
-
 
 # Connect to the database and create the tables
 def init_db():

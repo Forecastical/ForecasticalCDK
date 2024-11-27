@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import { weatherFeedService } from '@/services/weatherFeedService';
+
 export default {
   name: 'ImageUpload',
   data() {
@@ -90,20 +92,20 @@ export default {
       this.$refs.fileInput.value = '';
     },
     
-    submitUpload() {
+    async submitUpload() {
       if (!this.file || !this.caption) return;
-      const newPost = {
-        url: this.preview,
-        caption: this.caption,
-        username: 'Current User', // TODO: NEED TO CONNECT THIS TO PROFILE PAGE AFTER PROFILE PAGE IS CONNECTED TO DB
-        location: 'Cleveland, OH', // TODO: GRAB FROM GEOLOCATION FUNCTIONALITY OR REUSE FROM MAIN WEATHER PAGE
-        time: 'Just now' // TODO: GRAB THE CURRENT TIME
-      };
       
-      
-      this.$emit('image-uploaded', newPost);
-      
-      this.cancelUpload();
+      try {
+        const formData = new FormData();
+        formData.append('file', this.file);
+        formData.append('caption', this.caption);
+        
+        await weatherFeedService.uploadImage(this.file, this.caption);
+        this.$emit('image-uploaded');
+        this.cancelUpload();
+      } catch (error) {
+        console.error('Upload failed:', error);
+      }
     }
   }
 }

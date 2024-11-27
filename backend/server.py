@@ -1,4 +1,5 @@
-from fastapi import FastAPI, File, UploadFile, HTTPException, status
+from fastapi import FastAPI, File, UploadFile, HTTPException, status, Query, Form
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from lib.ml.model_inference import cv_forecast_image
 from lib.ml.forecast_update import update_forecast
@@ -23,11 +24,16 @@ import numpy as np
 # import pandas as pd
 from datetime import datetime
 
-PROFILE_IMAGES_DIR = "./data/profile_images"
+IMAGEDIR = "./data"
+PROFILE_IMAGES_DIR = os.path.join(IMAGEDIR, "profile_images")
+WEATHER_IMAGES_DIR = os.path.join(IMAGEDIR, "weather_images/posts")
+
 os.makedirs(PROFILE_IMAGES_DIR, exist_ok=True)
+os.makedirs(WEATHER_IMAGES_DIR, exist_ok=True)
 
 
 app = FastAPI()
+app.mount("/data", StaticFiles(directory="data"), name="data")
 
 # Add CORS middleware configuration right after creating the FastAPI app
 app.add_middleware(
@@ -42,6 +48,8 @@ app.add_middleware(
     allow_headers=["*"],
     expose_headers=["*"]
 )
+
+app.mount("/data", StaticFiles(directory="data"), name="data")
 
 IMAGEDIR = "./data/"
 init_db()
@@ -95,7 +103,20 @@ async def validate_user(auth: UserAuth):
     try:
         if is_valid_user(auth):
             print("User validation successful")  # Debug log
-            return success_response("User validated", 200)
+            user = Users.get(Users.username == auth.username)
+            return {
+                "message": "User validated",
+                "status_code": 200,
+                "username": user.username,
+                "password": user.password,  # Be careful with this in production
+                "user_fname": user.user_fname,
+                "user_lname": user.user_lname,
+                "user_age": user.user_age,
+                "home_lat": user.home_lat,
+                "home_lon": user.home_lon,
+                "use_celsius": user.use_celsius,
+                "user_alerts": user.user_alerts
+            }
         else:
             print("User validation failed")  # Debug log
             raise HTTPException(status_code=403, detail="Invalid credentials")
@@ -149,19 +170,29 @@ async def update_user(auth: UserAuth, user_data: UserUpdate):
 
         user = Users.get(Users.username == auth.username)
         
-        # Convert the update data to dict
+        # Convert the update data to dict and exclude None values
         update_data = user_data.dict(exclude_unset=True)
-        
-        # Handle special fields
-        if 'preferred_activities' in update_data:
-            update_data['preferred_activities'] = json.dumps(update_data['preferred_activities'])
         
         # Update fields
         for key, value in update_data.items():
             setattr(user, key, value)
         
         user.save()
-        return success_response("User updated", 200)
+        
+        # Return the complete updated user data
+        return {
+            "message": "User updated successfully",
+            "status_code": 200,
+            "username": user.username,
+            "password": user.password,  # Be careful with this in production
+            "user_fname": user.user_fname,
+            "user_lname": user.user_lname,
+            "user_age": user.user_age,
+            "home_lat": user.home_lat,
+            "home_lon": user.home_lon,
+            "use_celsius": user.use_celsius,
+            "user_alerts": user.user_alerts
+        }
 
     except Users.DoesNotExist:
         raise HTTPException(status_code=404, detail="User not found")
@@ -255,62 +286,6 @@ async def delete_comment(comment_id: int, auth: UserAuth):
 """AI/ML API Calls"""
 
 
-@app.post("/upload_image", status_code=status.HTTP_201_CREATED)
-async def create_upload_file(auth: UserAuth, file: UploadFile = File(...)):
-    if file.content_type != "image/jpeg":
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="only jpg images"
-        )
-
-    try:
-        user = Users.get(Users.username == auth.username)
-    except Users.DoesNotExist:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="can't find user"
-            )
-    
-    # create filepath and save images here locally 
-    file.filename = f"{uuid.uuid4()}.jpg"
-    user_dir = f"{IMAGEDIR}/{user.id}"
-    os.path.join(user_dir, file.filename)
-    file_path = os.makedirs(user_dir, exist_ok=True)
-
-    # writing contents to file
-    try:
-        contents = await file.read()
-        with open(file_path, "wb") as f:
-            f.write(contents)
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="File image upload failed",
-        )
-        
-    # predicting the weather based on image
-    try:
-        # check if image is fake first 
-        img_check = check_image(file_path, PATH="./model/disc/vision_model.pth")
-
-        if img_check:
-            print("image is fake, try again")
-            raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="File image upload failed",
-        )
-
-        else:
-            prediction = cv_forecast_image(file_path, PATH="./model/vision_model.pth")
-            update = update_forecast(time.time, np.array[0.1, prediction])
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="image prediction failed",
-        )
-
-    return {"prediction": prediction, "forcast update": update,
-            "filename": file.filename, "status_code": 201}
-
-
 # clothing reccomender api call
 @app.get("/clothes_reccomended", status_code=status.HTTP_200_OK)
 async def reccomend_clothes(auth: UserAuth):
@@ -385,3 +360,79 @@ async def sentiment():
         )
      
     return {"sentiment": sentiment, "status_code": 200}
+
+
+@app.get("/feed_images")
+async def get_feed_images(username: str = Query(...), password: str = Query(...)):
+    try:
+        auth = UserAuth(username=username, password=password)
+        if not is_valid_user(auth):
+            raise HTTPException(status_code=403, detail="Invalid credentials")
+
+        posts = []
+        for post in Posts.select().order_by(Posts.created_at.desc()):
+            user = Users.get_by_id(post.user_id)
+            posts.append({
+                "id": post.id,
+                "url": f"/data/{post.image_path}",
+                "caption": post.caption,
+                "username": user.username,
+                "location": f"{post.latitude}, {post.longitude}",
+                "created_at": post.created_at.isoformat(),
+                "weather_prediction": post.weather_prediction
+            })
+        
+        return {"images": posts}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+@app.post("/upload_image")
+async def create_upload_file(file: UploadFile = File(...), caption: str = Form(...), auth: str = Form(...)):
+    print(f"Received upload request - File: {file.filename}, Caption: {caption}")
+    
+    auth_data = json.loads(auth)
+    auth_model = UserAuth(**auth_data)
+
+    if not is_valid_user(auth_model):
+        raise HTTPException(status_code=403, detail="Invalid credentials")
+
+    try:
+        user = Users.get(Users.username == auth_model.username)
+        
+        # Create unique filename and save path
+        filename = f"{uuid.uuid4()}.jpg"
+        post_dir = os.path.join(WEATHER_IMAGES_DIR, str(user.id))
+        os.makedirs(post_dir, exist_ok=True)
+        file_path = os.path.join(post_dir, filename)
+
+        print(f"Saving file to: {file_path}")
+
+        # Save file
+        contents = await file.read()
+        with open(file_path, "wb") as f:
+            f.write(contents)
+
+        # Create post record
+        relative_path = f"weather_images/posts/{user.id}/{filename}"
+        post = Posts.create(
+            user_id=user.id,
+            image_path=relative_path,
+            caption=caption,
+            created_at=datetime.now(),
+            weather_prediction=None,
+            latitude=user.home_lat,
+            longitude=user.home_lon
+        )
+
+        print(f"Created post with ID: {post.id}")
+        return {
+            "message": "Image uploaded successfully",
+            "post_id": post.id,
+            "image_path": relative_path
+        }
+
+    except Exception as e:
+        print(f"Upload error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
