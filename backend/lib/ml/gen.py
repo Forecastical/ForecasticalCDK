@@ -9,6 +9,7 @@ activity_suggestions = [
    'hike','read', 'play board games','run', 'garden','picnic','swim', 'fly kites'
 ]
 
+
 # Probabilistic rules
 def get_clothing(age, temp, condition):
     probabilities = []

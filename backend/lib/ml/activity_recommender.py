@@ -10,6 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 import os
 
 
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(current_dir, './synthetic_activities_data.csv')
 

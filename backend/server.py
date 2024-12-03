@@ -344,6 +344,7 @@ async def reccomend_tools(auth: UserAuth):
 
     return {"prediction": reccomendation, "status_code": 200}
 
+
 @app.get("/activities_reccomended", status_code=status.HTTP_200_OK)
 async def reccomend_tools(auth: UserAuth):
     users = Users.get(Users.username == auth.username)
@@ -370,6 +371,7 @@ async def reccomend_tools(auth: UserAuth):
         )
 
     return {"prediction": reccomendation, "status_code": 200}
+
 
 # sentiment api call
 @app.get("/sentiment", status_code=status.HTTP_200_OK)
