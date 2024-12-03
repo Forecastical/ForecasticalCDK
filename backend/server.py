@@ -346,7 +346,7 @@ async def reccomend_tools(auth: UserAuth):
 
 
 @app.get("/activities_reccomended", status_code=status.HTTP_200_OK)
-async def reccomend_tools(auth: UserAuth):
+async def reccomend_activities(auth: UserAuth):
     users = Users.get(Users.username == auth.username)
     
     weather_recc = get_weather_recommendation(users.home_lat, users.home_lon)
