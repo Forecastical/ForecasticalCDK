@@ -14,13 +14,25 @@
           v-if="showUpload"
           @image-uploaded="handleNewImage"
         />
+
+        <div v-if="loading" class="loading">
+          Loading weather feed...
+        </div>
+
+        <div v-else-if="error" class="error">
+          {{ error }}
+        </div>
         
-        <div class="feed-card">
+        <div v-else-if="images.length === 0" class="no-images">
+          No weather images yet. Be the first to share!
+        </div>
+
+        <div v-else class="feed-card">
           <div class="image-container">
             <img :src="currentImage.url" :alt="currentImage.caption" class="feed-image" />
             <div class="navigation-buttons">
-              <button @click="previousImage" class="nav-btn">←</button>
-              <button @click="nextImage" class="nav-btn">→</button>
+              <button @click="previousImage" class="nav-btn" :disabled="loading">←</button>
+              <button @click="nextImage" class="nav-btn" :disabled="loading">→</button>
             </div>
           </div>
           
@@ -28,7 +40,13 @@
             <p class="caption">{{ currentImage.caption }}</p>
             <div class="metadata">
               <span class="username">{{ currentImage.username }}</span>
-              <span class="location-time">{{ currentImage.location }} • {{ currentImage.time }}</span>
+              <span class="location-time">
+                {{ currentImage.location }} • {{ formatTime(currentImage.created_at) }}
+              </span>
+            </div>
+            <div v-if="currentImage.weather_prediction" class="weather-info">
+              <span class="weather-label">Weather Prediction:</span>
+              <span class="weather-value">{{ currentImage.weather_prediction }}</span>
             </div>
           </div>
         </div>
@@ -38,76 +56,108 @@
 </template>
 
 <script>
-import ImageUpload from './ImageUpload.vue'
-import hurricane from '@/assets/hurricane.webp'
-import partlyCloudy from '@/assets/partly_cloudy.png'
-import rainy from '@/assets/rainy.png'
-import sunny from '@/assets/sunny.png'
+import ImageUpload from './ImageUpload.vue';
+import { weatherFeedService } from '@/services/weatherFeedService';
 
 export default {
   name: 'WeatherFeed',
   components: {
     ImageUpload
   },
+
   data() {
     return {
       currentIndex: 0,
       showUpload: false,
-      images: [
-        {
-          url: hurricane,
-          caption: 'Hurricane warning in effect',
-          username: 'stormChaser',
-          location: 'Cleveland, OH',
-          time: '2 hours ago'
-        },
-        {
-          url: partlyCloudy,
-          caption: 'Beautiful partly cloudy day',
-          username: 'skyWatcher',
-          location: 'Akron, OH',
-          time: '5 hours ago'
-        },
-        {
-          url: rainy,
-          caption: 'April showers bring May flowers',
-          username: 'rainLover',
-          location: 'Columbus, OH',
-          time: '1 day ago'
-        },
-        {
-          url: sunny,
-          caption: 'Perfect sunny day for outdoor activities',
-          username: 'sunSeeker',
-          location: 'Cincinnati, OH',
-          time: '3 hours ago'
-        }
-      ]
-    }
+      loading: true,
+      error: null,
+      images: []
+    };
   },
+
   computed: {
     currentImage() {
-      return this.images[this.currentIndex];
+      if (!this.images[this.currentIndex]) return {};
+      const image = {...this.images[this.currentIndex]};
+      // Rewrite URL to point to backend
+      image.url = `http://localhost:8000${image.url}`;
+      return image;
     }
   },
+
   methods: {
+    async fetchImages() {
+      this.loading = true;
+      this.error = null;
+
+      try {
+        const response = await weatherFeedService.getFeedImages();
+        this.images = response.images;
+      } catch (error) {
+        console.error('Error fetching images:', error);
+        this.error = 'Failed to load weather feed. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
+
     nextImage() {
-      this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      if (this.images.length > 0) {
+        this.currentIndex = (this.currentIndex + 1) % this.images.length;
+      }
     },
+
     previousImage() {
-      this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      if (this.images.length > 0) {
+        this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
+      }
     },
+
     toggleUpload() {
       this.showUpload = !this.showUpload;
     },
-    handleNewImage(newPost) {
-      // Add the new image to the beginning of the array
-      this.images.unshift(newPost);
-      this.currentIndex = 0; // Show the new image
-      this.showUpload = false; // Hide the upload form
+
+    async handleNewImage() {  // Remove the unused newPost parameter
+      try {
+        // Refresh the feed to get the new image
+        await this.fetchImages();
+        this.currentIndex = 0; // Show the newest image
+        this.showUpload = false; // Hide the upload form
+      } catch (error) {
+        console.error('Error refreshing feed:', error);
+      }
+    },
+
+    formatTime(timestamp) {
+      if (!timestamp) return '';
+
+      const date = new Date(timestamp);
+      const now = new Date();
+      const diffInSeconds = Math.floor((now - date) / 1000);
+
+      if (diffInSeconds < 60) {
+        return 'Just now';
+      } else if (diffInSeconds < 3600) {
+        const minutes = Math.floor(diffInSeconds / 60);
+        return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+      } else if (diffInSeconds < 86400) {
+        const hours = Math.floor(diffInSeconds / 3600);
+        return `${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+      } else {
+        const days = Math.floor(diffInSeconds / 86400);
+        return `${days} ${days === 1 ? 'day' : 'days'} ago`;
+      }
     }
+  },
+
+  async mounted() {
+    await this.fetchImages();
+  },
+
+  beforeUnmount() {
+    // Clean up any resources if needed
   }
-}
+};
 </script>
 
 <style scoped>
@@ -257,5 +307,50 @@ export default {
     width: 36px;
     height: 36px;
   }
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #50e2e7;
+  background-color: #34495e;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.error {
+  text-align: center;
+  padding: 20px;
+  color: #e74c3c;
+  background-color: #34495e;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.no-images {
+  text-align: center;
+  padding: 40px;
+  color: #bdc3c7;
+  background-color: #34495e;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.weather-info {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #405468;
+  color: #bdc3c7;
+}
+
+.weather-label {
+  color: #50e2e7;
+  margin-right: 8px;
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 </style>
