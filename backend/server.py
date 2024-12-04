@@ -292,29 +292,31 @@ async def delete_comment(comment_id: int, auth: UserAuth):
 @app.get("/clothes_reccomended", status_code=status.HTTP_200_OK)
 async def reccomend_clothes(auth: UserAuth):
     users = Users.get(Users.username == auth.username)
-    print(users)
     
     weather_recc = get_weather_recommendation(users.home_lat, users.home_lon)
     filtered_data = {
         'Temp': weather_recc['temperature_category'],
         'Condition': weather_recc['condition'],
-        'Age Group': users.age
+        'Age': users.user_age
     }
     # check if the "target" col needs to be included
-    df = pd.DataFrame.from_dict(filtered_data)
+    df = pd.DataFrame([filtered_data])
     process_age(df)
-    
-    try:
-        model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
-        loaded_model = model.load_model(filename=".lib/ml/model/clothing_model.pkl")
-        model.model = loaded_model
-        reccomendation = str(model.get_converted_features(model.predict(df, k=3)))
+    df = df.drop(columns=["Age"])
+    print("types ", df.dtypes)
+    arr = df.values
+
+    model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
+    loaded_model = model.load_model(filename="/app/.lib/ml/model/clothing_model.pkl")
+    model.model = loaded_model
+    reccomendation = str(model.get_converted_features(model.predict(arr, k=3)))
+    """
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="clothes rec failed internally",
         )
-
+    """
     return {"prediction": reccomendation, "status_code": 200}
 
 # tools reccomender API call 
@@ -335,7 +337,7 @@ async def reccomend_tools(auth: UserAuth):
 
     try:
         model = ToolsReccomender(model=RandomForestClassifier(), feedback=None)
-        loaded_model = model.load_model(filename=".lib/ml/model/tool_model.pkl")
+        loaded_model = model.load_model(filename="/app/.lib/ml/model/tool_model.pkl")
         model.model = loaded_model
         reccomendation = str(model.get_converted_features(model.predict(df, k=3)))
     except Exception as e:
@@ -363,7 +365,7 @@ async def reccomend_activities(auth: UserAuth):
 
     try:
         model = ActivitiesReccomender(model=RandomForestClassifier(), feedback=None)
-        loaded_model = model.load_model(filename=".lib/ml/model/activities_model.pkl")
+        loaded_model = model.load_model(filename="/app/.lib/ml/model/activities_model.pkl")
         model.model = loaded_model
         reccomendation = str(model.get_converted_features(model.predict(df, k=3)))
     except Exception as e:

@@ -28,7 +28,7 @@ def process_age(df):
     df.loc[df['Age'] < 18, 'Age Group'] = "teen"
     df.loc[df['Age'].between(18,24), 'Age Group'] = "young adult"
     df.loc[df['Age'].between(25, 75), 'Age Group'] = "adult"
-    df.loc[df['Age'] > 18, 'Age Group'] = "elderly" 
+    df.loc[df['Age'] > 75, 'Age Group'] = "elderly" 
     return df 
 
 def process_temp(df):

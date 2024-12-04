@@ -10,6 +10,17 @@ RUN apt-get update && \
 # Copy requirements first for better caching
 COPY requirements.txt .
 
+# 
+# Dockerfile
+
+# Copy model files from the backend/lib/ml/model directory into the container
+# Dockerfile located inside backend/
+
+# Copy model files from backend/lib/ml/model/ into the container
+COPY lib/ml/model/activities_model.pkl /app/.lib/ml/model/activities_model.pkl
+COPY lib/ml/model/clothing_model.pkl /app/.lib/ml/model/clothing_model.pkl
+COPY lib/ml/model/tool_model.pkl /app/.lib/ml/model/tool_model.pkl
+
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt --timeout=1000
 
