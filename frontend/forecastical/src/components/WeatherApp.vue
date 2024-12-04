@@ -15,22 +15,32 @@
           <p class="forecast">Today's Forecast: {{ todayForecast }}</p>
         </div>
 
-        <div class="search-section">
-          <SearchBar @search="handleSearch"/>
-        </div>
-
         <div class="weekly-forecast">
           <h2>Weekly Forecast</h2>
           <div class="forecast-grid">
-            <div v-for="dayForecast in weeklyConditions" :key="dayForecast.day" class="day">
+            <div
+              v-for="dayForecast in weeklyConditions"
+              :key="dayForecast.day"
+              class="day"
+            >
               <h4>{{ dayForecast.day }}</h4>
-              <WeatherIcon :code="dayForecast.weatherCode" class="weather-icon" />
+              <WeatherIcon
+                :code="dayForecast.weatherCode"
+                class="weather-icon"
+              />
               <p>
                 {{ dayForecast.condition }}<br />
-                {{ dayForecast.maxTemp }}&deg;C / {{ dayForecast.minTemp }}&deg;C
+                {{ dayForecast.maxTemp }}&deg;C /
+                {{ dayForecast.minTemp }}&deg;C
               </p>
             </div>
           </div>
+        </div>
+
+        <div class="search-section">
+          <SearchBar 
+            @location-selected="handleSearch"
+           />
         </div>
 
         <div class="update-location">
@@ -70,19 +80,20 @@
 </template>
 
 <script>
-import MapCard from './MapCard.vue';
-import SearchBar from './SearchBar.vue';
-import WeatherIcon from './WeatherIcon.vue';
-import { weatherService, WEATHER_CODES } from '@/services/weatherApi';
-import { geocodingService } from '@/services/geocodingApi';
+import MapCard from "./MapCard.vue";
+import SearchBar from "./SearchBar.vue";
+
+import WeatherIcon from "./WeatherIcon.vue";
+import { weatherService, WEATHER_CODES } from "@/services/weatherApi";
+import { geocodingService } from "@/services/geocodingApi";
 
 export default {
   name: "WeatherApp",
-  
+
   components: {
     MapCard,
     SearchBar,
-    WeatherIcon
+    WeatherIcon,
   },
 
   data() {
@@ -90,6 +101,9 @@ export default {
       latitude: null,
       longitude: null,
       currentLocation: "Loading...",
+      city: "Unknown city",
+      state: "Unknown state",
+      country: "Unknown country",
       temperature: "---",
       weatherCode: 0,
       condition: "---",
@@ -101,16 +115,25 @@ export default {
       todayForecast: "---",
       weeklyConditions: [],
       sunTimes: null,
-      loading: false,
-      error: null
+      loading: {
+        search: false,
+        weather: false
+      },
+      error: {
+        search: null,
+        weather: null
+      },
+      results: {
+        search: null
+      }
     };
   },
 
   methods: {
     async fetchWeatherData() {
       try {
-        this.loading = true;
-        this.error = null;
+        this.loading.weather = true;
+        this.error.weather = null;
 
         if (!this.latitude || !this.longitude) {
           const position = await this.getUserLocation();
@@ -123,19 +146,20 @@ export default {
           geocodingService.reverseGeocode(this.latitude, this.longitude),
           weatherService.getCurrentWeather({
             latitude: this.latitude,
-            longitude: this.longitude
+            longitude: this.longitude,
           }),
           weatherService.getForecast({
             latitude: this.latitude,
             longitude: this.longitude,
-            days: 7
-          })
+            days: 7,
+          }),
         ]);
 
         // Update location
-        this.currentLocation = locationData.name && locationData.admin1 ? 
-          `${locationData.name}, ${locationData.admin1}` : 
-          `${this.latitude.toFixed(2)}°, ${this.longitude.toFixed(2)}°`;
+        this.currentLocation =
+          locationData.name && locationData.admin1
+            ? `${locationData.name}, ${locationData.admin1}`
+            : `${this.latitude.toFixed(2)}°, ${this.longitude.toFixed(2)}°`;
 
         // Update current weather
         this.temperature = Math.round(current.current.temperature_2m);
@@ -149,27 +173,26 @@ export default {
 
         // Update forecast
         this.todayForecast = WEATHER_CODES[forecast.daily.weather_code[0]];
-        
+
         // Update weekly forecast
         this.weeklyConditions = forecast.daily.time.map((time, index) => ({
-          day: new Date(time).toLocaleDateString('en-US', { weekday: 'short' }),
+          day: new Date(time).toLocaleDateString("en-US", { weekday: "short" }),
           weatherCode: forecast.daily.weather_code[index],
           condition: WEATHER_CODES[forecast.daily.weather_code[index]],
           maxTemp: Math.round(forecast.daily.temperature_2m_max[index]),
-          minTemp: Math.round(forecast.daily.temperature_2m_min[index])
+          minTemp: Math.round(forecast.daily.temperature_2m_min[index]),
         }));
 
         // Update sun times
         this.sunTimes = {
           sunrise: forecast.daily.sunrise[0],
-          sunset: forecast.daily.sunset[0]
+          sunset: forecast.daily.sunset[0],
         };
-
       } catch (error) {
-        console.error('Error fetching weather data:', error);
-        this.error = 'Failed to fetch weather data';
+        console.error("Error fetching weather data:", error);
+        this.error.weather = "Failed to fetch weather data";
       } finally {
-        this.loading = false;
+        this.loading.weather = false;
       }
     },
 
@@ -180,21 +203,29 @@ export default {
         );
         const data = await response.json();
         // Update location name based on available fields
-        this.currentLocation = data.address.city || data.address.town || data.address.village || 'Unknown location';
+        this.city =
+          data.address.city ||
+          data.address.town ||
+          data.address.village ||
+          "Unknown city";
+        this.state = data.address.state || null;
+        this.country = data.address.country || "Unknown country";
+        this.currentLocation = this.state
+          ? `${this.city}, ${this.state}, ${this.country}`
+          : `${this.city}, ${this.country}`;
       } catch (error) {
         console.error("Error fetching location:", error);
         this.currentLocation = "Unknown location";
       }
     },
 
-
-    async handleSearch(query) {
+    async handleSearch(location) {
       try {
-        const locations = await geocodingService.searchLocations(query);
-        if (locations.length > 0) {
-          const location = locations[0];
+        //const locations = await geocodingService.searchLocations(query);
+        if (location) {
           this.latitude = location.latitude;
           this.longitude = location.longitude;
+          this.city = location.city;
           await this.fetchWeatherData();
 
           // Fetch and update the city name
@@ -202,7 +233,7 @@ export default {
           console.log("Updated City Name:", this.currentLocation);
         }
       } catch (error) {
-        console.error('Error searching location:', error);
+        console.error("Error searching weather for new location:", error);
       }
     },
 
@@ -213,36 +244,38 @@ export default {
         this.longitude = position.coords.longitude;
         await this.fetchWeatherData();
       } catch (error) {
-        console.error('Error getting location:', error);
-        alert('Could not get your location. Please use the search bar instead.');
+        console.error("Error getting location:", error);
+        alert(
+          "Could not get your location. Please use the search bar instead."
+        );
       }
     },
 
     getUserLocation() {
       return new Promise((resolve, reject) => {
         if (!navigator.geolocation) {
-          reject(new Error('Geolocation is not supported by your browser'));
+          reject(new Error("Geolocation is not supported by your browser"));
         }
         navigator.geolocation.getCurrentPosition(resolve, reject);
       });
     },
 
     formatTime(isoString) {
-      return new Date(isoString).toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit'
+      return new Date(isoString).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
       });
-    }
+    },
   },
 
   mounted() {
     this.getLocation().then(() => {
-    // Call fetchCityName after location has been set
-    this.fetchCityName().then(() => {
-      console.log("Current Location:", this.currentLocation);
+      // Call fetchCityName after location has been set
+      this.fetchCityName().then(() => {
+        console.log("Current Location:", this.currentLocation);
       });
     });
-  }
+  },
 };
 </script>
 
@@ -270,7 +303,10 @@ export default {
   flex: 1;
 }
 
-.current-weather, .weekly-forecast, .supplementary-conditions, .updated-user-forecast {
+.current-weather,
+.weekly-forecast,
+.supplementary-conditions,
+.updated-user-forecast {
   background-color: #34495e;
   padding: 20px;
   margin-bottom: 20px;
@@ -361,7 +397,8 @@ strong {
   color: #50e2e7;
 }
 
-.location-btn, .update-btn {
+.location-btn,
+.update-btn {
   background-color: #3498db;
   border: none;
   color: white;
@@ -373,7 +410,8 @@ strong {
   margin-right: 10px;
 }
 
-.location-btn:hover, .update-btn:hover {
+.location-btn:hover,
+.update-btn:hover {
   background-color: #2980b9;
 }
 
@@ -394,3 +432,4 @@ strong {
   margin-right: 20px;
 }
 </style>
+

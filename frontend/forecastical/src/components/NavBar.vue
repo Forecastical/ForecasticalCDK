@@ -38,20 +38,13 @@
             <span class="icon">🎯</span>
             Recommendations
           </router-link>
-          <router-link
-            to="/test"
-            class="nav-link"
-            :class="{ active: $route.path === '/test' }"
-          >
-            <span class="icon">🔧</span>
-            API Test
-          </router-link>
+
           <router-link
             to="/hub"
             class="nav-link"
             :class="{ active: $route.path === '/hub' }"
           >
-            <span class="icon">🔧</span>
+            <span class="icon">🛠️</span>
             Interactive Hub
           </router-link>
           
