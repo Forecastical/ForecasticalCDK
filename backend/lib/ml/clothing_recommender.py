@@ -28,7 +28,7 @@ TF-IDF will be chosen for now. One model with user profiles.
 """
 
 
-df = pd.read_csv(csv_path)
+#df = pd.read_csv(csv_path)
 
 # preprocess data in csv 
 def process_age(df):
@@ -45,8 +45,8 @@ def process_temp(df):
     df.loc[df['Temperature'] >= 80, 'Temp'] = "hot"
     return df
 
-process_age(df)
-process_temp(df)
+#process_age(df)
+#process_temp(df)
 
 
 class ClothingRecommender:
@@ -93,7 +93,7 @@ class ClothingRecommender:
         model = pickle.load(open(filename, "rb"))
         return model
 
-
+'''
 if __name__ == "__main__":
     df = pd.DataFrame(df)
     features = ["Age", "Temperature"]
@@ -109,6 +109,5 @@ if __name__ == "__main__":
     recommendations = model.predict(k=3)
     print(model.get_converted_features(recommendations))
     model.save_model()
-   
-    
+'''
     

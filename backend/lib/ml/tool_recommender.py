@@ -21,7 +21,7 @@ SVD,LightFM
 TF-IDF will be chosen for now. One model with user profiles.
 
 """
-df = pd.read_csv('synthetic_tools_data.csv')
+#df = pd.read_csv('synthetic_tools_data.csv')
 
 # preprocess data in csv 
 def process_age(df):
@@ -38,10 +38,10 @@ def process_temp(df):
     df.loc[df['Temperature'] >= 80, 'Temp'] = "hot"
     return df
 
-process_age(df)
-process_temp(df)
+#process_age(df)
+#process_temp(df)
 
-class ClothingRecommender:
+class ToolsReccomender:
 
     def __init__(self, model, feedback) -> None:
         self.model = model
@@ -91,11 +91,11 @@ class ClothingRecommender:
         model = pickle.load(open(filename, "rb"))
         return model
 
-
+'''
 if __name__ == "__main__":
     df = pd.DataFrame(df)
     features = ["Age", "Temperature"]
-    model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
+    model = ToolsReccomender(model=RandomForestClassifier(), feedback=None)
     X = df.drop(columns=features)
     y = df["Tool"]
     model.preprocess(X=X, y=y)
@@ -109,3 +109,4 @@ if __name__ == "__main__":
     loaded_model = model.load_model(filename="./model/tool_model.pkl")
     model.model = loaded_model
     print(model.get_converted_features(model.predict(model.X_test, k=3)))
+'''

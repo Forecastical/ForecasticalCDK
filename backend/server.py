@@ -3,6 +3,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from lib.ml.model_inference import cv_forecast_image
 from lib.ml.forecast_update import update_forecast
+from lib.ml.tool_recommender import ToolsReccomender, process_age
+from lib.ml.activity_recommender import ActivitiesReccomender, process_age
 from lib.ml.clothing_recommender import ClothingRecommender, process_age
 from lib.ml.adv_img_discriminator import check_image
 from lib.ml.sentiment_model import get_comments
@@ -290,7 +292,7 @@ async def delete_comment(comment_id: int, auth: UserAuth):
 @app.get("/clothes_reccomended", status_code=status.HTTP_200_OK)
 async def reccomend_clothes(auth: UserAuth):
     users = Users.get(Users.username == auth.username)
-    
+    print(users)
     
     weather_recc = get_weather_recommendation(users.home_lat, users.home_lon)
     filtered_data = {
@@ -301,7 +303,7 @@ async def reccomend_clothes(auth: UserAuth):
     # check if the "target" col needs to be included
     df = pd.DataFrame.from_dict(filtered_data)
     process_age(df)
-
+    
     try:
         model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
         loaded_model = model.load_model(filename=".lib/ml/model/clothing_model.pkl")
@@ -332,7 +334,7 @@ async def reccomend_tools(auth: UserAuth):
     process_age(df)
 
     try:
-        model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
+        model = ToolsReccomender(model=RandomForestClassifier(), feedback=None)
         loaded_model = model.load_model(filename=".lib/ml/model/tool_model.pkl")
         model.model = loaded_model
         reccomendation = str(model.get_converted_features(model.predict(df, k=3)))
@@ -360,7 +362,7 @@ async def reccomend_activities(auth: UserAuth):
     process_age(df)
 
     try:
-        model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
+        model = ActivitiesReccomender(model=RandomForestClassifier(), feedback=None)
         loaded_model = model.load_model(filename=".lib/ml/model/activities_model.pkl")
         model.model = loaded_model
         reccomendation = str(model.get_converted_features(model.predict(df, k=3)))
