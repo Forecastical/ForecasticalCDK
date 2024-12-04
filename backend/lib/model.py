@@ -1,5 +1,7 @@
+# model.py
 from pydantic import BaseModel, Field
 from typing import Optional, List
+from datetime import datetime
 
 """Pydantic models for Handling User Input"""
 
@@ -63,3 +65,26 @@ class EditComment(BaseModel):
     comment: Optional[str]
     lat: Optional[float]
     lon: Optional[float]
+    
+
+class PostCreate(BaseModel):
+    caption: str
+    latitude: float = Field(..., ge=-90, le=90)
+    longitude: float = Field(..., ge=-180, le=180)
+    weather_prediction: Optional[str] = None
+
+class PostResponse(BaseModel):
+    id: int
+    user_id: int
+    image_path: str
+    caption: str
+    created_at: datetime
+    weather_prediction: Optional[str]
+    latitude: float
+    longitude: float
+
+class PostUpdate(BaseModel):
+    caption: Optional[str] = None
+    weather_prediction: Optional[str] = None
+    latitude: Optional[float] = Field(None, ge=-90, le=90)
+    longitude: Optional[float] = Field(None, ge=-180, le=180)
