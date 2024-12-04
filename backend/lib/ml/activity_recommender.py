@@ -10,9 +10,9 @@ from sklearn.ensemble import RandomForestClassifier
 import os
 
 
-# Get current file's directory
+
 current_dir = os.path.dirname(os.path.abspath(__file__))
-csv_path = os.path.join(current_dir, './sythetic_clothing_data.csv')
+csv_path = os.path.join(current_dir, './synthetic_activities_data.csv')
 
 
 """
@@ -26,7 +26,6 @@ SVD,LightFM
 TF-IDF will be chosen for now. One model with user profiles.
 
 """
-
 
 df = pd.read_csv(csv_path)
 
@@ -49,66 +48,79 @@ process_age(df)
 process_temp(df)
 
 
-class ClothingRecommender:
+class ClothingRecommender():
 
-    def __init__(self, model, feedback) -> None:
+    def __init__(self, model, feedback)->None:
         self.model = model
         self.feedback = feedback
-
-    def preprocess(self, X, y) -> None:
+ 
+    def preprocess(self,X,y)->None:
         self.label_encoder = LabelEncoder()
         self.hot_encoder = OneHotEncoder()
-
+    
         self.X_enc = self.hot_encoder.fit_transform(X)
         self.Y_enc = self.label_encoder.fit_transform(y)
 
-    def train(self) -> None:
-        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(
-            self.X_enc, self.Y_enc
-        )
-        self.model.fit(self.X_train, self.Y_train)
+    def train(self)->None:
+        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(self.X_enc, self.Y_enc)
+        self.model.fit(self.X_train,self.Y_train)
 
-    def predict(self, new_features, k: int):
-        predicted_probs = self.model.predict_proba(new_features)
-        predicted_recommendations = np.argsort(predicted_probs, axis=1)[:, -k:]
+
+    def predict(self, k:int):
+        predicted_probs = self.model.predict_proba(self.X_test)
+        predicted_recommendations = np.argsort(predicted_probs, axis=1)[:,-k:]
         return predicted_recommendations
-
+    
     def get_converted_features(self, recommendations):
-        classes = self.label_encoder.inverse_transform(recommendations[0])
+        classes =  self.label_encoder.inverse_transform(recommendations[0])
         return classes
-
-    def get_classes_ordered(self, classes, order="highest"):
-        if order == "highest":
+    
+    def get_classes_ordered(self, classes, order='highest'):
+        if order == 'highest':
             return reversed(classes)
-        elif order == "lowest":
+        elif order == 'lowest':
             return classes
 
-    def save_model(self) -> None:
-        os.makedirs("model", exist_ok=True)
-        with open("./model/clothing_model.pkl", "wb") as file:
+    def update_user_profile()->None:
+        pass
+
+
+    def get_recommendations()->None:
+        pass
+
+    def save_model(self)->None:
+        os.makedirs('model', exist_ok=True)
+        with open('./model/activities_model.pkl', 'wb') as file:
             pickle.dump(self.model, file)
         print("Model generated.")
 
-    def load_model(self, filename) -> None:
-        model = pickle.load(open(filename, "rb"))
+    def load_model(self, filename)->None:
+        model = pickle.load(open(filename, 'rb'))
         return model
 
+if __name__ == '__main__':
+   df = pd.DataFrame(df)
+   features = ["Age", "Temperature"]
+   model = ClothingRecommender(model = RandomForestClassifier(), feedback = None)
+   X = df.drop(columns=features)
 
-if __name__ == "__main__":
-    df = pd.DataFrame(df)
-    features = ["Age", "Temperature"]
-    model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
-    X = df.drop(columns=features)
-    print(X)
+
+   y = df['Activity']
+   model.preprocess(X = X, y = y)
+   model.train()
+
+   #recommendations = model.predict(k = 2)
+   #print(model.get_converted_features(recommendations))
+   #model.save_model()
+
+    #loaded_model = model.load_model(filename = './model/activities_model.pkl')
+    #model.model = loaded_model
+    #print(model.get_converted_features(model.predict(k = 3)))
+
+
+
     
-    y = df["Clothing"]
-    model.preprocess(X=X, y=y)
-    model.train()
-    
-    
-    recommendations = model.predict(k=3)
-    print(model.get_converted_features(recommendations))
-    model.save_model()
-   
-    
-    
+
+
+
+

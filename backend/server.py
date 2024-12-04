@@ -345,6 +345,34 @@ async def reccomend_tools(auth: UserAuth):
     return {"prediction": reccomendation, "status_code": 200}
 
 
+@app.get("/activities_reccomended", status_code=status.HTTP_200_OK)
+async def reccomend_activities(auth: UserAuth):
+    users = Users.get(Users.username == auth.username)
+    
+    weather_recc = get_weather_recommendation(users.home_lat, users.home_lon)
+    filtered_data = {
+        'Temp': weather_recc['temperature_category'],
+        'Condition': weather_recc['condition'],
+        'Age Group': users.age
+    }
+    # check if the "target" col needs to be included
+    df = pd.DataFrame.from_dict(filtered_data)
+    process_age(df)
+
+    try:
+        model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
+        loaded_model = model.load_model(filename=".lib/ml/model/activities_model.pkl")
+        model.model = loaded_model
+        reccomendation = str(model.get_converted_features(model.predict(df, k=3)))
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="clothes rec failed internally",
+        )
+
+    return {"prediction": reccomendation, "status_code": 200}
+
+
 # sentiment api call
 @app.get("/sentiment", status_code=status.HTTP_200_OK)
 async def sentiment():
