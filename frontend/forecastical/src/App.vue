@@ -31,9 +31,29 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .masonry-container {
+    padding: 0.5rem 0;
+    @media (max-width: 540px) {
+      width: 100% !important;
+      padding: 1rem;
+    }
+    > .md-card {
+      max-width: 250px;
+      margin: 0.5rem;
+      @media (min-width: 1500px) {
+        max-width: 300px;
+      }
+      @media (max-width: 540px) {
+        max-width: 100%;
+      }
+    }
+  }
 }
-
 .main-content {
   padding: 20px;
 }
+
 </style>

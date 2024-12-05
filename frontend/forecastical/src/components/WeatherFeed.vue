@@ -23,33 +23,10 @@
           {{ error }}
         </div>
         
-        <div v-else-if="images.length === 0" class="no-images">
+        <div v-else-if="posts.length === 0" class="no-images">
           No weather images yet. Be the first to share!
         </div>
-
-        <div v-else class="feed-card">
-          <div class="image-container">
-            <img :src="currentImage.url" :alt="currentImage.caption" class="feed-image" />
-            <div class="navigation-buttons">
-              <button @click="previousImage" class="nav-btn" :disabled="loading">←</button>
-              <button @click="nextImage" class="nav-btn" :disabled="loading">→</button>
-            </div>
-          </div>
-          
-          <div class="caption-container">
-            <p class="caption">{{ currentImage.caption }}</p>
-            <div class="metadata">
-              <span class="username">{{ currentImage.username }}</span>
-              <span class="location-time">
-                {{ currentImage.location }} • {{ formatTime(currentImage.created_at) }}
-              </span>
-            </div>
-            <div v-if="currentImage.weather_prediction" class="weather-info">
-              <span class="weather-label">Weather Prediction:</span>
-              <span class="weather-value">{{ currentImage.weather_prediction }}</span>
-            </div>
-          </div>
-        </div>
+        <WeatherFeedGrid v-else :posts="posts" />
       </div>
     </div>
   </div>
@@ -57,12 +34,14 @@
 
 <script>
 import ImageUpload from './ImageUpload.vue';
+import WeatherFeedGrid from './WeatherFeedGrid.vue';
 import { weatherFeedService } from '@/services/weatherFeedService';
 
 export default {
   name: 'WeatherFeed',
   components: {
-    ImageUpload
+    ImageUpload,
+    WeatherFeedGrid
   },
 
   data() {
@@ -71,45 +50,51 @@ export default {
       showUpload: false,
       loading: true,
       error: null,
-      images: []
+      //[
+      //  { 
+      //    image: "https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-100.jpg",
+      //    location: 'New York',
+      //    created_at: '2021-07-01T12:00:00Z',
+      //    username: 'johndoe',
+      //    caption: 'Beautiful day in the city!',
+      //    weather_prediction: 'Sunny'
+      //  },
+      //  { 
+      //    image: "https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-101.jpg",
+      //    location: "San Francisco",
+      //    created_at: '2021-07-02T09:30:00Z',
+      //    username: "janedoe",
+      //    caption: "Golden Gate Bridge",
+      //    weather_prediction: "Foggy"
+      //  },
+      //  {
+      //    image: "https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-102.jpg",
+      //    location: "Paris",
+      //    created_at: '2021-07-03T15:45:00Z',
+      //    username: "johndoe",
+      //    caption: "Eiffel Tower",
+      //    weather_prediction: "Rainy"
+      //  }
+      //]
     };
   },
 
   computed: {
-    currentImage() {
-      if (!this.images[this.currentIndex]) return {};
-      const image = {...this.images[this.currentIndex]};
-      // Rewrite URL to point to backend
-      image.url = `http://localhost:8000${image.url}`;
-      return image;
-    }
   },
 
   methods: {
-    async fetchImages() {
+    async fetchPosts() {
       this.loading = true;
       this.error = null;
 
       try {
         const response = await weatherFeedService.getFeedImages();
-        this.images = response.images;
+        this.posts = response.images;
       } catch (error) {
         console.error('Error fetching images:', error);
         this.error = 'Failed to load weather feed. Please try again later.';
       } finally {
         this.loading = false;
-      }
-    },
-
-    nextImage() {
-      if (this.images.length > 0) {
-        this.currentIndex = (this.currentIndex + 1) % this.images.length;
-      }
-    },
-
-    previousImage() {
-      if (this.images.length > 0) {
-        this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
       }
     },
 
@@ -120,7 +105,7 @@ export default {
     async handleNewImage() {  // Remove the unused newPost parameter
       try {
         // Refresh the feed to get the new image
-        await this.fetchImages();
+        await this.fetchPosts();
         this.currentIndex = 0; // Show the newest image
         this.showUpload = false; // Hide the upload form
       } catch (error) {
@@ -151,7 +136,7 @@ export default {
   },
 
   async mounted() {
-    await this.fetchImages();
+    await this.fetchPosts();
   },
 
   beforeUnmount() {
@@ -159,7 +144,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 .weather-app {
   max-width: 1200px;

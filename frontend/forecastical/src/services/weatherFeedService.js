@@ -47,27 +47,27 @@ class WeatherFeedService {
     }
   }
 
-    async getFeedImages() {
-        try {
-            const currentUser = authService.getCurrentUser();
-            if (!currentUser) {
-            throw new Error('User not authenticated');
-            }
+  async getFeedImages() {
+    try {
+      const currentUser = authService.getCurrentUser();
+      if (!currentUser) {
+        throw new Error('User not authenticated');
+      }
 
-            // Pass auth data as query parameters instead of body
-            const response = await this.client.get('/feed_images', {
-            params: {
-                username: currentUser.username,
-                password: currentUser.password
-            }
-            });
-
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching feed images:', error);
-            throw error;
+      // Pass auth data as query parameters instead of body
+      const response = await this.client.get('/feed_images', {
+        params: {
+          username: currentUser.username,
+          password: currentUser.password
         }
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching feed images:', error);
+      throw error;
     }
+  }
 
   getAuthHeader() {
     const user = authService.getCurrentUser();
