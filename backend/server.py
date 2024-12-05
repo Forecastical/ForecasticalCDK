@@ -430,7 +430,17 @@ async def get_feed_images(username: str = Query(...), password: str = Query(...)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+"Delete Post here"
+@app.delete("/post/{post_id}")
+async def delete_post(post_id: int, auth: UserAuth):
+    try:
+        auth = UserAuth(username=username, password=password)
+        if not is_valid_user(auth):
+            raise HTTPException(status_code=403, detail="Invalid credentials")
 
+        return Posts.delete().where(Posts.id == post_id).execute()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/upload_image")
 async def create_upload_file(file: UploadFile = File(...), caption: str = Form(...), auth: str = Form(...)):

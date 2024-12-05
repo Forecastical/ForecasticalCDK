@@ -29,13 +29,7 @@
           </v-row>
         </v-card-text>
         <!-- Buttons -->
-        <v-card-actions>
-          <v-btn @click="clickComment" >
-            <svg-icon color="cyan" type="mdi" :path="commentIcon"></svg-icon>
-          </v-btn>
-          <v-btn icon @click="clickEdit">
-            <svg-icon color="cyan" type="mdi" :path="editIcon"></svg-icon>
-          </v-btn>
+        <v-card-actions v-if="post.username === username">
           <v-btn icon @click="clickDelete">
             <svg-icon color="cyan" type="mdi" :path="deleteIcon"></svg-icon>
           </v-btn>
@@ -48,6 +42,18 @@
 import SvgIcon from '@jamescoyle/vue-icon';
 import WeatherImage from './WeatherImage.vue';
 import { mdiComment, mdiPencil, mdiTrashCanOutline } from '@mdi/js';
+import { authService } from '@/services/authService';
+
+/*
+
+          <v-btn @click="clickComment" >
+            <svg-icon color="cyan" type="mdi" :path="commentIcon"></svg-icon>
+          </v-btn>
+
+          <v-btn icon @click="clickEdit">
+            <svg-icon color="cyan" type="mdi" :path="editIcon"></svg-icon>
+          </v-btn>
+*/
 //import WeatherFeedCard from './WeatherFeedCard.vue';
   //<WeatherFeedCard :image="post.image" :location="post.location" :created_at="post.created_at" :username="post.username" :caption="post.caption" :weather_prediction="post.weather_prediction" />
 // currentImage.weather_prediction
@@ -70,15 +76,23 @@ export default {
   data() {
     return {
       currentImageIndex: 0,
-      loading: false,
+      loading: true,
       commentIcon: mdiComment,
       editIcon: mdiPencil,
-      deleteIcon: mdiTrashCanOutline
+      deleteIcon: mdiTrashCanOutline,
     }
   },
   computed: {
+    username() {
+      const user = authService.getCurrentUser();
+      console.log(user.username);
+      return user.username;
+    },
   },
   methods: {
+    deletePost() {
+      this.$emit('delete-post', this.posts[this.currentImageIndex].id);
+    },
     previousImage() {
       if (this.currentImageIndex > 0) {
         this.currentImageIndex--;
@@ -96,6 +110,8 @@ export default {
     getImageFromURI(uri) {
       return uri;
     },
+  },
+  mounted() {
   }
 }
 </script>
