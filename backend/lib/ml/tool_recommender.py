@@ -41,18 +41,24 @@ def process_temp(df):
 #process_age(df)
 #process_temp(df)
 
-class ToolsReccomender:
 
-    def __init__(self, model, feedback) -> None:
+class ToolsRecommender:
+
+    def __init__(self, model=None) -> None:
         self.model = model
-        self.feedback = feedback
+        self.label_encoder = LabelEncoder()
+        self.hot_encoder = OneHotEncoder()  
+        self.feature_names = None
 
     def preprocess(self, X, y) -> None:
-        self.label_encoder = LabelEncoder()
-        self.hot_encoder = OneHotEncoder()
-
-        self.X_enc = self.hot_encoder.fit_transform(X)
+        self.feature_names = list(X.columns)
+        self.X_enc = self.hot_encoder.fit_transform(X).toarray()
         self.Y_enc = self.label_encoder.fit_transform(y)
+
+        self.feature_categories = {
+            feature: list(X[feature].unique()) 
+            for feature in self.feature_names
+        }
 
     def train(self) -> None:
         self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(
@@ -60,9 +66,13 @@ class ToolsReccomender:
         )
         self.model.fit(self.X_train, self.Y_train)
 
-    def predict(self, new_features, k: int):
-        predicted_probs = self.model.predict_proba(new_features)
+    def predict(self, user_data:np.ndarray, k: int):
+        user_data_enc = self.hot_encoder.transform([user_data]).toarray()
+        
+        predicted_probs = self.model.predict_proba(user_data_enc)
+
         predicted_recommendations = np.argsort(predicted_probs, axis=1)[:, -k:]
+        
         return predicted_recommendations
 
     def get_converted_features(self, recommendations):
@@ -75,38 +85,50 @@ class ToolsReccomender:
         elif order == "lowest":
             return classes
 
-    def update_user_profile() -> None:
-        pass
-
-    def get_recommendations() -> None:
-        pass
-
-    def save_model(self) -> None:
-        os.makedirs("model", exist_ok=True)
-        with open("./model/tool_model.pkl", "wb") as file:
-            pickle.dump(self.model, file)
-        print("Model generated.")
+    def save_model(self, path="./model") -> None:
+        """Save model and preprocessing objects"""
+        os.makedirs(path, exist_ok=True)
+        model_data = {
+            'model': self.model,
+            'label_encoder': self.label_encoder,
+            'hot_encoder': self.hot_encoder,
+            'feature_names': self.feature_names,
+            'feature_categories': self.feature_categories
+        }
+        with open(os.path.join(path, "tool_model.pkl"), "wb") as file:
+            pickle.dump(model_data, file)
+        print("Model and preprocessing objects saved successfully.")
 
     def load_model(self, filename) -> None:
-        model = pickle.load(open(filename, "rb"))
-        return model
+        """Load model and preprocessing objects"""
+        with open(filename, "rb") as file:
+            model_data = pickle.load(file)
+            
+        self.model = model_data['model']
+        self.label_encoder = model_data['label_encoder']
+        self.hot_encoder = model_data['hot_encoder']
+        self.feature_names = model_data['feature_names']
+        self.feature_categories = model_data['feature_categories']
+        
+        return self
 
 '''
 if __name__ == "__main__":
     df = pd.DataFrame(df)
-    features = ["Age", "Temperature"]
-    model = ToolsReccomender(model=RandomForestClassifier(), feedback=None)
-    X = df.drop(columns=features)
-    y = df["Tool"]
+    features = ["Age Group", "Temp", "Condition"]
+    target = "Tool"
+    X = df[features]
+    y = df[target] 
+    model = ToolsRecommender(model=RandomForestClassifier())
     model.preprocess(X=X, y=y)
     model.train()
     
-    
-    recommendations = model.predict(k=2)
+    ex = np.array(["teen", "warm", "sunny"])
+    recommendations = model.predict(user_data = ex, k=2)
     print(model.get_converted_features(recommendations))
-    model.save_model()
     
-    loaded_model = model.load_model(filename="./model/tool_model.pkl")
-    model.model = loaded_model
-    print(model.get_converted_features(model.predict(model.X_test, k=3)))
+    model.save_model()
+    loaded_model = ToolsRecommender().load_model(filename="./model/tool_model.pkl")
+    recommendations = loaded_model.predict(user_data=ex, k=3)
+    print("Recommendations:", loaded_model.get_converted_features(recommendations))
 '''

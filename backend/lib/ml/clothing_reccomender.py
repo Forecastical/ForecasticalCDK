@@ -21,7 +21,9 @@ SVD,LightFM
 TF-IDF will be chosen for now. One model with user profiles.
 
 """
-#df = pd.read_csv('synthetic_activities_data.csv')
+# gender, age, height, weather
+
+#df = pd.read_csv("./synthetic_clothing_data.csv")
 
 # preprocess data in csv 
 def process_age(df):
@@ -42,7 +44,7 @@ def process_temp(df):
 #process_temp(df)
 
 
-class ActivityRecomender:
+class ClothingRecommender:
 
     def __init__(self, model=None) -> None:
         self.model = model
@@ -95,7 +97,7 @@ class ActivityRecomender:
             'feature_names': self.feature_names,
             'feature_categories': self.feature_categories
         }
-        with open(os.path.join(path, "activities_model.pkl"), "wb") as file:
+        with open(os.path.join(path, "clothing_model.pkl"), "wb") as file:
             pickle.dump(model_data, file)
         print("Model and preprocessing objects saved successfully.")
 
@@ -116,23 +118,21 @@ class ActivityRecomender:
 if __name__ == "__main__":
     df = pd.DataFrame(df)
     features = ["Age Group", "Temp", "Condition"]
-    target = "Activity"
+    target = "Clothing"
     X = df[features]
     y = df[target] 
-    model = ActivityRecomender(model=RandomForestClassifier())
-    model.preprocess(X=X, y=y)
-    model.train()
+    #model = ClothingRecommender(model=RandomForestClassifier())
+    #model.preprocess(X=X, y=y)
+    #model.train()
     
     ex = np.array(["teen", "warm", "sunny"])
-    recommendations = model.predict(user_data = ex, k=2)
-    print(model.get_converted_features(recommendations))
+    #recommendations = model.predict(user_data = ex, k=2)
+    #print(model.get_converted_features(recommendations))
     
-    model.save_model()
-    loaded_model = ActivityRecomender().load_model(filename="./model/activities_model.pkl")
+    #model.save_model()
+    loaded_model = ClothingRecommender().load_model(filename="./model/clothing_model.pkl")
     recommendations = loaded_model.predict(user_data=ex, k=3)
     print("Recommendations:", loaded_model.get_converted_features(recommendations))
+   #model.model = loaded_model
+    #print("features: ", model.get_converted_features(model.predict(user_data = ex, k=3)))
 '''
-
-
-
-

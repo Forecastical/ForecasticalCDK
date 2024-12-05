@@ -20,6 +20,7 @@ COPY requirements.txt .
 COPY lib/ml/model/activities_model.pkl /app/.lib/ml/model/activities_model.pkl
 COPY lib/ml/model/clothing_model.pkl /app/.lib/ml/model/clothing_model.pkl
 COPY lib/ml/model/tool_model.pkl /app/.lib/ml/model/tool_model.pkl
+COPY lib/ml/synthetic_activities_data.csv /app/.lib/ml/synthetic_activities_data.csv
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt --timeout=1000

@@ -3,9 +3,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from lib.ml.model_inference import cv_forecast_image
 from lib.ml.forecast_update import update_forecast
-from lib.ml.tool_recommender import ToolsReccomender, process_age
-from lib.ml.activity_recommender import ActivitiesReccomender, process_age
-from lib.ml.clothing_recommender import ClothingRecommender, process_age
+from lib.ml.tool_recommender import ToolsRecommender, process_age
+from lib.ml.activity_recommender import ActivityRecomender, process_age
+from lib.ml.clothing_reccomender import ClothingRecommender, process_age
 from lib.ml.adv_img_discriminator import check_image
 from lib.ml.sentiment_model import get_comments
 from lib.orm import Users, Comments, Posts, extract_db_comments, init_db
@@ -301,23 +301,26 @@ async def reccomend_clothes(auth: UserAuth):
     }
     # check if the "target" col needs to be included
     df = pd.DataFrame([filtered_data])
-    process_age(df)
-    df = df.drop(columns=["Age"])
-    print("types ", df.dtypes)
-    arr = df.values
+    df = process_age(df)
+    features = ["Age Group", "Temp", "Condition"]
+    x = df[features]
+    test = x.iloc[0].to_numpy() 
 
-    model = ClothingRecommender(model=RandomForestClassifier(), feedback=None)
-    loaded_model = model.load_model(filename="/app/.lib/ml/model/clothing_model.pkl")
-    model.model = loaded_model
-    reccomendation = str(model.get_converted_features(model.predict(arr, k=3)))
-    """
+    try:
+        loaded_model = ClothingRecommender().load_model(filename="/app/.lib/ml/model/clothing_model.pkl")
+        recommendations = loaded_model.predict(user_data=test, k=3)
+        output = loaded_model.get_converted_features(recommendations)
+    
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="clothes rec failed internally",
         )
-    """
-    return {"prediction": reccomendation, "status_code": 200}
+    
+    return {"prediction": output[0], 
+            "prediction2": output[1],  
+            "prediction3": output[2],
+            "status_code": 200}
 
 # tools reccomender API call 
 @app.get("/tools_reccomended", status_code=status.HTTP_200_OK)
@@ -329,24 +332,28 @@ async def reccomend_tools(auth: UserAuth):
     filtered_data = {
         'Temp': weather_recc['temperature_category'],
         'Condition': weather_recc['condition'],
-        'Age Group': users.age
+        'Age': users.user_age
     }
     # check if the "target" col needs to be included
-    df = pd.DataFrame.from_dict(filtered_data)
-    process_age(df)
+    df = pd.DataFrame([filtered_data])
+    df = process_age(df)
+    features = ["Age Group", "Temp", "Condition"]
+    x = df[features]
+    test = x.iloc[0].to_numpy()
 
     try:
-        model = ToolsReccomender(model=RandomForestClassifier(), feedback=None)
-        loaded_model = model.load_model(filename="/app/.lib/ml/model/tool_model.pkl")
-        model.model = loaded_model
-        reccomendation = str(model.get_converted_features(model.predict(df, k=3)))
+        loaded_model = ToolsRecommender().load_model(filename="/app/.lib/ml/model/tool_model.pkl")
+        recommendations = loaded_model.predict(user_data=test, k=2)
+        output = loaded_model.get_converted_features(recommendations)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="clothes rec failed internally",
         )
 
-    return {"prediction": reccomendation, "status_code": 200}
+    return {"prediction": output[0], 
+            "prediction2": output[1],  
+            "status_code": 200}
 
 
 @app.get("/activities_reccomended", status_code=status.HTTP_200_OK)
@@ -357,24 +364,29 @@ async def reccomend_activities(auth: UserAuth):
     filtered_data = {
         'Temp': weather_recc['temperature_category'],
         'Condition': weather_recc['condition'],
-        'Age Group': users.age
+        'Age': users.user_age
     }
     # check if the "target" col needs to be included
-    df = pd.DataFrame.from_dict(filtered_data)
-    process_age(df)
+    df = pd.DataFrame([filtered_data])
+    df = process_age(df)
+    features = ["Age Group", "Temp", "Condition"]
+    x = df[features]
+    test = x.iloc[0].to_numpy()
 
     try:
-        model = ActivitiesReccomender(model=RandomForestClassifier(), feedback=None)
-        loaded_model = model.load_model(filename="/app/.lib/ml/model/activities_model.pkl")
-        model.model = loaded_model
-        reccomendation = str(model.get_converted_features(model.predict(df, k=3)))
+        loaded_model = ActivityRecomender().load_model(filename="/app/.lib/ml/model/activities_model.pkl")
+        recommendations = loaded_model.predict(user_data=test, k=3)
+        output = loaded_model.get_converted_features(recommendations)
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="clothes rec failed internally",
         )
 
-    return {"prediction": reccomendation, "status_code": 200}
+    return {"prediction": output[0], 
+            "prediction2": output[1],  
+            "prediction3": output[2],
+            "status_code": 200}
 
 
 # sentiment api call
