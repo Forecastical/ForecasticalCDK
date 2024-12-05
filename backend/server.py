@@ -480,3 +480,58 @@ async def create_upload_file(file: UploadFile = File(...), caption: str = Form(.
     except Exception as e:
         print(f"Upload error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/upload_image", status_code=status.HTTP_201_CREATED)
+async def image_tagging(auth: UserAuth, file: UploadFile = File(...)):
+    if file.content_type != "image/jpeg":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="only jpg images"
+        )
+
+    try:
+        user = Users.get(Users.username == auth.username)
+    except Users.DoesNotExist:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="can't find user"
+            )
+    
+    # create filepath and save images here locally 
+    file.filename = f"{uuid.uuid4()}.jpg"
+    user_dir = f"{IMAGEDIR}/{user.id}"
+    os.path.join(user_dir, file.filename)
+    file_path = os.makedirs(user_dir, exist_ok=True)
+
+    # writing contents to file
+    try:
+        contents = await file.read()
+        with open(file_path, "wb") as f:
+            f.write(contents)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="File image upload failed",
+        )
+        
+    # predicting the weather based on image
+    try:
+        # check if image is fake first 
+        img_check = check_image(file_path, PATH="./model/disc/vision_model.pth")
+
+        if img_check:
+            print("image is fake, try again")
+            raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Image is not a valid weather input",
+        )
+
+        else:
+            prediction = cv_forecast_image(file_path, PATH="./model/vision_model.pth")
+            update = update_forecast(time.time, np.array[0.1, prediction])
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="image prediction failed",
+        )
+
+    return {"prediction": prediction, "forcast_update": update,
+            "filename": file.filename, "status_code": 201}
