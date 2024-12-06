@@ -43,7 +43,8 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:8081",  # Your frontend dev server
         "http://localhost:8080",  # Common Vue dev server port
-        "http://localhost:3000"   # Alternative frontend port
+        "http://127.0.0.1:3000",   # Alternative frontend port
+        "http://localhost:3000"
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],

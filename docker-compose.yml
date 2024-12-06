@@ -18,9 +18,16 @@ services:
         condition: service_healthy
 
   frontend:
-    build: ./frontend/forecastical/
-    ports:
-      - "3000:3000"
+      build: ./frontend/forecastical/
+      ports:
+        - "3000:3000"
+      volumes:
+        - ./frontend/forecastical:/app
+        - /app/node_modules
+      environment:
+        - NODE_ENV=development
+      networks:
+        - postgres
 
   postgres:
     container_name: postgres_container
