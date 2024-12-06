@@ -30,7 +30,7 @@
         </v-card-text>
         <!-- Buttons -->
         <v-card-actions v-if="post.username === username">
-          <v-btn icon @click="clickDelete">
+          <v-btn icon @click="clickDelete(post.id)">
             <svg-icon color="cyan" type="mdi" :path="deleteIcon"></svg-icon>
           </v-btn>
         </v-card-actions>
@@ -43,6 +43,7 @@ import SvgIcon from '@jamescoyle/vue-icon';
 import WeatherImage from './WeatherImage.vue';
 import { mdiComment, mdiPencil, mdiTrashCanOutline } from '@mdi/js';
 import { authService } from '@/services/authService';
+import { weatherFeedService } from '@/services/weatherFeedService';
 
 /*
 
@@ -56,11 +57,6 @@ import { authService } from '@/services/authService';
 */
 //import WeatherFeedCard from './WeatherFeedCard.vue';
   //<WeatherFeedCard :image="post.image" :location="post.location" :created_at="post.created_at" :username="post.username" :caption="post.caption" :weather_prediction="post.weather_prediction" />
-// currentImage.weather_prediction
-// currentImage.location
-// currentImage.created_at
-// currentImage.username
-// currentImage.caption
 export default {
   name: 'WeatherFeedGrid',
   components: {
@@ -75,7 +71,6 @@ export default {
   },
   data() {
     return {
-      currentImageIndex: 0,
       loading: true,
       commentIcon: mdiComment,
       editIcon: mdiPencil,
@@ -90,18 +85,16 @@ export default {
     },
   },
   methods: {
-    deletePost() {
-      this.$emit('delete-post', this.posts[this.currentImageIndex].id);
-    },
-    previousImage() {
-      if (this.currentImageIndex > 0) {
-        this.currentImageIndex--;
-      }
-    },
-    nextImage() {
-      if (this.currentImageIndex < this.images.length - 1) {
-        this.currentImageIndex++;
-      }
+    clickDelete(post_id) {
+      console.log(post_id);
+      weatherFeedService.deletePost(post_id)
+        .then(() => {
+          console.log('Post deleted:', post_id);
+          this.$emit('post-deleted');
+        })
+        .catch((error) => {
+          console.error('Error deleting post:', error);
+        });
     },
     formatTime(time) {
       const date = new Date(time);

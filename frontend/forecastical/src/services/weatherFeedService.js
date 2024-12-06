@@ -68,20 +68,19 @@ class WeatherFeedService {
       throw error;
     }
   }
-  async deleteImage(imageId) {
+  async deletePost(imageId) {
     try {
       const currentUser = authService.getCurrentUser();
       if (!currentUser) {
         throw new Error('User not authenticated');
       }
 
-      const response = await this.client.delete(`/feed_images/${imageId}`, {
+      const response = await this.client.delete(`/post/${imageId}`, {
         params: {
           username: currentUser.username,
           password: currentUser.password
         }
       });
-
       return response.data;
     } catch (error) {
       console.error('Error deleting image:', error);

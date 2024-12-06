@@ -26,7 +26,7 @@
         <div v-else-if="posts.length === 0" class="no-images">
           No weather images yet. Be the first to share!
         </div>
-        <WeatherFeedGrid v-else :posts="posts" />
+        <WeatherFeedGrid v-else :posts="posts" @post-deleted="handleDeletedPost" />
       </div>
     </div>
   </div>
@@ -83,7 +83,13 @@ export default {
   },
 
   methods: {
+    async handleDeletedPost() {
+      console.log("handleDeletedPost");
+      // Remove the deleted post from the feed
+      await this.fetchPosts();
+    },
     async fetchPosts() {
+      console.log('Fetching weather feed...');
       this.loading = true;
       this.error = null;
 
