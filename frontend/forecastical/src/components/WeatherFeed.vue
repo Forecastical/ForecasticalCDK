@@ -15,6 +15,31 @@
           @image-uploaded="handleNewImage"
         />
 
+        <!-- New AI Prediction Status Window -->
+        <div v-if="taggingInProgress || latestTagging" class="prediction-window">
+          <div class="prediction-header">
+            <h3>AI Weather Analysis</h3>
+          </div>
+          
+          <div class="prediction-content">
+            <template v-if="taggingInProgress">
+              <div class="prediction-loading">
+                <div class="spinner"></div>
+                <p>Analyzing weather conditions...</p>
+              </div>
+            </template>
+            
+            <template v-else-if="latestTagging">
+              <div class="prediction-result">
+                <div class="prediction-item">
+                  <span class="prediction-label">Weather Condition:</span>
+                  <span class="prediction-value">{{ latestTagging.prediction }}</span>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
         <div v-if="loading" class="loading">
           Loading weather feed...
         </div>
@@ -50,6 +75,9 @@ export default {
       showUpload: false,
       loading: true,
       error: null,
+      posts: [],
+      latestTagging: null, // Add this line
+      taggingInProgress: false,
       //[
       //  { 
       //    image: "https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-100.jpg",
@@ -85,9 +113,9 @@ export default {
   methods: {
     async handleDeletedPost() {
       console.log("handleDeletedPost");
-      // Remove the deleted post from the feed
       await this.fetchPosts();
     },
+    
     async fetchPosts() {
       console.log('Fetching weather feed...');
       this.loading = true;
@@ -96,6 +124,11 @@ export default {
       try {
         const response = await weatherFeedService.getFeedImages();
         this.posts = response.images;
+        
+        // If there are posts, trigger background tagging
+        if (this.posts.length > 0) {
+          this.processLatestUntaggedImage();
+        }
       } catch (error) {
         console.error('Error fetching images:', error);
         this.error = 'Failed to load weather feed. Please try again later.';
@@ -104,19 +137,45 @@ export default {
       }
     },
 
-    toggleUpload() {
-      this.showUpload = !this.showUpload;
+    async processLatestUntaggedImage() {
+      if (this.taggingInProgress) return;
+
+      const untaggedPost = this.posts.find(post => !post.weather_prediction);
+      if (!untaggedPost) {
+        console.log('No untagged images found');
+        return;
+      }
+
+      console.log('Processing untagged image:', untaggedPost.id);
+      this.taggingInProgress = true;
+      try {
+        const tagResult = await weatherFeedService.tagLatestImage(untaggedPost.url);
+        console.log('Image tagging result:', tagResult);
+        
+        if (tagResult && tagResult.prediction) {
+          untaggedPost.weather_prediction = tagResult.prediction;
+          this.latestTagging = tagResult; // Store the full tag result
+          console.log('Updated weather prediction:', untaggedPost.weather_prediction);
+        }
+      } catch (tagError) {
+        console.error('Error tagging image:', tagError);
+      } finally {
+        this.taggingInProgress = false;
+      }
     },
 
-    async handleNewImage() {  // Remove the unused newPost parameter
+    async handleNewImage() {
       try {
-        // Refresh the feed to get the new image
         await this.fetchPosts();
         this.currentIndex = 0; // Show the newest image
         this.showUpload = false; // Hide the upload form
       } catch (error) {
         console.error('Error refreshing feed:', error);
       }
+    },
+
+    toggleUpload() {
+      this.showUpload = !this.showUpload;
     },
 
     formatTime(timestamp) {
@@ -150,7 +209,83 @@ export default {
   }
 };
 </script>
+
+
 <style scoped>
+
+/* Add these new styles */
+.prediction-window {
+  background-color: #2c3e50;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.prediction-header {
+  background-color: #34495e;
+  padding: 15px 20px;
+  border-bottom: 1px solid #405468;
+}
+
+.prediction-header h3 {
+  color: #50e2e7;
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.prediction-content {
+  padding: 20px;
+}
+
+.prediction-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: #bdc3c7;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #50e2e7;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.prediction-result {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.prediction-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #405468;
+}
+
+.prediction-label {
+  color: #bdc3c7;
+  font-size: 0.9em;
+}
+
+.prediction-value {
+  color: #50e2e7;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+
 .weather-app {
   max-width: 1200px;
   margin: 0 auto;

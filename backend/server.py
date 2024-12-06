@@ -18,6 +18,7 @@ import time
 import os
 import pandas as pd
 import json
+import traceback
 
 
 # import pickle
@@ -455,6 +456,9 @@ async def delete_post(post_id: int, username: str = Query(...), password: str = 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+
+
 @app.post("/upload_image")
 async def create_upload_file(file: UploadFile = File(...), caption: str = Form(...), auth: str = Form(...)):
     print(f"Received upload request - File: {file.filename}, Caption: {caption}")
@@ -504,57 +508,120 @@ async def create_upload_file(file: UploadFile = File(...), caption: str = Form(.
         print(f"Upload error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
     
-@app.post("/upload_image", status_code=status.HTTP_201_CREATED)
-async def image_tagging(auth: UserAuth, file: UploadFile = File(...)):
+    
+    
+    
+    
+    
+@app.post("/tag_image", status_code=status.HTTP_201_CREATED)
+async def image_tagging(
+    username: str = Form(...),
+    password: str = Form(...),
+    file: UploadFile = File(...)
+):
+    print(f"Received tag_image request - Username: {username}")
+    print(f"File content type: {file.content_type}")
+    
+    # Create UserAuth object
+    auth = UserAuth(username=username, password=password)
+    
     if file.content_type != "image/jpeg":
+        print(f"Invalid content type: {file.content_type}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="only jpg images"
         )
 
     try:
         user = Users.get(Users.username == auth.username)
+        print(f"Found user with ID: {user.id}")
     except Users.DoesNotExist:
+        print(f"User not found: {auth.username}")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="can't find user"
-            )
+        )
     
     # create filepath and save images here locally 
     file.filename = f"{uuid.uuid4()}.jpg"
     user_dir = f"{IMAGEDIR}/{user.id}"
-    os.path.join(user_dir, file.filename)
-    file_path = os.makedirs(user_dir, exist_ok=True)
+    print(f"Creating directory: {user_dir}")
+    
+    try:
+        os.makedirs(user_dir, exist_ok=True)
+        file_path = os.path.join(user_dir, file.filename)
+        print(f"File will be saved to: {file_path}")
+    except Exception as e:
+        print(f"Error creating directory: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to create directory: {str(e)}",
+        )
 
     # writing contents to file
     try:
         contents = await file.read()
+        print(f"Read {len(contents)} bytes from uploaded file")
+        
         with open(file_path, "wb") as f:
             f.write(contents)
+        print(f"Successfully wrote file to: {file_path}")
+        
+        # Verify file was written
+        if os.path.exists(file_path):
+            file_size = os.path.getsize(file_path)
+            print(f"Verified file exists with size: {file_size} bytes")
+        else:
+            print("Warning: File was not written successfully")
+            
     except Exception as e:
+        print(f"Error saving file: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="File image upload failed",
+            detail=f"File image upload failed: {str(e)}",
         )
         
     # predicting the weather based on image
     try:
-        # check if image is fake first 
-        img_check = check_image(file_path, PATH="./model/disc/vision_model.pth")
+        print("Starting weather prediction pipeline")
+        
+        # check if image is fake first
+        print("Checking if image is fake...")
+        img_check = check_image(file_path, PATH="./model/vision_model.pth")
+        print(f"Fake image check result: {img_check}")
 
         if img_check:
-            print("image is fake, try again")
+            print("Image detected as fake")
             raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Image is not a valid weather input",
-        )
-
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Image is not a valid weather input",
+            )
         else:
+            print("Image passed fake check, proceeding with weather prediction")
             prediction = cv_forecast_image(file_path, PATH="./model/vision_model.pth")
-            update = update_forecast(time.time, np.array[0.1, prediction])
+            print(f"Weather prediction result: {prediction}")
+            
+            print("Updating forecast...")
+            # Create prediction matrix in the correct format
+            current_time = time.time()
+            prediction_matrix = np.array([[current_time, prediction]], dtype=object)
+            ewma, closest_class = update_forecast(time_threshold=current_time-3600, prediction_matrix=prediction_matrix)
+            print(f"Forecast update result - EWMA: {ewma}, Closest Class: {closest_class}")
+            
     except Exception as e:
+        print(f"Error in prediction pipeline: {str(e)}")
+        print(f"Error type: {type(e)}")
+        import traceback
+        print(f"Error traceback: {traceback.format_exc()}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="image prediction failed",
+            detail=f"Image prediction failed: {str(e)}",
         )
 
-    return {"prediction": prediction, "forcast_update": update,
-            "filename": file.filename, "status_code": 201}
+    print("Successfully completed image processing")
+    return {
+        "prediction": prediction,
+        "ewma": float(ewma) if ewma is not None else None,
+        "closest_class": closest_class,
+        "filename": file.filename,
+        "file_path": file_path,
+        "status_code": 201
+    }
