@@ -387,6 +387,18 @@ async def reccomend_activities(auth: UserAuth):
             "prediction2": output[1],  
             "prediction3": output[2],
             "status_code": 200}
+    
+@app.post("/clothes_reccomended", status_code=status.HTTP_200_OK)
+async def reccomend_clothes_post(auth: UserAuth):
+    return await reccomend_clothes(auth)
+
+@app.post("/tools_reccomended", status_code=status.HTTP_200_OK)
+async def reccomend_tools_post(auth: UserAuth):
+    return await reccomend_tools(auth)
+
+@app.post("/activities_reccomended", status_code=status.HTTP_200_OK)
+async def reccomend_activities_post(auth: UserAuth):
+    return await reccomend_activities(auth)
 
 
 # sentiment api call
